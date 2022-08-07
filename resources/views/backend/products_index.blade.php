@@ -15,16 +15,21 @@
                 <th class="mr-3">單重</th>
                 <th class="mr-3">射出噸數</th>
             </tr>
-            <tr>
-                <td>{{ $products->id }}</td>
-                <td>{{ $products->name }}</td>
-                <td>{{ $products->client }}</td>
-                <td>{{ $products->price }}</td>
-                <td>{{ $products->material }}</td>
-                <td>{{ $products->weight }}</td>
-                <td>{{ $products->tonnes }}</td>
-                
-            </tr>
+            
+                @foreach ($products as $product)
+                <tr>
+                    <td>{{ $product->id }}</td>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ $product->client }}</td>
+                    <td>{{ $product->price }}</td>
+                    <td>{{ $product->material }}</td>
+                    <td>{{ $product->weight }}</td>
+                    <td>{{ $product->tonnes }}</td>
+                </tr>
+                @endforeach
+
+
+            
         </table>
 
     </div>
