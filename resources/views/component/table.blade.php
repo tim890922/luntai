@@ -1,0 +1,34 @@
+<table id="table_1" class="my-4  hover">
+    <thead>
+        <tr>
+            <th>測試</th>
+            <th>測試</th>
+            <th>測試</th>
+            <th>測試</th>
+            <th>測試</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>假資料</td>
+            <td>假資料</td>
+            <td>假資料</td>
+            <td>假資料</td>
+            <td>假資料</td>
+        </tr>
+        <tr>
+            <td>假資料</td>
+            <td>假資料</td>
+            <td>假資料</td>
+            <td>假資料</td>
+            <td>假資料</td>
+        </tr>
+        <tr>
+            <td>假資料</td>
+            <td>假資料</td>
+            <td>假資料</td>
+            <td>假資料</td>
+            <td>假資料</td>
+        </tr>
+    </tbody>
+</table>
