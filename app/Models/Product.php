@@ -10,6 +10,7 @@ class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected $keyType ='string';
     protected $fillable=[
         'id','client','tonnes','price','product_name','weight','material'
     ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+
 class ProductController extends Controller
 {
     /**
@@ -13,9 +14,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products=Product::all();
+        $products = Product::all();
+        $col = ['料號', '客戶', '產品名稱', '材質', '材料單價', '單重', '射出噸數'];
+        $view = [
+            'col' => $col, 'header' => '料號清單', 'title' => '料號', 'row' => $products
+            ,'action'=>'product'
+        ];
 
-        return view('backend.products_index',['products'=>$products]);
+
+        //    dd($view);
+        return view('backend.admin', $view);
     }
 
     /**
@@ -25,7 +33,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('backend.create');
     }
 
     /**

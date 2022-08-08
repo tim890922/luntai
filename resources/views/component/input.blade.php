@@ -1,0 +1,1 @@
+<input type="{{ $type }}" @isset($class) class="{{ $class }} @endisset @isset($value) value="$value" @endisset>
