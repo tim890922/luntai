@@ -6,15 +6,23 @@
     <div class="w-auto h-auto py-4 text-center bg-blue-300 border border-gray-400 center">
         <h1 class="text-4xl ">{{ $header }}</h1>
     </div>
+    @if (session()->has('notice'))
+        <div class="bg-green-400 rounded alert alert-success">
+            {{ session('notice') }}
+        </div>
+    @endif
     <div class="w-auto h-auto px-3 py-3 mt-3 border border-gray-400">
-        <form action="{{ $action }}" method="POST">
-            @csrf
-            <button type="submit" class="px-3 my-5 bg-green-400 border rounded hover:bg-green-600" id="insert">新增{{ $title }}</button>
+
+        <a href="product/create" type="submit" class="px-3 my-5 bg-green-400 border rounded hover:bg-green-600"
+            id="insert">新增{{ $title }}</a>
         </form>
+
+
+
         @isset($row)
-             @include('component.table', ['row' => $row, 'col' => $col])
+            @include('component.table', ['row' => $row, 'col' => $col])
         @endisset
-       
+
 
 
     </div>

@@ -18,7 +18,7 @@ class ProductController extends Controller
         $col = ['料號', '客戶', '產品名稱', '材質', '材料單價', '單重', '射出噸數'];
         $view = [
             'col' => $col, 'header' => '料號清單', 'title' => '料號', 'row' => $products
-            ,'action'=>'product'
+            ,'action'=>'product/create','method'=>'GET'
         ];
 
 
@@ -34,6 +34,7 @@ class ProductController extends Controller
     public function create()
     {
         $view=[
+            'action'=>'/admin/product',
             'body'=>[
             [
              'lable'=>'料號',
@@ -63,18 +64,21 @@ class ProductController extends Controller
                 'lable'=>'材料單價',
                 'tag'=>'input',
                 'type'=>'number',
+                'step'=>'0.01',
                 'name'=>'price'
             ],
             [
                 'lable'=>'單重',
                 'tag'=>'input',
                 'type'=>'number',
+                'step'=>'0.01',
                 'name'=>'weight'
             ],
             [
                 'lable'=>'射出噸數',
                 'tag'=>'input',
                 'type'=>'number',
+                'step'=>'0.01',
                 'name'=>'tonnes'
             ]
             
@@ -97,9 +101,24 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        
+            $product=new Product;
+            $content = $req->validate(
+                [
+                    'client'=>'required',
+                    'product_name'=>'required',
+                    'material'=>'required',
+                    'price'=>'required',
+                    'weight'=>'required',
+                    'tonnes'=>'required',
+                    'id'=>'required',
+                ]
+                );
+            $product->create($content);
+
+        return redirect()->route('root')->with('notice','新增成功');
     }
 
     /**

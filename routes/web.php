@@ -13,7 +13,7 @@ Route::redirect('/admin', 'admin/product');
 Route::prefix('admin')->group(function () {
 
     //GET
-    Route::get('/product',[ProductController::class,'index'] );
+    Route::get('/product',[ProductController::class,'index'] )->name('root');
     Route::get('/order', function () {
             return view('backend.admin', ['title' => '訂單管理', 'header' => '訂單']);
         });
@@ -25,6 +25,8 @@ Route::prefix('admin')->group(function () {
     });
 
     //POST
-    Route::post('/product', [ProductController::class,'create']);
+    Route::post('/product', [ProductController::class,'store']);
 
 });
+
+Route::get("admin/product/create",[ProductController::class,'create']);
