@@ -37,3 +37,9 @@ class CreateProductsTable extends Migration
         Schema::dropIfExists('products');
     }
 }
+
+
+
+client,id,product_name,material,price,weight,tonnes
+
+"client","id","product_name","material","price","weight","tonnes"
