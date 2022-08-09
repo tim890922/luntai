@@ -15,9 +15,65 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        $col = ['料號', '客戶', '產品名稱', '材質', '材料單價', '單重', '射出噸數'];
+        $col = ['料號', '客戶', '產品名稱', '材質', '材料單價', '單重', '射出噸數','刪除','編輯'];
+
+        $row=[];
+
+        foreach($products as $m)
+        {
+            $temp=[
+                [
+                    'tag'=>'',
+                    'text'=>$m->id,
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$m->client,
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$m->product_name,
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$m->material,
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$m->price,
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$m->weight,
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$m->tonnes,
+                ],
+                [
+                    'tag'=>'button',
+                    'type'=>'button',
+                    'class'=>'px-1 bg-red-500 rounded hover:bg-red-700',
+                    'text'=>'刪除',
+                    'action'=>'delete',
+                    'id'=>$m->id
+                ],
+                [
+                    'tag'=>'button',
+                    'type'=>'button',
+                    'class'=>'px-1 bg-blue-500 rounded hover:bg-blue-700',
+                    'text'=>'編輯',
+                    'action'=>'edit',
+                    'id'=>$m->id
+                ]
+            ];
+            $row[]=$temp;
+        }
+
+
+
         $view = [
-            'col' => $col, 'header' => '料號清單', 'title' => '料號', 'row' => $products
+            'col' => $col, 'header' => '料號清單', 'title' => '料號', 'row' => $row
             ,'action'=>'product/create','method'=>'GET','href'=>'product/create'
         ];
 
@@ -87,11 +143,6 @@ class ProductController extends Controller
             ]
             
         ];
-
-
-        
-
-
         return view('backend.create',$view);
     }
 
@@ -118,7 +169,7 @@ class ProductController extends Controller
                 );
             $product->create($content);
 
-        return redirect()->route('root')->with('notice','新增成功');
+        return redirect('admin/product')->with('notice','新增成功');
     }
 
     /**
