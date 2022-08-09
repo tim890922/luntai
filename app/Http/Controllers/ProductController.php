@@ -33,8 +33,62 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $view=[
+            'body'=>[
+            [
+             'lable'=>'料號',
+             'tag'=>'input',
+             'type'=>'text',
+             'name'=>'id'
+            ],
+            [
+              'lable'=>'客戶',
+              'tag'=>'input',
+             'type'=>'text',
+             'name'=>'client'
+            ],
+            [
+                'lable'=>'產品名稱',
+                'tag'=>'input',
+                'type'=>'text',
+                'name'=>'product_name'
+            ],
+            [
+                'lable'=>'材質',
+                'tag'=>'input',
+                'type'=>'text',
+                'name'=>'material'
+            ],
+            [
+                'lable'=>'材料單價',
+                'tag'=>'input',
+                'type'=>'number',
+                'name'=>'price'
+            ],
+            [
+                'lable'=>'單重',
+                'tag'=>'input',
+                'type'=>'number',
+                'name'=>'weight'
+            ],
+            [
+                'lable'=>'射出噸數',
+                'tag'=>'input',
+                'type'=>'number',
+                'name'=>'tonnes'
+            ]
+            
+            
+            
+            ]
+            
+        ];
+
+
         
-        return view('backend.create');
+
+
+        return view('backend.create',$view);
     }
 
     /**
