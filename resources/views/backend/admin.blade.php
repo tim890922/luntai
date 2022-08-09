@@ -13,7 +13,9 @@
     @endif
     <div class="w-auto h-auto px-3 py-3 mt-3 border border-gray-400">
 
-        <a href="product/create" type="submit" class="px-3 my-5 bg-green-400 border rounded hover:bg-green-600"
+        <a href=" @isset($href)
+            {{ $href }}
+        @endisset" type="submit" class="px-3 my-5 bg-green-400 border rounded hover:bg-green-600"
             id="insert">新增{{ $title }}</a>
         </form>
 

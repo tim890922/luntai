@@ -18,7 +18,7 @@ class ProductController extends Controller
         $col = ['料號', '客戶', '產品名稱', '材質', '材料單價', '單重', '射出噸數'];
         $view = [
             'col' => $col, 'header' => '料號清單', 'title' => '料號', 'row' => $products
-            ,'action'=>'product/create','method'=>'GET'
+            ,'action'=>'product/create','method'=>'GET','href'=>'product/create'
         ];
 
 
