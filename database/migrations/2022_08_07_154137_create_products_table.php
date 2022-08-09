@@ -15,13 +15,13 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id()->comment('料號');
-            $table->string('clinet')->comment('客戶');
-            $table->string('product_name')->comment('產品名稱');
-            $table->decimal('price')->comment('材料單價');
-            $table->string('material')->comment('材質');
-            $table->decimal('weight')->comment('單重');
-            $table->decimal('tonnes')->comment('射出噸數');
+            $table->string('id')->primary()->nullable()->comment('料號');
+            $table->string('client')->nullable()->comment('客戶');
+            $table->string('product_name')->nullable()->comment('產品名稱');
+            $table->decimal('price')->nullable()->comment('材料單價');
+            $table->string('material')->nullable()->comment('材質');
+            $table->decimal('weight')->nullable()->comment('單重');
+            $table->decimal('tonnes')->nullable()->comment('射出噸數');
             $table->softDeletes();
             $table->timestamps();//自動生成時間戳記(更新時間創建時間)
         });
