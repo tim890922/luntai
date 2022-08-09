@@ -6,13 +6,13 @@
 
     <div>
         <ul class="text-xl text-left ">
-            <li class="my-1 border-b-2 border-gray-500"><a href="{{ 'order' }}"
+            <li class="my-1 border-b-2 border-gray-500"><a href="/admin/order"
                     class="block hover:text-blue-600">訂單</a></li>
-            <li class="my-1 border-b-2 border-gray-500"><a href="{{ 'employee' }}"
+            <li class="my-1 border-b-2 border-gray-500"><a href="/admin/empolyee"
                     class="block hover:text-blue-600">人員管理</a></li>
-            <li class="my-1 border-b-2 border-gray-500"><a href="{{ 'product' }}"
+            <li class="my-1 border-b-2 border-gray-500"><a href="/admin/product"
                     class="block hover:text-blue-600">料號清單</a></li>
-            <li class="my-1 border-b-2 border-gray-500"><a href="{{'machine' }}"
+            <li class="my-1 border-b-2 border-gray-500"><a href="/admin/machine"
                     class="block hover:text-blue-600">機台管理</a></li>
 
         </ul>

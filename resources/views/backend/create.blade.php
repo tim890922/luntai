@@ -3,6 +3,15 @@
     @include('component.side')
 @endsection
 @section('main')
+
+@if ($errors->any())
+<ul>
+    @foreach ($errors->all(); as $error )
+        <li class=" bg-red-400">{{ $error }}</li>
+    @endforeach
+</ul>
+@endif
+
     <div class="w-auto bg-gray-400">
         <div class="p-4 ">
             <form action="{{ $action }}" method="POST">

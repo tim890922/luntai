@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MachineController;
 
 Route::get(
     '/',
@@ -13,20 +14,20 @@ Route::redirect('/admin', 'admin/product');
 Route::prefix('admin')->group(function () {
 
     //GET
-    Route::get('/product',[ProductController::class,'index'] )->name('root');
+    Route::get('/product',[ProductController::class,'index'] );
+    Route::get('/machine',[MachineController::class,'index'] );
     Route::get('/order', function () {
             return view('backend.admin', ['title' => '訂單管理', 'header' => '訂單']);
         });
     Route::get('/employee',function () {
             return view('backend.admin', ['title' => '人員管理', 'header' => '員工']);
         });
-    Route::get('/machine', function () {
-        return view('backend.admin', ['title' => '機台管理', 'header' => '機台']);
-    });
 
     //POST
     Route::post('/product', [ProductController::class,'store']);
+    Route::post('/machine', [MachineController::class,'store']);
 
 });
 
 Route::get("admin/product/create",[ProductController::class,'create']);
+Route::get("admin/machine/create",[MachineController::class,'create']);
