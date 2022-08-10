@@ -104,7 +104,8 @@ class MachineController extends Controller
             'row' => $row,
             'action' => 'machine/create',
             'method' => 'GET',
-            'href' => 'machine/create'
+            'href' => 'machine/create',
+            'module'=>'machine'
         ];
 
 

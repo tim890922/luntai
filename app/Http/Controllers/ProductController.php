@@ -15,66 +15,65 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        $col = ['料號', '客戶', '產品名稱', '材質', '材料單價', '單重', '射出噸數','刪除','編輯'];
+        $col = ['料號', '客戶', '產品名稱', '材質', '材料單價', '單重', '射出噸數', '刪除', '編輯'];
 
-        $row=[];
+        $row = [];
 
-        foreach($products as $m)
-        {
-            $temp=[
+        foreach ($products as $m) {
+            $temp = [
                 [
-                    'tag'=>'',
-                    'text'=>$m->id,
+                    'tag' => '',
+                    'text' => $m->id,
                 ],
                 [
-                    'tag'=>'',
-                    'text'=>$m->client,
+                    'tag' => '',
+                    'text' => $m->client,
                 ],
                 [
-                    'tag'=>'',
-                    'text'=>$m->product_name,
+                    'tag' => '',
+                    'text' => $m->product_name,
                 ],
                 [
-                    'tag'=>'',
-                    'text'=>$m->material,
+                    'tag' => '',
+                    'text' => $m->material,
                 ],
                 [
-                    'tag'=>'',
-                    'text'=>$m->price,
+                    'tag' => '',
+                    'text' => $m->price,
                 ],
                 [
-                    'tag'=>'',
-                    'text'=>$m->weight,
+                    'tag' => '',
+                    'text' => $m->weight,
                 ],
                 [
-                    'tag'=>'',
-                    'text'=>$m->tonnes,
+                    'tag' => '',
+                    'text' => $m->tonnes,
                 ],
                 [
-                    'tag'=>'button',
-                    'type'=>'button',
-                    'class'=>'px-1 bg-red-500 rounded hover:bg-red-700',
-                    'text'=>'刪除',
-                    'action'=>'delete',
-                    'id'=>$m->id
+                    'tag' => 'button',
+                    'type' => 'button',
+                    'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
+                    'text' => '刪除',
+                    'action' => 'delete',
+                    'id' => $m->id
                 ],
                 [
-                    'tag'=>'button',
-                    'type'=>'button',
-                    'class'=>'px-1 bg-blue-500 rounded hover:bg-blue-700',
-                    'text'=>'編輯',
-                    'action'=>'edit',
-                    'id'=>$m->id
+                    'tag' => 'button',
+                    'type' => 'button',
+                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
+                    'text' => '編輯',
+                    'action' => 'edit',
+                    'id' => $m->id
                 ]
             ];
-            $row[]=$temp;
+            $row[] = $temp;
         }
 
 
 
         $view = [
-            'col' => $col, 'header' => '料號清單', 'title' => '料號', 'row' => $row
-            ,'action'=>'product/create','method'=>'GET','href'=>'product/create'
+            'col' => $col, 'header' => '料號清單', 'title' => '料號', 'row' => $row, 'action' => 'product/create', 'method' => 'GET', 'href' => 'product/create',
+            'module' => 'product'
         ];
 
 
@@ -89,61 +88,61 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $view=[
-            'action'=>'/admin/product',
-            'body'=>[
-            [
-             'lable'=>'料號',
-             'tag'=>'input',
-             'type'=>'text',
-             'name'=>'id'
-            ],
-            [
-              'lable'=>'客戶',
-              'tag'=>'input',
-             'type'=>'text',
-             'name'=>'client'
-            ],
-            [
-                'lable'=>'產品名稱',
-                'tag'=>'input',
-                'type'=>'text',
-                'name'=>'product_name'
-            ],
-            [
-                'lable'=>'材質',
-                'tag'=>'input',
-                'type'=>'text',
-                'name'=>'material'
-            ],
-            [
-                'lable'=>'材料單價',
-                'tag'=>'input',
-                'type'=>'number',
-                'step'=>'0.01',
-                'name'=>'price'
-            ],
-            [
-                'lable'=>'單重',
-                'tag'=>'input',
-                'type'=>'number',
-                'step'=>'0.01',
-                'name'=>'weight'
-            ],
-            [
-                'lable'=>'射出噸數',
-                'tag'=>'input',
-                'type'=>'number',
-                'step'=>'0.01',
-                'name'=>'tonnes'
+        $view = [
+            'action' => '/admin/product',
+            'body' => [
+                [
+                    'lable' => '料號',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'id'
+                ],
+                [
+                    'lable' => '客戶',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'client'
+                ],
+                [
+                    'lable' => '產品名稱',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'product_name'
+                ],
+                [
+                    'lable' => '材質',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'material'
+                ],
+                [
+                    'lable' => '材料單價',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '0.01',
+                    'name' => 'price'
+                ],
+                [
+                    'lable' => '單重',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '0.01',
+                    'name' => 'weight'
+                ],
+                [
+                    'lable' => '射出噸數',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '0.01',
+                    'name' => 'tonnes'
+                ]
+
+
+
             ]
-            
-            
-            
-            ]
-            
+
         ];
-        return view('backend.create',$view);
+        return view('backend.create', $view);
     }
 
     /**
@@ -154,22 +153,22 @@ class ProductController extends Controller
      */
     public function store(Request $req)
     {
-        
-            $product=new Product;
-            $content = $req->validate(
-                [
-                    'client'=>'required',
-                    'product_name'=>'required',
-                    'material'=>'required',
-                    'price'=>'required',
-                    'weight'=>'required',
-                    'tonnes'=>'required',
-                    'id'=>'required',
-                ]
-                );
-            $product->create($content);
 
-        return redirect('admin/product')->with('notice','新增成功');
+        $product = new Product;
+        $content = $req->validate(
+            [
+                'client' => 'required',
+                'product_name' => 'required',
+                'material' => 'required',
+                'price' => 'required',
+                'weight' => 'required',
+                'tonnes' => 'required',
+                'id' => 'required',
+            ]
+        );
+        $product->create($content);
+
+        return redirect('admin/product')->with('notice', '新增成功');
     }
 
     /**
@@ -214,6 +213,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::destroy($id);
     }
 }

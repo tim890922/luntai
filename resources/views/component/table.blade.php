@@ -1,4 +1,7 @@
+
+
 <table id="table_1" class="my-4 hover">
+  
     <thead>
         <tr>
             @foreach ($col as $c)
@@ -14,6 +17,7 @@
                     <td>
                         @switch($item['tag'])
                             @case('button')
+                              
                                 @include('component.button', $item)
                             @break
 

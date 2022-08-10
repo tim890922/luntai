@@ -27,6 +27,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/product', [ProductController::class,'store']);
     Route::post('/machine', [MachineController::class,'store']);
 
+    //delete
+    Route::delete('/product/{id}', [ProductController::class,'destroy']);
 });
 
 Route::get("admin/product/create",[ProductController::class,'create']);

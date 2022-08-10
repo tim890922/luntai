@@ -13,14 +13,12 @@
     @endif
     <div class="w-auto h-auto px-3 py-3 mt-3 border border-gray-400">
 
-        <a href=" @isset($href)
-            {{ $href }}"
-        @endisset type="submit" class="px-3 my-5 bg-green-400 border rounded hover:bg-green-600"
-            id="insert">新增{{ $title }}</a>
+        <a href=" @isset($href) {{ $href }}" @endisset type="submit"
+            class="px-3 my-5 bg-green-400 border rounded hover:bg-green-600" id="insert">新增{{ $title }}</a>
         </form>
 
 
-
+        @csrf
         @isset($row)
             @include('component.table', ['row' => $row, 'col' => $col])
         @endisset
@@ -31,17 +29,23 @@
 @endsection
 
 @section('script')
-    {{-- <script>
-        $("#insert").on("click", function() {
-                $.get("/modals/add{{ $module }}", function(modal) {
-                    $("#modal").html(modal)
-                    $("#baseModal").modal("show")
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-                    $("#baseModal").on("hidden.bs.modal", function() {
-                        $("#baseModal").modal("dispose")
-                        $("#modal").html("")
-                    })
-                })
+        $(".delete").on("click", function() {
+            let id = $(this).data('id')
+            let _this = $(this)
+            $.ajax({
+                type: 'delete',
+                url: `/admin/{{ strtolower($module) }}/${id}`,
+                success: function() {
+                    _this.parents('tr').remove()
+                }
+            })
         })
-    </script> --}}
+    </script>
 @endsection
