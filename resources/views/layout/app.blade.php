@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <header class="container mx-auto bg-gray-600 " style="height:100px">
+    <header class="mx-auto bg-gray-600 " style="height:100px">
         <div class="flex justify-items-center">
             <img src="{{ asset('img/logo.png') }}" style="height: 100px">
             <p class="text-6xl text-white">
@@ -23,7 +23,7 @@
             </p>
         </div>
     </header>
-    <main class="container flex mx-auto">
+    <main class="flex mx-5">
         {{-- 側邊選單 --}}
 
         @yield('side')
@@ -39,7 +39,7 @@
     </main>
 
 
-    <footer class="container mx-auto bg-red-500 " style="height:100px">
+    <footer class="mx-auto bg-red-500 " style="height:100px">
         <p class="text-4xl text-center ">版權</p>
     </footer>
 </body>
