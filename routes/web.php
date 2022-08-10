@@ -33,3 +33,6 @@ Route::prefix('admin')->group(function () {
 
 Route::get("admin/product/create",[ProductController::class,'create']);
 Route::get("admin/machine/create",[MachineController::class,'create']);
+
+
+Route::view('/test','test');
