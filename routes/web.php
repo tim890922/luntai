@@ -29,6 +29,7 @@ Route::prefix('admin')->group(function () {
 
     //delete
     Route::delete('/product/{id}', [ProductController::class,'destroy']);
+    Route::delete('/machine/{id}', [MachineController::class,'destroy']);
 });
 
 Route::get("admin/product/create",[ProductController::class,'create']);

@@ -15,5 +15,5 @@ module.exports = {
     extend: {}
   },
   variants: {},
-  plugins: []
+  plugins: [require('flowbite/plugin')]
 }

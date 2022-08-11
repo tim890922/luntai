@@ -223,4 +223,9 @@ class MachineController extends Controller
 
         return redirect('admin/machine')->with('notice', '新增成功');
     }
+
+    public function destroy($id)
+    {
+        Machine::destroy($id);
+    }
 }

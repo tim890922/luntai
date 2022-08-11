@@ -40,8 +40,10 @@
 
 
     <footer class="mx-auto bg-red-500 " style="height:100px">
-        <p class="text-4xl text-center ">版權</p>
+        <p class="text-2xl text-center ">綸泰</p>
     </footer>
+
+    <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
 </body>
 
 <script>
