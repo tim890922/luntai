@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->integer('shipping')->comment('出貨位');
             $table->integer('user')->comment('用方');
             $table->string('user_name')->comment('用方名稱');
-            $table->string('P/F')->comment('P/F')->nullable();
+            $table->string('P_F')->comment('P/F')->nullable();
             $table->integer('order_number')->comment('訂單號')->nullable();
             $table->date('delivery')->comment('交貨日');
             $table->integer('quantity')->comment('數量');

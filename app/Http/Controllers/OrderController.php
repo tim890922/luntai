@@ -38,7 +38,7 @@ class OrderController extends Controller
                 ],
                 [
                     'tag' => '',
-                    'text' => $m->P/F,
+                    'text' => $m->P_F,
                 ],
                 [
                     'tag' => '',
