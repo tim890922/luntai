@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MachineController;
+use App\Http\Controllers\OrderController;
 
 Route::get(
     '/',
@@ -16,9 +17,7 @@ Route::prefix('admin')->group(function () {
     //GET
     Route::get('/product',[ProductController::class,'index'] );
     Route::get('/machine',[MachineController::class,'index'] );
-    Route::get('/order', function () {
-            return view('backend.admin', ['title' => '訂單管理', 'header' => '訂單']);
-        });
+    Route::get('/order', [OrderController::class,'index']);
     Route::get('/employee',function () {
             return view('backend.admin', ['title' => '人員管理', 'header' => '員工']);
         });
@@ -26,14 +25,20 @@ Route::prefix('admin')->group(function () {
     //POST
     Route::post('/product', [ProductController::class,'store']);
     Route::post('/machine', [MachineController::class,'store']);
+    Route::post('/order', [OrderController::class,'store']);
 
     //delete
     Route::delete('/product/{id}', [ProductController::class,'destroy']);
     Route::delete('/machine/{id}', [MachineController::class,'destroy']);
+
+    //import
+    Route::post('/orderImport',[OrderController::class,'import']);
 });
 
 Route::get("admin/product/create",[ProductController::class,'create']);
 Route::get("admin/machine/create",[MachineController::class,'create']);
+Route::get("admin/order/create",[OrderController::class,'create']);
 
 
 Route::view('/test','test');
+

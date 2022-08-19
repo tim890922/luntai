@@ -15,8 +15,8 @@ class Product extends Model
         'id','client','tonnes','price','product_name','weight','material'
     ];
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
+    // public function orders()
+    // {
+    //     return $this->hasMany(Order::class);
+    // }
 }

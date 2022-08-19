@@ -12,9 +12,9 @@ class Order extends Model
         'product_id','shipping','user','user_name','P/F','order_number','delivery','quantity','package','status'
     ];
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
+    // public function product()
+    // {
+    //     return $this->belongsTo(Product::class);
+    // }
 
 }

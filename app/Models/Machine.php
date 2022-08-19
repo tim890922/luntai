@@ -10,7 +10,7 @@ class Machine extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=['id', 'manufacturer', 'tonnes', 'ring', 'number', 'type', 'tube_weight','diameter','tube_material','screw_weight','min_max','screw_material','status'];
+    protected $fillable=['id', 'manufacturer', 'tonnes', 'ring', 'number', 'type', 'weight','diameter','tube_material','screw_width','min_max','screw_material','status'];
 
     protected $keyType='string';
 }
