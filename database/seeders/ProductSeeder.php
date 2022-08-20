@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Type\Integer;
-
+use App\Models\Product;
 class ProductSeeder extends Seeder
 {
     /**
@@ -19,11 +19,11 @@ class ProductSeeder extends Seeder
         
         DB::table('products')->insert([
             'id'=> Str::random(10),
-            'client'=> Str::random(3),
+            'client'=> 'YMT',
             'product_name'=> Str::random(5),
-            'price'=> int::random(5),
-            'tonnes'=> int::random(5),
-            'weight'=> int::random(5),
+            'price'=> '55',
+            'tonnes'=> '55',
+            'weight'=> '55',
             'material'=> Str::random(5),
 
             

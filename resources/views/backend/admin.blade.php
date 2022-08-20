@@ -12,7 +12,7 @@
         </div>
     @endif
     <div class="w-auto h-auto px-3 py-3 mt-3 border border-gray-400">
-        
+
         <div class="flex items-center justify-left">
             <a href=" @isset($href) {{ $href }}" @endisset type="submit"
                 class="px-3 my-5 bg-green-400 border rounded hover:bg-green-600" id="insert">新增{{ $title }}
@@ -22,7 +22,7 @@
                 <form action="/admin/{{ $import['action'] }}" method="POST" enctype="multipart/form-data" class="">@csrf
                     <input type="file" name="order_file" accept=".xlsx,.csv,.xls," class="ml-3 " required>
                     <br>
-                    <input type="submit" value="{{ $import['text']}}"
+                    <input type="submit" value="{{ $import['text'] }}"
                         class="px-2 py-1 mt-2 ml-3 bg-gray-300 border border-black rounded hover:bg-gray-500">
 
                 </form>
