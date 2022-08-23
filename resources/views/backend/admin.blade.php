@@ -3,7 +3,7 @@
     @include('component.side')
 @endsection
 @section('main')
-    <div class="w-auto h-auto py-4 text-center bg-blue-300 border border-gray-400 rounded center">
+    <div class="w-auto h-auto py-4 text-center bg-blue-300 border border-gray-400 rounded-full center">
         <h1 class="text-4xl ">{{ $header }}</h1>
     </div>
     @if (session()->has('notice'))
