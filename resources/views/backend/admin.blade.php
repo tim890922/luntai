@@ -50,15 +50,22 @@
         });
 
         $(".delete").on("click", function() {
-            let id = $(this).data('id')
-            let _this = $(this)
-            $.ajax({
-                type: 'delete',
-                url: `/admin/{{ strtolower($module) }}/${id}`,
-                success: function() {
-                    _this.parents('tr').remove()
-                }
-            })
+            let alertname = $(this).data('alertname');
+
+            let ans = confirm('確認刪除「' + alertname + "」嗎?");
+
+            if (ans) {
+                let id = $(this).data('id')
+                let _this = $(this)
+                $.ajax({
+                    type: 'delete',
+                    url: `/admin/{{ strtolower($module) }}/${id}`,
+                    success: function() {
+                        _this.parents('tr').remove()
+                    }
+
+                })
+            }
         })
     </script>
 @endsection
