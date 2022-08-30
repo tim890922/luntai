@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Ramsey\Uuid\Type\Integer;
 use App\Models\Product;
 class ProductSeeder extends Seeder
 {
@@ -24,9 +23,7 @@ class ProductSeeder extends Seeder
             'price'=> '55',
             'tonnes'=> '55',
             'weight'=> '55',
-            'material'=> Str::random(5),
-
-            
+            'material'=> Str::random(5),  
         ]);
 
 
