@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CreateMachinesTable extends Migration
+class CreateClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,10 @@ class CreateMachinesTable extends Migration
      */
     public function up()
     {
-        Schema::create('machines', function (Blueprint $table) {
-            $table->string('id')->primary()->comment('機台別');
-            $table->integer('tonnes')->comment('射出噸數');
-            $table->enum('status',['運作中','故障','維修','停機'])->default('運作中')->comment('狀態');  
+        Schema::create('clients', function (Blueprint $table) {
+            $table->id()->comment('客戶編號');
+            $table->string('client_name')->comment('客戶名稱');
+            $table->string('client_phone')->comment('客戶電話');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ class CreateMachinesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('machines');
+        Schema::dropIfExists('clients');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Product;
+use Ramsey\Uuid\Type\Integer;
 class ProductSeeder extends Seeder
 {
     /**

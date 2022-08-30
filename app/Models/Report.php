@@ -10,6 +10,5 @@ class Workstation extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=['id', 'product_id','clientuser_id','position','P_F','delivery','order_number','quantity','packages_quantity'];
+    protected $fillable=['id', 'schedule_id','product_id','employee_id','shift','time_start','time_end','good_product_quantity','defective_product_quantity','record'];
 }
-
