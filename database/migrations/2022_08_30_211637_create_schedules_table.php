@@ -15,9 +15,9 @@ class CreateSchedulesTable extends Migration
     public function up()
     {
         Schema::create('schedules', function (Blueprint $table) {
-            $table->id()->comment('生產批號');
+            $table->id()->comment('生產排程編號');
             $table->string('product_id')->comment('料號');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->date('today')->comment('日期');
             $table->time('period_start')->comment('時段_開始');
             $table->time('period_end')->comment('時段_結束');

@@ -10,4 +10,8 @@ class Supplier extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=['id','name','telephone'];
+
+    public function materials(){
+        return $this->hasMany(Material::class);
+    }
 }

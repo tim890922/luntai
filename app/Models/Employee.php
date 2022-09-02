@@ -11,4 +11,8 @@ class Employee extends Model
     use SoftDeletes;
     protected $keyType='string';
     protected $fillable=['id','name','position','account','pass_word'];
+
+    public function reports(){
+        return $this->hasMany(Report::class);
+    }
 }

@@ -10,5 +10,12 @@ class Defective extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=['id', 'schedule_id','reason','quantity'];
+    protected $fillable=['id', 'reason'];
+
+    
+    public function scheduels(){
+        return $this->belongsToMany(Schedule::class);
+    }
+
+
 }

@@ -12,4 +12,34 @@ class Product extends Model
     use SoftDeletes;
     protected $fillable=
         ['id','name','material','material','weight','tonnes','client_id'];
+
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
+
+    public function machines(){
+        return $this->belongsToMany(Machine::class);
+    }
+
+    public function materials(){
+        return $this->belongsToMany(Material::class);
+    }
+
+    public function schedules(){
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function reports(){
+        return $this->hasMany(Report::class);
+    }
+
+    public function storages(){
+        return $this->belongsToMany(Storage::class);
+    }
+
 }
+

@@ -12,4 +12,13 @@ class Material extends Model
     protected $fillable =
     ['id','supplier_id','name','type','inventory','safety','unit','material','Specification'];
     protected $keyType='string';
+
+    
+    public function products(){
+        return $this->belongsToMany(Product::class);
+    }
+    
+    public function supplier(){
+        return $this->belongsTo(Supplier::class);
+    }
 }

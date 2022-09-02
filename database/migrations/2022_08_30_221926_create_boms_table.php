@@ -14,12 +14,12 @@ class CreateBomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('boms', function (Blueprint $table) {
+        Schema::create('material_product', function (Blueprint $table) {
             $table->id()->comment('物料編號');
             $table->string('product_id')->comment('料號');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->string('material_id')->comment('原物料編號');
-            $table->foreign('material_id')->references('id')->on('materials');
+            $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
             $table->integer('quantity')->comment('數量');
             $table->string('unit')->comment('單位');
             $table->softDeletes();

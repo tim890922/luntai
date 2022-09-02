@@ -13,5 +13,13 @@ class Clientuser extends Model
     protected $keyType='string';
     protected $fillable=
         ['id','client_id','name','address'];
+        
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+    
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
 
 }

@@ -18,11 +18,12 @@ class CreateProcessesTable extends Migration
         Schema::create('processes', function (Blueprint $table) {
             $table->string('id')->primary()->comment('製程編號');
             $table->string('product_id')->comment('料號');
-            $table->foreign('product_id')->references('id')->on('machines');
+            $table->foreign('product_id')->references('id')->on('machines')->onDelete('cascade');
             $table->string('machine_id')->comment('機台編號')->nullable();
-            $table->foreign('machine_id')->references('id')->on('machines');
+            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->unsignedBigInteger('workstation_id')->comment('工作站編號')->nullable();
-            $table->foreign('workstation_id')->references('id')->on('workstations');
+            $table->foreign('workstation_id')->references('id')->on('workstations')->onDelete('cascade');
+            $table->integer('queue')->comment('順序');
             $table->softDeletes();
             $table->timestamps();
         });

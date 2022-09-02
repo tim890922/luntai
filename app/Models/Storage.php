@@ -11,4 +11,8 @@ class Storage extends Model
     use SoftDeletes;
     protected $fillable=['id','capacity'];
     protected $keyType='string';
+
+    public function products(){
+        return $this->belongsToMany(Product::class);
+    }
 }

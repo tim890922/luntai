@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('weight')->comment('重量');
             $table->string('tonnes')->comment('射出噸數');
             $table->unsignedBigInteger('client_id')->comment('客戶編號');
-            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

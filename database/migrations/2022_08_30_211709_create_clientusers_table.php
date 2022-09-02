@@ -17,7 +17,7 @@ class CreateClientusersTable extends Migration
         Schema::create('clientusers', function (Blueprint $table) {
             $table->string('id')->primary()->comment('用方編號');
             $table->unsignedBigInteger('client_id')->comment('客戶編號');
-            $table->foreign('client_id')->references('id')->on('clients'); 
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade'); 
             $table->string('name')->comment('用方名稱');
             $table->string('address')->comment('用方地址');
             $table->softDeletes();

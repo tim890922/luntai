@@ -13,4 +13,8 @@ class Machine extends Model
     protected $fillable=['id', 'tonnes','status'];
 
     protected $keyType='string';
+
+    public function products(){
+        return $this->belongsToMany(Product::class);
+    }
 }

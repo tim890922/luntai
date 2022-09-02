@@ -10,4 +10,12 @@ class Client extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=['id', 'client_name','client_phone'];
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
+
+    public function clientusers(){
+        return $this->hasMany(Clientuser::class);
+    }
 }
