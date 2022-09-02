@@ -24,7 +24,7 @@ class ReportSeeder extends Seeder
         $r1->time_end='10:00';
         $r1->good_product_quantity='120';
         $r1->defective_product_quantity='2';
-        $r1->record='FALSE';
+        $r1->record='0';
 
         $r2 = new Report;
         $r2->schedule_id='2';
@@ -35,7 +35,7 @@ class ReportSeeder extends Seeder
         $r2->time_end='10:10';
         $r2->good_product_quantity='20';
         $r2->defective_product_quantity='1';
-        $r2->record='FALSE';
+        $r2->record='0';
 
         $r3 = new Report;
         $r3->schedule_id='3';
@@ -46,7 +46,7 @@ class ReportSeeder extends Seeder
         $r3->time_end='12:00';
         $r3->good_product_quantity='100';
         $r3->defective_product_quantity='3';
-        $r3->record='FALSE';
+        $r3->record='0';
 
         $r4 = new Report;
         $r4->schedule_id='4';
@@ -57,7 +57,7 @@ class ReportSeeder extends Seeder
         $r4->time_end='18:00';
         $r4->good_product_quantity='80';
         $r4->defective_product_quantity='5';
-        $r4->record='FALSE';
+        $r4->record='0';
 
         $r = [$r1,$r2,$r3,$r4];
         foreach ($r as $r) {

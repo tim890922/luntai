@@ -16,7 +16,7 @@ class CreateDefectivesTable extends Migration
     {
         Schema::create('defectives', function (Blueprint $table) {
             $table->id()->comment('不良品編號');
-            $table->enum('reason',['缺料','縮水','包風','拉傷','油點','噴痕','刮傷','頂白','黑點'])->comment('不良原因');
+            $table->string('reason')->comment('不良原因');
             $table->softDeletes();
             $table->timestamps();
         });

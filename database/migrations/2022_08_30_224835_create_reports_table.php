@@ -27,7 +27,7 @@ class CreateReportsTable extends Migration
             $table->time('time_end')->comment('生產時段_結束');
             $table->integer('good_product_quantity')->comment('良品數量');
             $table->integer('defective_product_quantity')->comment('不良品數量');
-            $table->boolean('record')->default(false)->comment('查核紀錄');
+            $table->boolean('record')->default(0)->comment('查核紀錄');
             $table->timestamps();
             $table->softDeletes();
         });

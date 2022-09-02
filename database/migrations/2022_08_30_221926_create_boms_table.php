@@ -14,7 +14,7 @@ class CreateBomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('material_product', function (Blueprint $table) {
+        Schema::create('material_products', function (Blueprint $table) {
             $table->id()->comment('物料編號');
             $table->string('product_id')->comment('料號');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
