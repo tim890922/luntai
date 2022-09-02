@@ -22,7 +22,7 @@ class CreateSchedulesTable extends Migration
             $table->time('period_start')->comment('時段_開始');
             $table->time('period_end')->comment('時段_結束');
             $table->enum('content',['確保','量產','換模','試模','預換','換色'])->comment('內容');
-            $table->integer('total_quantity')->comment('預計總產量');
+            $table->integer('total_quantity')->comment('預計總產量')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

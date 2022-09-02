@@ -40,7 +40,7 @@ class MachineSeeder extends Seeder
         $m5->tonnes = '1500';
         $m5->status = '運作中';
 
-        $m = [$m1, $m2,$m3,$m4,$m5];
+        $m = [$m1, $m2, $m3, $m4, $m5];
         foreach ($m as $m) {
             $m->save();
         }

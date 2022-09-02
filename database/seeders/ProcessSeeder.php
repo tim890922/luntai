@@ -1,4 +1,5 @@
 <?php
+// todo 先跳過
 
 namespace Database\Seeders;
 
