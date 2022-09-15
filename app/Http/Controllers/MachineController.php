@@ -11,7 +11,7 @@ class MachineController extends Controller
     public function index()
     {
         $machine = Machine::all();
-        $col = ['機台別', '機型', '噸數/T', '機台定位環', '機台號碼', '型式', '射出重量', '螺桿直徑', '料管材質', '柱內寬度/間隔', '調模最大/最小值', '螺桿材質','刪除','編輯','狀態'];
+        $col = ['機台別','噸數','刪除','編輯','狀態'];
         
         $row=[];
 
@@ -24,47 +24,7 @@ class MachineController extends Controller
                 ],
                 [
                     'tag'=>'',
-                    'text'=>$m->manufacturer,
-                ],
-                [
-                    'tag'=>'',
                     'text'=>$m->tonnes,
-                ],
-                [
-                    'tag'=>'',
-                    'text'=>$m->ring,
-                ],
-                [
-                    'tag'=>'',
-                    'text'=>$m->number,
-                ],
-                [
-                    'tag'=>'',
-                    'text'=>$m->type,
-                ],
-                [
-                    'tag'=>'',
-                    'text'=>$m->weight,
-                ],
-                [
-                    'tag'=>'',
-                    'text'=>$m->diameter,
-                ],
-                [
-                    'tag'=>'',
-                    'text'=>$m->tube_material,
-                ],
-                [
-                    'tag'=>'',
-                    'text'=>$m->screw_width,
-                ],
-                [
-                    'tag'=>'',
-                    'text'=>$m->min_max,
-                ],
-                [
-                    'tag'=>'',
-                    'text'=>$m->screw_material,
                 ],
                 [
                     'tag'=>'button',
@@ -72,15 +32,17 @@ class MachineController extends Controller
                     'class'=>'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text'=>'刪除',
                     'action'=>'delete',
+                    'alertname' => $m->id,
                     'id'=>$m->id
                 ],
                 [
-                    'tag'=>'button',
+                    'tag'=>'href',
                     'type'=>'button',
                     'class'=>'px-1 bg-blue-500 rounded hover:bg-blue-700',
                     'text'=>'編輯',
                     'action'=>'edit',
-                    'id'=>$m->id
+                    'id'=>$m->id,
+                    'href' =>'machine/edit/'.$m->id
                 ],
                 [
                     'tag'=>'button',
@@ -88,7 +50,7 @@ class MachineController extends Controller
                     'class'=>($m->status==1)?'px-1 bg-green-300 rounded hover:bg-green-500':'px-1 bg-red-300 rounded hover:bg-red-500' ,
                     'text'=>($m->status==1)?'運作中':'停機',
                     'action'=>'',
-                    'id'=>$m->id
+                    'id'=>$m->id,
                 ]
             ];
             $row[]=$temp;
@@ -222,6 +184,132 @@ class MachineController extends Controller
         $machine->create($content);
 
         return redirect('admin/machine')->with('notice', '新增成功');
+    }
+
+    public function edit($id)//到編輯畫面
+    {
+        $machine=Machine::find($id);
+        $view = [
+            'action' => '/admin/machine',
+            'method'=>'PUT',
+            'body' => [
+                [
+                    'lable' => '機台別',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'id',
+                    'value'=>$machine->id
+                ],
+                [
+                    'lable' => '機型',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'manufacturer',
+                    'value'=>$machine->manufacturer
+                ],
+                [
+                    'lable' => '噸數/T',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '0.01',
+                    'name' => 'tonnes',
+                    'value'=>$machine->tonnes
+                ],
+                [
+                    'lable' => '機台定位環',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '0.01',
+                    'name' => 'ring',
+                    'value'=>$machine->ring
+                ],
+                [
+                    'lable' => '機台號碼',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'number',
+                    'value'=>$machine->number
+                ],
+                [
+                    'lable' => '型式',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'type',
+                    'value'=>$machine->type
+                ],
+                [
+                    'lable' => '射出重量',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'weight',
+                    'value'=>$machine->weight
+                ],
+                [
+                    'lable' => '螺桿直徑',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'diameter',
+                    'value'=>$machine->diameter
+                ],
+                [
+                    'lable' => '料管材質',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'tube_material',
+                    'value'=>$machine->tube_material
+                ],
+                [
+                    'lable' => '柱內寬度/間隔',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '0.01',
+                    'name' => 'screw_width',
+                    'value'=>$machine->screw_width
+                ],
+                [
+                    'lable' => '調模最大/最小值',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'min_max',
+                    'value'=>$machine->min_max
+                ],
+                [
+                    'lable' => '螺桿材質',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'screw_material',
+                    'value'=>$machine->screw_material
+                ]
+            ]
+        ];
+        return view('backend.create', $view);
+    }
+
+    /**
+     * 上傳編輯資料
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $req)//儲存編輯資料
+    {
+        $p =Machine::find($req->id);
+        $p->id=$req->id;
+        $p->manufacturer=$req->manufacturer;
+        $p->tonnes=$req->tonnes;
+        $p->ring=$req->ring;
+        $p->number=$req->number;
+        $p->type=$req->type;
+        $p->weight=$req->weight;
+        $p->diameter=$req->diameter;
+        $p->tube_material=$req->tube_material;
+        $p->screw_width=$req->screw_width;
+        $p->min_max=$req->min_max;
+        $p->screw_material=$req->screw_material;
+        $p->save();
+
+        return redirect('admin/machine')->with('notice', '編輯成功');
     }
 
     public function destroy($id)

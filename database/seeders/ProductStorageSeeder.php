@@ -16,16 +16,16 @@ class ProductStorageSeeder extends Seeder
     {
         $ps1 = new ProductStorage;
         $ps1->product_id = 'BKEF834V000080';
-        $ps1->storage_id = 'A201-1';
+        $ps1->storage_id = 'A201';
         $ps1->quantity = '240';
         $ps1->basket_number = '5';
-        $ps1->change_status = '入庫';
+        // $ps1->change_status = '入庫';
         $ps1->time = '8:00';
         $ps1->responsible = '小鄭';
 
         $ps2 = new ProductStorage;
         $ps2->product_id = 'B8RF474A00P080';
-        $ps2->storage_id = 'A201-2';
+        $ps2->storage_id = 'A201';
         $ps2->quantity = '288';
         $ps2->basket_number = '6';
         $ps2->change_status = '入庫';
@@ -34,7 +34,7 @@ class ProductStorageSeeder extends Seeder
 
         $ps3 = new ProductStorage;
         $ps3->product_id = 'BFVXF155040080';
-        $ps3->storage_id = 'A201-3';
+        $ps3->storage_id = 'A201';
         $ps3->quantity = '336';
         $ps3->basket_number = '7';
         $ps3->change_status = '出庫';

@@ -24,7 +24,7 @@ class CreateMaterialsTable extends Migration
             $table->integer('safety')->comment('安全庫存量');
             $table->string('unit')->comment('單位');
             $table->string('material')->comment('材質');
-            $table->string('Specification')->comment('規格');
+            $table->string('specification')->comment('規格');
             $table->softDeletes();
             $table->timestamps();
         });

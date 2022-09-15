@@ -7,7 +7,7 @@
 @if ($errors->any())
 <ul>
     @foreach ($errors->all(); as $error )
-        <li class=" bg-red-400">{{ $error }}</li>
+        <li class="bg-red-400 ">{{ $error }}</li>
     @endforeach
 </ul>
 @endif
@@ -16,6 +16,9 @@
         <div class="p-4 ">
             <form action="{{ $action }}" method="POST">
                 @csrf
+                @isset($method)
+                    @method($method)
+                @endisset
                 <table class="mx-auto text-xl">
                     @isset($body)
                         @foreach ($body as $row)

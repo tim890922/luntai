@@ -10,8 +10,9 @@ class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected $keyType='string';
     protected $fillable=
-        ['id','name','material','material','weight','tonnes','client_id'];
+        ['id','name','material','weight','tonnes','client_id'];
 
     public function orders(){
         return $this->hasMany(Order::class);

@@ -22,7 +22,7 @@ class MachineProductSeeder extends Seeder
         $mp1->morning_employee = '1';
         $mp1->night_employee = '1';
         $mp1->cavity = '1';
-        $mp1->non_performing_rate = '0.50';
+        $mp1->non_performing_rate = '0.05';
         $mp1->priority = '1';
 
         $mp2 = new MachineProduct; 
@@ -33,8 +33,8 @@ class MachineProductSeeder extends Seeder
         $mp2->morning_employee = '1';
         $mp2->night_employee = '1';
         $mp2->cavity = '1';
-        $mp2->non_performing_rate = '0.30';
-        $mp2->priority = '2';
+        $mp2->non_performing_rate = '0.03';
+        $mp2->priority = '1';
        
         $mp3= new MachineProduct; 
         $mp3->product_id = 'BFVXF155040080';
@@ -44,7 +44,7 @@ class MachineProductSeeder extends Seeder
         $mp3->morning_employee = '1';
         $mp3->night_employee = '1';
         $mp3->cavity = '1';
-        $mp3->non_performing_rate = '0.40';
+        $mp3->non_performing_rate = '0.04';
         $mp3->priority = '1';
 
         $mp4= new MachineProduct; 
@@ -55,8 +55,8 @@ class MachineProductSeeder extends Seeder
         $mp4->morning_employee = '1';
         $mp4->night_employee = '1';
         $mp4->cavity = '1';
-        $mp4->non_performing_rate = '0.50';
-        $mp4->priority = '2';
+        $mp4->non_performing_rate = '0.05';
+        $mp4->priority = '1';
 
         $mp = [$mp1, $mp2,$mp3,$mp4];
         foreach ($mp as $mp) {

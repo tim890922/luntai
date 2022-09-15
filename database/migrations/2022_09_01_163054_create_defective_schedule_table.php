@@ -14,7 +14,7 @@ class CreateDefectiveScheduleTable extends Migration
      */
     public function up()
     {
-        Schema::create('defective_schedule', function (Blueprint $table) {
+        Schema::create('defective_schedules', function (Blueprint $table) {
             $table->id()->comment('生產不良品編號');
             $table->unsignedBigInteger('defective_id')->comment('不良原因編號');
             $table->foreign('defective_id')->references('id')->on('defectives')->onDelete('cascade');

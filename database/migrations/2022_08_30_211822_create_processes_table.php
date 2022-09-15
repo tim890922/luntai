@@ -23,6 +23,7 @@ class CreateProcessesTable extends Migration
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->unsignedBigInteger('workstation_id')->comment('工作站編號')->nullable();
             $table->foreign('workstation_id')->references('id')->on('workstations')->onDelete('cascade');
+            $table->integer('ct')->comment('週期時間');
             $table->integer('queue')->comment('順序');
             $table->softDeletes();
             $table->timestamps();

@@ -1,7 +1,7 @@
 
 
 <table id="table_1" class="my-4 hover">
-  
+    @csrf
     <thead>
         <tr>
             @foreach ($col as $c)
@@ -20,7 +20,9 @@
                               
                                 @include('component.button', $item)
                             @break
-
+                            @case('href')
+                                @include('component.href',$item)
+                            @break
                             @case('')
                                 {{ $item['text'] }}
                             @break

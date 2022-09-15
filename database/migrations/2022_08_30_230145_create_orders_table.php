@@ -25,7 +25,7 @@ class CreateOrdersTable extends Migration
             $table->date('delivery')->comment('交貨日');
             $table->string('order_number')->comment('訂單號')->nullable();
             $table->integer('quantity')->comment('數量');
-            $table->integer('packages_quantity')->comment('包裝數');
+            $table->integer('package')->comment('包裝數');
             $table->timestamps();
             $table->softDeletes();
         });
