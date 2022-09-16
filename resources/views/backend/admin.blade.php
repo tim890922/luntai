@@ -3,11 +3,11 @@
     @include('component.side')
 @endsection
 @section('main')
-    <div class="w-auto h-auto py-4 text-center bg-blue-300 border border-gray-400 rounded-full center">
+    <div class="w-auto h-auto py-4 text-center bg-blue-300 border border-gray-400 rounded center">
         <h1 class="text-4xl ">{{ $header }}</h1>
     </div>
     @if (session()->has('notice'))
-        <div class="px-3 text-xl bg-green-400 rounded alert alert-success">
+        <div class="px-3 mt-3 text-xl bg-green-400 rounded alert alert-success">
             {{ session('notice') }}
         </div>
     @endif
@@ -59,7 +59,7 @@
                 let _this = $(this)
                 $.ajax({
                     type: 'delete',
-                    url: `/admin/{{ strtolower($module) }}/${id}`,
+                    url: `/admin/{{ $module }}/${id}`,
                     success: function() {
                         _this.parents('tr').remove()
                     }

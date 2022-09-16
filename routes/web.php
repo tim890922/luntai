@@ -9,6 +9,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MachineProductController;
+use App\Http\Controllers\WorkstationController;
 
 Route::redirect('/','admin/product');
 Route::redirect('/admin', 'admin/product');
@@ -24,12 +25,15 @@ Route::prefix('admin')->group(function () {
     Route::get('/client', [ClientController::class, 'index']);
     Route::get('/supplier', [SupplierController::class, 'index']);
     Route::get('/machineProduct', [MachineProductController::class, 'index']);
+    Route::get('/workstation', [WorkstationController::class, 'index']);
 
     //POST
     Route::post('/product', [ProductController::class, 'store']);
     Route::post('/machine', [MachineController::class, 'store']);
     Route::post('/order', [OrderController::class, 'store']);
     Route::post('/employee', [EmployeeController::class, 'store']);
+    Route::post('/machineProduct', [MachineProductController::class, 'store']);
+    Route::post('/workstation', [WorkstationController::class, 'store']);
 
     //edit
     Route::get('/product/edit/{id}', [ProductController::class, 'edit']);//tim
@@ -40,6 +44,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/machineProduct/edit/{id}', [MachineProductController::class, 'edit']);//tim
     Route::get('/supplier/edit/{id}', [SupplierController::class, 'edit']);//julie
     Route::get('/client/edit/{id}', [ClientController::class, 'edit']);//julie
+    Route::get('/workstation/edit/{id}', [WorkstationController::class, 'edit']);//julie
 
     //update
     Route::put('/product', [ProductController::class, 'update']);
@@ -50,6 +55,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/material', [MaterialController::class, 'update']);
     Route::put('/supplier', [SupplierController::class, 'update']);
     Route::put('/machineProduct', [MachineProductController::class, 'update']);
+    Route::put('/workstation', [WorkstationController::class, 'update']);
 
     //create
     Route::get("/product/create", [ProductController::class, 'create']);
@@ -59,7 +65,8 @@ Route::prefix('admin')->group(function () {
     Route::get("/material/create", [MaterialController::class, 'create']);
     Route::get("/client/create", [ClientController::class, 'create']);
     Route::get("/supplier/create", [SupplierController::class, 'create']);
-    Route::get("/supplier/create", [MachineProductController::class, 'create']);
+    Route::get("/machineProduct/create", [MachineProductController::class, 'create']);
+    Route::get("/workstation/create", [WorkstationController::class, 'create']);
 
 
     //delete
@@ -69,7 +76,9 @@ Route::prefix('admin')->group(function () {
     Route::delete('/material/{id}', [MaterialController::class, 'destroy']);
     Route::delete('/client/{id}', [ClientController::class, 'destroy']);
     Route::delete('/supplier/{id}', [SupplierController::class, 'destroy']);
-    Route::delete('/supplier/{id}', [MachineProductController::class, 'destroy']);
+    Route::delete('/machineProduct/{id}', [MachineProductController::class, 'destroy']);
+    Route::delete('/order/{id}', [OrderController::class, 'destroy']);
+    Route::delete('/workstation/{id}', [WorkstationController::class, 'destroy']);
 
     //import
     Route::post('/orderImport', [OrderController::class, 'import']);

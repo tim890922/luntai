@@ -21,10 +21,12 @@
                             class="block hover:text-blue-600">原物料供應商清單</a></li>
                     <li class="my-1 border-b-2 border-gray-500"><a href="/admin/machineProduct"
                             class="block hover:text-blue-600">排機清單</a></li>
-                    <li class="my-1 border-b-2 border-gray-500"><a href="/admin/machineProduct"
-                            class="block hover:text-blue-600">製程清單</a></li>
+                    <li class="my-1 border-b-2 border-gray-500"><a href="/admin/workstation"
+                            class="block hover:text-blue-600">工作站清單</a></li>
+                    {{-- <li class="my-1 border-b-2 border-gray-500"><a href="/admin/workstation"
+                            class="block hover:text-blue-600">製程清單</a></li> --}}
                 </ul>
-            <li>系統功能
+            <li>系統功能(未完成 )
                 <ul class="ml-5 ">
                     <li class="my-1 border-b-2 border-gray-500">生產排程</li>
                     <li class="my-1 border-b-2 border-gray-500">訂單管理</li>

@@ -185,10 +185,7 @@ class MaterialController extends Controller
             return redirect('admin/material')->with('notice', '新增成功');
         }
     
-        public function destroy($id)
-        {
-            Material::destroy($id);
-        }
+        
          /**
      * 編輯單一資料
      *
@@ -294,7 +291,7 @@ class MaterialController extends Controller
         $p->supplier_id=$req->supplier_id;
         $p->save();
 
-        return redirect('admin/materia')->with('notice', '編輯成功');
+        return redirect('admin/material')->with('notice', '編輯成功');
     }
 
     /**
@@ -303,6 +300,11 @@ class MaterialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function destroy($id)
+        {
+            Material::destroy($id);
+        }
     
     }
 

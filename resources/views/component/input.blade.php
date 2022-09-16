@@ -3,4 +3,7 @@
     
   @isset($step)
 step="{{ $step }}"
+@endisset
+@isset($required)
+required="{{ $required }}"
 @endisset>

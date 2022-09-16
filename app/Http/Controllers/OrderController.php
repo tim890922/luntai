@@ -93,7 +93,7 @@ class OrderController extends Controller
 
 
         $view = [
-            'col' => $col, 'header' => '訂單', 'title' => '料號', 'row' => $row, 'action' => 'order/create', 'method' => 'GET', 'href' => 'order/create',
+            'col' => $col, 'header' => '訂單管理', 'title' => '訂單', 'row' => $row, 'action' => 'order/create', 'method' => 'GET', 'href' => 'order/create',
             'module' => 'order','import'=>$import
         ];
 
@@ -120,18 +120,11 @@ class OrderController extends Controller
                     'name' => 'position'
                 ],
                 [
-                    'lable' => '用方',
+                    'lable' => '用方編號',
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '1',
                     'name' => 'clientuser_id'
-                ],
-                [
-                    'lable' => '用方名稱',
-                    'tag' => 'input',
-                    'type' => 'text',
-                    'step' => '',
-                    'name' => 'user_name'
                 ],
                 [
                     'lable' => 'P/F',
@@ -182,27 +175,28 @@ class OrderController extends Controller
     {
 
         $o = new Order;
-        // $content = $req->validate(
-        //     [
-        //         'client_id' => 'required',
-        //         'name' => 'required',
-        //         'material' => 'required',
-        //         'weight' => 'required',
-        //         'tonnes' => 'required',
-        //         'id' => 'required',
-        //     ]
-        // );
-        dd($req);
-        $o->product_id=$req->product_id;
-        $o->position=$req->position;
-        $o->clientuser_id=$req->clientuser_id;
-        $o->user_name=$req->user_name;
-        $o->P_F=$req->P_F;
-        $o->order_number=$req->order_number;
-        $o->delivery=$req->delivery;
-        $o->quantity=$req->quantity;
-        $o->package=$req->package;
-        $o->create();
+        $content = $req->validate(
+            [
+                'product_id' => 'required',
+                'position' => 'required',
+                'clientuser_id' => 'required',
+                'P_F' => 'required',
+                'order_number' => 'required',
+                'delivery' => 'required',
+                'quantity' => 'required',
+                'package' => 'required',
+            ]
+        );
+        // dd($req);
+        // $o->product_id=$req->product_id;
+        // $o->position=$req->position;
+        // $o->clientuser_id=$req->clientuser_id;
+        // $o->P_F=$req->P_F;
+        // $o->order_number=$req->order_number;
+        // $o->delivery=$req->delivery;
+        // $o->quantity=$req->quantity;
+        // $o->package=$req->package;
+        $o->save($content);
 
         return redirect('admin/order')->with('notice', '新增成功');
     }
@@ -232,6 +226,12 @@ class OrderController extends Controller
             'action' => '/admin/order',
             'method'=>'PUT',
             'body' => [
+                [   
+                    'tag' => 'input',
+                    'type' => 'hidden',
+                    'name' => 'id',
+                    'value'=>$order->id
+                ],
                 [
                     'lable' => '料號',
                     'tag' => 'input',
@@ -306,11 +306,11 @@ class OrderController extends Controller
      */
     public function update(Request $req)//儲存編輯資料
     {
+        // dd($req);
         $o =Order::find($req->id);
         $o->product_id=$req->product_id;
         $o->position=$req->position;
         $o->clientuser_id=$req->clientuser_id;
-        $o->user_name=$req->user_name;
         $o->P_F=$req->P_F;
         $o->order_number=$req->order_number;
         $o->delivery=$req->delivery;
@@ -327,6 +327,7 @@ class OrderController extends Controller
         
         return back();
     }
+
     public function destroy($id)
     {
         Order::destroy($id);

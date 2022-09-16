@@ -4,13 +4,16 @@
 @endsection
 @section('main')
 
-@if ($errors->any())
-<ul>
-    @foreach ($errors->all(); as $error )
-        <li class="bg-red-400 ">{{ $error }}</li>
-    @endforeach
-</ul>
-@endif
+
+
+    {{-- @if ($errors->any())
+        <ul>
+
+            @foreach ($errors->all() as $error)
+                <li class="bg-red-400 ">{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif --}}
 
     <div class="w-auto bg-gray-400">
         <div class="p-4 ">
@@ -21,13 +24,18 @@
                 @endisset
                 <table class="mx-auto text-xl">
                     @isset($body)
-                        @foreach ($body as $row)
+                        @foreach ($body as $index => $row)
                             <tr>
-                                <td class="text-right ">{{ $row['lable'] }}</td>
+                                @isset($row['lable'])
+                                    <td class="text-right ">{{ $row['lable'] }}</td>
+                                @endisset
                                 <td class="px-3 py-2">
                                     @switch($row['tag'])
                                         @case('input')
                                             @include('component.input', $row)
+                                            @if ($errors->has($row['name']))
+                                                <p style="color:red">請填寫此項目</p>
+                                            @endif
                                         @break
                                     @endswitch
 

@@ -16,10 +16,10 @@
 
 <body>
     <header class="mx-auto bg-gray-600 " style="height:100px">
-        <div class="flex justify-items-center">
-            <img src="{{ asset('img/logo.png') }}" style="height: 100px">
-            <p class="text-6xl text-white">
-                綸泰後台管理系統
+        <div class="flex mx-5 justify-items-center">
+            <img src="{{ asset('img/factoryLogo.png') }}" style="height: 100px" class="py-2 ">
+            <p class="pt-2 pl-3 text-6xl text-white">
+                工廠管理系統
             </p>
         </div>
     </header>
@@ -39,8 +39,8 @@
     </main>
 
 
-    <footer class="mx-auto bg-red-500 " style="height:100px">
-        <p class="text-2xl text-center ">綸泰</p>
+    <footer class="py-3 mx-auto bg-red-500" style="height:70px">
+        <p class="text-2xl text-center ">工廠管理系統</p>
     </footer>
 
     <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>

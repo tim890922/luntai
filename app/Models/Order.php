@@ -10,7 +10,7 @@ class Order extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=['id', 'product_id','clientuser_id','position','P_F','delivery','order_number','quantity','packages_quantity'];
+    protected $fillable=['id', 'product_id','clientuser_id','position','P_F','delivery','order_number','quantity','package'];
 
     public function product(){
         return $this->belongsTo(Product::class);
