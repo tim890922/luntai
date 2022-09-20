@@ -1,4 +1,4 @@
-<input type="{{ $type }}" class="px-3 bg-blue-100 border-b-2 rounded-full focus:bg-white" name="{{ $name }}"  value="@isset($value)
+<input type="{{ $type }}" class="px-3 border border-black border-solid rounded bg-white-100 focus:bg-white" name="{{ $name }}"  value="@isset($value)
 {{ $value }}@endisset{{ old($name) }}"  
     
   @isset($step)

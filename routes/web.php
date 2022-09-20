@@ -34,6 +34,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/employee', [EmployeeController::class, 'store']);
     Route::post('/machineProduct', [MachineProductController::class, 'store']);
     Route::post('/workstation', [WorkstationController::class, 'store']);
+    Route::post('/client', [ClientController::class, 'store']);
 
     //edit
     Route::get('/product/edit/{id}', [ProductController::class, 'edit']);//tim

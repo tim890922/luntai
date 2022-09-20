@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DefectiveSchedule extends Model
+class DefectiveReport extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=['id','defective_id','schedule_id','quantity'];
+    protected $fillable=['id','defective_id','report_id','quantity','detail'];
 
     public function report(){
         return $this->belongsTo(Report::class);

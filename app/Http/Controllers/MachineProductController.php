@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MachineProduct;
+use App\Models\Machine;
 
 class MachineProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $machineproduct = MachineProduct::all();
-        $col = ['料號', '機台編號', '模具編號','C/Ts','日班人數','夜班人數','穴數','不良率','優先順序','刪除','編輯'];
+        $col = ['料號', '機台編號', '模具編號', 'C/Ts', '日班人數', '夜班人數', '穴數', '不良率', '優先順序', '刪除', '編輯'];
 
         $row = [];
 
@@ -45,7 +47,7 @@ class MachineProductController extends Controller
                 ],
                 [
                     'tag' => '',
-                    'text' => (($m->non_performing_rate)*100).'%',
+                    'text' => (($m->non_performing_rate) * 100) . '%',
                 ],
                 [
                     'tag' => '',
@@ -68,7 +70,7 @@ class MachineProductController extends Controller
                     'alertname' => $m->id,
                     'action' => 'edit',
                     'id' => $m->id,
-                    'href'=>'machineProduct/edit/'.$m->id
+                    'href' => 'machineProduct/edit/' . $m->id
                 ]
             ];
             $row[] = $temp;
@@ -77,18 +79,27 @@ class MachineProductController extends Controller
 
 
         $view = [
-            'col' => $col, 
-            'header' => '排機管理', 
-            'title' => '排機', 
-            'row' => $row, 
-            'action' => 'machineProduct/create', 'method' => 'GET', 
+            'col' => $col,
+            'header' => '排機管理',
+            'title' => '排機',
+            'row' => $row,
+            'action' => 'machineProduct/create', 'method' => 'GET',
             'href' => 'machineProduct/create',
             'module' => 'machineProduct'
         ];
-        return view('backend.admin',$view);
+        return view('backend.admin', $view);
     }
 
-    public function create(){
+    public function create()
+    {
+        $machines = Machine::all();
+        $text = [];
+        $value = [];
+        foreach ($machines as $machine) {
+            $text[]=$machine->id;
+            $value[]=$machine->id;
+        }
+        // dd($text,$value);
         $view = [
             'action' => '/admin/machineProduct',
             'body' => [
@@ -100,8 +111,9 @@ class MachineProductController extends Controller
                 ],
                 [
                     'lable' => '機台編號',
-                    'tag' => 'input',
-                    'type' => 'text',
+                    'tag' => 'select',
+                    'value' =>$value,
+                    'text'=>$text,
                     'name' => 'machine_id'
                 ],
                 [
@@ -180,12 +192,12 @@ class MachineProductController extends Controller
         return redirect('admin/machineProduct')->with('notice', '新增成功');
     }
 
-    public function edit($id)//到編輯畫面
+    public function edit($id) //到編輯畫面
     {
-        $machineProduct=MachineProduct::find($id);
+        $machineProduct = MachineProduct::find($id);
         $view = [
             'action' => '/admin/machineProduct',
-            'method'=>'PUT',
+            'method' => 'PUT',
             'body' => [
                 [
                     'lable' => '料號',
@@ -267,18 +279,18 @@ class MachineProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $req)//儲存編輯資料
+    public function update(Request $req) //儲存編輯資料
     {
-        $mp =machineProduct::find($req->id);
-        $mp->id=$req->id;
-        $mp->machine_id=$req->machine_id;
-        $mp->model_id=$req->model_id;
-        $mp->cycle_time=$req->cycle_time;
-        $mp->morning_employee=$req->morning_employee;
-        $mp->night_employee=$req->night_employee;
-        $mp->cavity=$req->cavity;
-        $mp->non_performing_rate=$req->non_performing_rate;
-        $mp->priority=$req->priority;
+        $mp = machineProduct::find($req->id);
+        $mp->id = $req->id;
+        $mp->machine_id = $req->machine_id;
+        $mp->model_id = $req->model_id;
+        $mp->cycle_time = $req->cycle_time;
+        $mp->morning_employee = $req->morning_employee;
+        $mp->night_employee = $req->night_employee;
+        $mp->cavity = $req->cavity;
+        $mp->non_performing_rate = $req->non_performing_rate;
+        $mp->priority = $req->priority;
         $mp->save();
 
         return redirect('admin/machineProduct')->with('notice', '編輯成功');

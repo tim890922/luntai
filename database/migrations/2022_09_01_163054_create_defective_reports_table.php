@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CreateDefectiveScheduleTable extends Migration
+class CreateDefectiveReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateDefectiveScheduleTable extends Migration
      */
     public function up()
     {
-        Schema::create('defective_schedules', function (Blueprint $table) {
+        Schema::create('defective_reports', function (Blueprint $table) {
             $table->id()->comment('生產不良品編號流水號');
             $table->unsignedBigInteger('defective_id')->comment('不良原因編號');
             $table->foreign('defective_id')->references('id')->on('defectives')->onDelete('cascade');

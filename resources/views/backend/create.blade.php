@@ -37,6 +37,11 @@
                                                 <p style="color:red">請填寫此項目</p>
                                             @endif
                                         @break
+
+                                        @case('select')
+                                            @include('component.select',$row)
+                                        @break
+
                                     @endswitch
 
                                 </td>

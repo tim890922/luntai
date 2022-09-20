@@ -25,8 +25,8 @@ class Report extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function defective_schedules(){
-        return $this->hasMany(DefectiveSchedule::class);
+    public function defective_reports(){
+        return $this->hasMany(DefectiveReport::class);
     }
 
 

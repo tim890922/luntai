@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             MachineProductSeeder::class,
             MaterialProductSeeder::class,
             ProductStorageSeeder::class,
-            DefectiveScheduleSeeder::class
+            DefectiveReportSeeder::class
         ]);
     }
 }

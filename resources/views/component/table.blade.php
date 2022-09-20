@@ -20,9 +20,15 @@
                               
                                 @include('component.button', $item)
                             @break
+
                             @case('href')
                                 @include('component.href',$item)
                             @break
+
+                            @case('select')
+                                @include('component.select',$item)
+                            @break
+
                             @case('')
                                 {{ $item['text'] }}
                             @break

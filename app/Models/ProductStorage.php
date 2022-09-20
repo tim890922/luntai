@@ -11,4 +11,8 @@ class ProductStorage extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=['id', 'product_id','storage_id','quantity','basket_number','change_status','time','responsible'];
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
 }
