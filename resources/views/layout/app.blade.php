@@ -9,11 +9,14 @@
     <title>綸泰</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/my.css') }}">
-    <script src="{{ asset('js/my.js') }}"></script>
+    
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-
+    <link rel="icon"
+        href="https://cdn4.iconfinder.com/data/icons/unigrid-flat-buildings/90/008_079_factory_production_manufacturer_industry_industrial-256.png"
+        type="image/x-icon" />
+    @yield('style')
 </head>
 
 <body>
@@ -32,7 +35,7 @@
 
 
         {{-- 中間內容 --}}
-        <div class="w-4/5 h-auto my-4 ml-3" >
+        <div class="w-4/5 h-auto my-4 ml-3">
             @yield('main')
 
         </div>
@@ -45,21 +48,13 @@
         <p class="text-2xl text-center ">工廠管理系統</p>
     </footer>
 
-    <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
+    {{-- <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script> --}}
+    <script src="{{ asset('js/my.js') }}"></script>
 </body>
 
 <script>
-    var opt = {
-        "oLanguage": {
-            "sUrl": "{{ asset('dataTables.zh-tw') }}"
-        },
-        "order": [
-            [0, 'asc']
-        ]
-    };
-    $(document).ready(function() {
-        $('#table_1').DataTable();
-    });
+    
+
 </script>
 
 </html>

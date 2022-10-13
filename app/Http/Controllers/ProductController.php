@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Imports\ProductImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Product;
-use app\Models\Client;
+use App\Models\Client;
 
 class ProductController extends Controller
 {
@@ -15,8 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        $col = ['料號', '名稱',  '材質', '重量', '射出噸數', '客戶','刪除', '編輯'];
+        $products = Product::all(); 
+        $col = ['料號', '名稱',  '材質', '重量', '射出噸數', '客戶', '刪除', '編輯'];
 
         $row = [];
 
@@ -30,7 +32,7 @@ class ProductController extends Controller
                     'tag' => '',
                     'text' => $p->name,
                 ],
-               
+
                 [
                     'tag' => '',
                     'text' => $p->material,
@@ -64,17 +66,31 @@ class ProductController extends Controller
                     'alertname' => $p->id,
                     'action' => 'edit',
                     'id' => $p->id,
-                    'href'=>'product/edit/'.$p->id
+                    'href' => 'product/edit/' . $p->id
                 ]
             ];
             $row[] = $temp;
         }
+        // dd($row);
 
-
-
+        $import = [
+            'action' => 'productImport', 'text' => '匯入料號','file'=>'product_file'
+        ];
+        
+        $clients=Client::all();
+        $lists=[];
+        foreach($clients as $client){
+            $temp=[
+                'value'=>$client->id,
+                'text'=>$client->client_name
+            ];  
+            $lists[]=$temp;
+        }
+        
+        // dd($list);
         $view = [
             'col' => $col, 'header' => '料號清單', 'title' => '料號', 'row' => $row, 'action' => 'product/create', 'method' => 'GET', 'href' => 'product/create',
-            'module' => 'product'
+            'module' => 'product','import'=>$import,'lists'=>$lists,'name'=>'client_name'
         ];
 
 
@@ -89,6 +105,15 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $clients=Client::all();
+        $list=[];
+        foreach($clients as $client){
+            $temp=[
+                'value'=>$client->id,
+                'text'=>$client->client_name
+            ];  
+            $list[]=$temp;
+        }
         $view = [
             'action' => '/admin/product',
             'body' => [
@@ -116,7 +141,7 @@ class ProductController extends Controller
                     'type' => 'text',
                     'name' => 'weight'
                 ],
-             
+
                 [
                     'lable' => '射出噸數',
                     'tag' => 'input',
@@ -125,11 +150,11 @@ class ProductController extends Controller
                     'name' => 'tonnes'
                 ],
                 [
-                    'lable' => '客戶編號',
-                    'tag' => 'input',
-                    'type' => 'number',
-                    'step' => '1',
-                    'name' => 'client_id'
+                    'lable' => '客戶名稱',
+                    'tag' => 'select',
+                    'name'=>'client_id',
+                    'lists'=>$list
+                    
                 ]
 
 
@@ -189,33 +214,33 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)//到編輯畫面
+    public function edit($id) //到編輯畫面
     {
-        $product=Product::find($id);
+        $product = Product::find($id);
         $view = [
             'action' => '/admin/product',
-            'method'=>'PUT',
+            'method' => 'PUT',
             'body' => [
                 [
                     'lable' => '料號',
                     'tag' => 'input',
                     'type' => 'text',
                     'name' => 'id',
-                    'value'=>$product->id
+                    'value' => $product->id
                 ],
                 [
                     'lable' => '產品名稱',
                     'tag' => 'input',
                     'type' => 'text',
                     'name' => 'name',
-                    'value'=>$product->name
+                    'value' => $product->name
                 ],
                 [
                     'lable' => '材質',
                     'tag' => 'input',
                     'type' => 'text',
                     'name' => 'material',
-                    'value'=>$product->material
+                    'value' => $product->material
                 ],
                 [
                     'lable' => '重量',
@@ -223,7 +248,7 @@ class ProductController extends Controller
                     'type' => 'number',
                     'step' => '0.001',
                     'name' => 'weight',
-                    'value'=>$product->weight
+                    'value' => $product->weight
                 ],
                 [
                     'lable' => '射出噸數',
@@ -231,7 +256,7 @@ class ProductController extends Controller
                     'type' => 'number',
                     'step' => '0.01',
                     'name' => 'tonnes',
-                    'value'=>$product->tonnes
+                    'value' => $product->tonnes
                 ],
                 [
                     'lable' => '客戶編號',
@@ -239,7 +264,7 @@ class ProductController extends Controller
                     'type' => 'number',
                     'step' => '1',
                     'name' => 'client_id',
-                    'value'=>$product->client_id
+                    'value' => $product->client_id
                 ],
             ]
         ];
@@ -253,15 +278,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $req)//儲存編輯資料
+    public function update(Request $req) //儲存編輯資料
     {
-        $p =Product::find($req->id);
-        $p->id=$req->id;
-        $p->name=$req->name;
-        $p->material=$req->material;
-        $p->weight=$req->weight;
-        $p->tonnes=$req->tonnes;
-        $p->client_id=$req->client_id;
+        $p = Product::find($req->id);
+        $p->id = $req->id;
+        $p->name = $req->name;
+        $p->material = $req->material;
+        $p->weight = $req->weight;
+        $p->tonnes = $req->tonnes;
+        $p->client_id = $req->client_id;
         $p->save();
 
         return redirect('admin/product')->with('notice', '編輯成功');
@@ -276,5 +301,17 @@ class ProductController extends Controller
     public function destroy($id)
     {
         Product::destroy($id);
+    }
+// 匯入資料
+    public function import(Request $req)
+    {
+        // $client_id=$req->client_name;
+        // $rows=$req->file('product_file');
+        // dd($rows,$req->file('product_file'));
+        // Excel::import(new ProductImport, $rows);
+        // dd($req->client_name);
+        Excel::import(new ProductImport, $req->file('product_file'));
+
+        return back()->with('notice', '匯入成功');
     }
 }

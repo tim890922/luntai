@@ -46,5 +46,13 @@ class Product extends Model
         return $this->hasMany(ProductStorage::class);
     }
 
+    public function machine_products(){
+        return $this->hasMany(MachineProduct::class);
+    }
+
+    public function processes(){
+        return $this->hasMany(Process::class);
+    }
+
 }
 

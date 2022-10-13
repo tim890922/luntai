@@ -16,14 +16,11 @@ class CreateProcessesTable extends Migration
     public function up()
     {
         Schema::create('processes', function (Blueprint $table) {
-            $table->string('id')->primary()->comment('製程編號');
+            $table->id()->comment('製程編號');
             $table->string('product_id')->comment('料號');
-            $table->foreign('product_id')->references('id')->on('machines')->onDelete('cascade');
-            $table->string('machine_id')->comment('機台編號')->nullable();
-            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
-            $table->unsignedBigInteger('workstation_id')->comment('工作站編號')->nullable();
-            $table->foreign('workstation_id')->references('id')->on('workstations')->onDelete('cascade');
-            $table->integer('ct')->comment('週期時間');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->string('procedure')->comment('工序');
+            
             $table->integer('queue')->comment('順序');
             $table->softDeletes();
             $table->timestamps();

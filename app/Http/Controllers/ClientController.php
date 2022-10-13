@@ -69,12 +69,6 @@ class ClientController extends Controller
             'action' => '/admin/client',
             'body' => [
                 [
-                    'lable' => '客戶編號',
-                    'tag' => 'input',
-                    'type' => 'text',
-                    'name' => 'id'
-                ],
-                [
                     'lable' => '名稱',
                     'tag' => 'input',
                     'type' => 'text',
@@ -107,9 +101,9 @@ class ClientController extends Controller
             'method'=>'PUT',
             'body' => [
                 [
-                    'lable' => '客戶編號',
+                    'lable' => '',
                     'tag' => 'input',
-                    'type' => 'text',
+                    'type' => 'hidden',
                     'name' => 'id',
                     'value'=>$client->id
                 ],
@@ -154,5 +148,20 @@ class ClientController extends Controller
     public function destroy($id)
     {
         Client::destroy($id);
+    }
+
+    public function store(Request $req)
+    {
+
+        $c = new client;
+        $content = $req->validate(
+            [
+                'client_name' => 'required',
+                'client_phone' => 'required',
+            ]
+        );
+        $c->create($content);
+
+        return redirect('admin/client')->with('notice', '新增成功');
     }
 }

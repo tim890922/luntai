@@ -1,12 +1,12 @@
-<select name="{{ $name }}" @isset($required)
+<select name="{{$name}}" @isset($required)
     required="required"
-@endisset class="p-2 border border-black rounded">
-    @foreach ($value as $v)
-        
-            <option value=" {{ $v }} ">
-                {{ $v }}
-            </option>
-        
+@endisset class="p-1 border border-black rounded">
+    @foreach ($lists as $list)
+        <option value =" {{ $list['value'] }} " @isset($list['selected'])
+            {{ $list['selected'] }}
+        @endisset>
+            {{ $list['text'] }}
+        </option> 
     @endforeach ()
 
 </select>

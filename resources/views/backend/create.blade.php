@@ -34,12 +34,12 @@
                                         @case('input')
                                             @include('component.input', $row)
                                             @if ($errors->has($row['name']))
-                                                <p style="color:red">請填寫此項目</p>
+                                                <p style="color:red" class="text-base ">請填寫此項目</p>
                                             @endif
                                         @break
 
                                         @case('select')
-                                            @include('component.select',$row)
+                                        @include('component.select', ['lists' =>$row['lists'], 'name' => $row['name']])
                                         @break
 
                                     @endswitch

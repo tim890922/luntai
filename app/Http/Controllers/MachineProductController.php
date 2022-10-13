@@ -96,8 +96,8 @@ class MachineProductController extends Controller
         $text = [];
         $value = [];
         foreach ($machines as $machine) {
-            $text[]=$machine->id;
-            $value[]=$machine->id;
+            $text[] = $machine->tonnes;
+            $value[] = $machine->id;
         }
         // dd($text,$value);
         $view = [
@@ -112,8 +112,10 @@ class MachineProductController extends Controller
                 [
                     'lable' => '機台編號',
                     'tag' => 'select',
-                    'value' =>$value,
-                    'text'=>$text,
+                    'option' => [
+                        'value' => $value,
+                        'text' => $text
+                    ],
                     'name' => 'machine_id'
                 ],
                 [

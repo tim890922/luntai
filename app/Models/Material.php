@@ -10,8 +10,7 @@ class Material extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable =
-    ['id','supplier_id','name','type','inventory','safety','unit','material','Specification'];
-    protected $keyType='string';
+    ['id','supplier_id','name','type','inventory','safety','unit','material','specification'];
 
     
     public function products(){

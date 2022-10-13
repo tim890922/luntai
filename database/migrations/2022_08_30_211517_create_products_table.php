@@ -17,9 +17,9 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->string('id')->primary()->comment('料號');
             $table->string('name')->comment('名稱');
-            $table->string('material')->comment('材質');
-            $table->string('weight')->comment('重量');
-            $table->string('tonnes')->comment('射出噸數');
+            $table->string('material')->comment('材質')->nullable();
+            $table->string('weight')->comment('重量')->nullable();;
+            $table->string('tonnes')->comment('射出噸數')->nullable();;
             $table->unsignedBigInteger('client_id')->comment('客戶編號');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->softDeletes();

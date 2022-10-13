@@ -11,4 +11,8 @@ class Workstation extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=['id', 'workstation_name','procedure'];
+
+    public function machine_products(){
+        return $this->hasMany(MachineProduct::class);
+    }
 }

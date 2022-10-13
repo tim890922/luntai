@@ -10,6 +10,10 @@ class Process extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=['id','product_id','machine_id','workstation_id'];
+    protected $fillable=['id','product_id','procedure','queue'];
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
 
 }

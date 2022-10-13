@@ -10,23 +10,46 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MachineProductController;
 use App\Http\Controllers\WorkstationController;
+use App\Http\Controllers\MaterialProductController;
+use App\Http\Controllers\ProcessController;
+use App\Models\Client;
 
-Route::redirect('/','admin/product');
+Route::redirect('/', 'admin/product');
 Route::redirect('/admin', 'admin/product');
 Route::prefix('admin')->group(function () {
 
     //GET
     Route::get('/product', [ProductController::class, 'index']);
     Route::get('/machine', [MachineController::class, 'index']);
-    Route::get('/order', [OrderController::class, 'index']);
-    Route::get('/employee', [EmployeeController::class, 'index']);
+    // Route::get('/order', [OrderController::class, 'index']);
+    Route::get('/order', function () {
+        $clients = Client::all();
+        $href=[];
+        foreach ($clients as $client) {
+            $href[] = strtolower($client->client_name);
+        }
+        $view = [
+                'clients'=>$clients,
+                'href'=>$href   
+        ];
+        return view('backend.order', $view);
+    });
+    Route::get('/order/YMT', [OrderController::class, 'user']);
+    Route::get('/materialProduct', [MaterialProductController::class, 'index']);
+
+    Route::get('/employee/con', [EmployeeController::class, 'index']);
+    Route::get('/employee',[EmployeeController::class,'index'] );
     Route::get('/employee/worker', [EmployeeController::class, 'worker']);
     Route::get('/material', [MaterialController::class, 'index']);
     Route::get('/client', [ClientController::class, 'index']);
     Route::get('/supplier', [SupplierController::class, 'index']);
     Route::get('/machineProduct', [MachineProductController::class, 'index']);
     Route::get('/workstation', [WorkstationController::class, 'index']);
+    Route::get('/process', [ProcessController::class, 'index']);
 
+    //SHOW
+    Route::get('/process/show/{id}',[ProcessController::class, 'show']);
+    Route::get('/materialProduct/show/{id}',[MaterialProductController::class, 'show']);
     //POST
     Route::post('/product', [ProductController::class, 'store']);
     Route::post('/machine', [MachineController::class, 'store']);
@@ -35,17 +58,20 @@ Route::prefix('admin')->group(function () {
     Route::post('/machineProduct', [MachineProductController::class, 'store']);
     Route::post('/workstation', [WorkstationController::class, 'store']);
     Route::post('/client', [ClientController::class, 'store']);
+    Route::post('/material', [MaterialController::class, 'store']);
+    Route::post('/supplier', [SupplierController::class, 'store']);
+    
 
     //edit
-    Route::get('/product/edit/{id}', [ProductController::class, 'edit']);//tim
-    Route::get('/order/edit/{id}', [OrderController::class, 'edit']);//yun
-    Route::get('/machine/edit/{id}', [MachineController::class, 'edit']);//yun
-    Route::get('/employee/edit/{id}', [EmployeeController::class, 'edit']);//xin
-    Route::get('/material/edit/{id}', [MaterialController::class, 'edit']);//xin
-    Route::get('/machineProduct/edit/{id}', [MachineProductController::class, 'edit']);//tim
-    Route::get('/supplier/edit/{id}', [SupplierController::class, 'edit']);//julie
-    Route::get('/client/edit/{id}', [ClientController::class, 'edit']);//julie
-    Route::get('/workstation/edit/{id}', [WorkstationController::class, 'edit']);//julie
+    Route::get('/product/edit/{id}', [ProductController::class, 'edit']); //tim
+    Route::get('/order/edit/{id}', [OrderController::class, 'edit']); //yun
+    Route::get('/machine/edit/{id}', [MachineController::class, 'edit']); //yun
+    Route::get('/employee/edit/{id}', [EmployeeController::class, 'edit']); //xin
+    Route::get('/material/edit/{id}', [MaterialController::class, 'edit']); //xin
+    Route::get('/machineProduct/edit/{id}', [MachineProductController::class, 'edit']); //tim
+    Route::get('/supplier/edit/{id}', [SupplierController::class, 'edit']); //julie
+    Route::get('/client/edit/{id}', [ClientController::class, 'edit']); //julie
+    Route::get('/workstation/edit/{id}', [WorkstationController::class, 'edit']); //julie
 
     //update
     Route::put('/product', [ProductController::class, 'update']);
@@ -68,6 +94,7 @@ Route::prefix('admin')->group(function () {
     Route::get("/supplier/create", [SupplierController::class, 'create']);
     Route::get("/machineProduct/create", [MachineProductController::class, 'create']);
     Route::get("/workstation/create", [WorkstationController::class, 'create']);
+    Route::get('/process/create/{id}', [ProcessController::class, 'create']);
 
 
     //delete
@@ -83,6 +110,8 @@ Route::prefix('admin')->group(function () {
 
     //import
     Route::post('/orderImport', [OrderController::class, 'import']);
+    Route::post('/productImport', [ProductController::class, 'import']);
 });
 
-Route::view('/test', 'test');
+
+Route::get('/test', [OrderController::class, 'test']);

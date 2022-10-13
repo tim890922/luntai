@@ -15,7 +15,7 @@ class CreateMaterialsTable extends Migration
     public function up()
     {
         Schema::create('materials', function (Blueprint $table) {
-            $table->string('id')->primary()->comment('原物料編號');
+            $table->id()->comment('原物料編號');
             $table->unsignedBigInteger('supplier_id')->comment('供應商編號');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->string('name')->comment('名稱');
