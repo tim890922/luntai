@@ -18,6 +18,7 @@ class CreateWorkstationsTable extends Migration
             $table->id()->comment('工作站編號');
             $table->string('workstation_name')->comment('工作站名稱');
             $table->string('procedure')->comment('工序');
+            $table->string('status')->comment('狀態')->default('正常');
             $table->softDeletes();
             $table->timestamps();
 

@@ -93,13 +93,15 @@ class MachineProductController extends Controller
     public function create()
     {
         $machines = Machine::all();
-        $text = [];
-        $value = [];
+        $lists=[];
         foreach ($machines as $machine) {
-            $text[] = $machine->tonnes;
-            $value[] = $machine->id;
+            $temp=[
+                'value'=>$machine->id,
+                'text'=>$machine->id
+            ];  
+            $lists[]=$temp;
         }
-        // dd($text,$value);
+        //  dd($lists);
         $view = [
             'action' => '/admin/machineProduct',
             'body' => [
@@ -112,10 +114,7 @@ class MachineProductController extends Controller
                 [
                     'lable' => '機台編號',
                     'tag' => 'select',
-                    'option' => [
-                        'value' => $value,
-                        'text' => $text
-                    ],
+                    'lists' => $lists,
                     'name' => 'machine_id'
                 ],
                 [

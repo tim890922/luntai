@@ -15,7 +15,7 @@ class CreateStoragesTable extends Migration
     public function up()
     {
         Schema::create('storages', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->string('id')->primary()->comment('儲位');
             $table->integer('capacity')->comment('容量');
             $table->softDeletes();
             $table->timestamps();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Process;
 use App\Models\Product;
 use App\Models\MachineProduct;
+use App\Models\Workstation;
 use Illuminate\Http\Request;
 
 class ProcessController extends Controller
@@ -72,7 +73,7 @@ class ProcessController extends Controller
      */
     public function create()
     {
-        
+
 
         return view();
     }
@@ -83,9 +84,25 @@ class ProcessController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        $p = new Process;
+        $p_queues = Process::where('product_id', $req->product_id)->get();
+        $count = 0;
+        foreach ($p_queues as $q) {
+            $count++;
+        }
+        $content = $req->validate(
+            [
+                'product_id' => 'required',
+                'procedure' => 'required',
+            ]
+        );
+        $content['queue'] = $count + 1;
+        // dd($content);
+        $p->create($content);
+
+        return back()->with('notice', '新增成功');
     }
 
     /**
@@ -94,74 +111,14 @@ class ProcessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     $product = Product::find($id);
-    //     $machineProducts = MachineProduct::where('product_id', $id)->get();
-
-    //     $queues = [];
-    //     $arr = [];
-    //     foreach ($product->processes as $p) {
-    //         $count = 0;//每個製程有幾個機台
-    //         foreach ($machineProducts as $mp) {
-    //             if ($p->procedure == $mp->workstation->procedure) {
-    //                 $count++;
-    //             } else
-    //                 continue;
-    //         }
-    //         for($i=0;$i<$count;$i++)
-    //         {
-
-    //         }
-    //         $temp = [
-    //             [
-    //                 'queues' => $p->queue,
-    //             ]
-    //         ];
-
-    //         $arr[] = $p->queue;
-
-    //         $queues[] = $temp;
-    //     }
-    //     $mps = []; //排機的資料陣列
-    //     foreach ($machineProducts as $mp) {
-    //         $i = 0;
-
-    //         $temp = [
-    //             [
-    //                 'queue' => '',
-    //                 'workstationId' => $mp->workstation_id,
-    //                 'name' => $mp->workstation->workstation_name,
-    //                 'ct' => $mp->cycle_time,
-    //                 'morningEmployee' => $mp->morning_employee,
-    //                 'nightEmployee' => $mp->night_employee,
-    //                 'nonPerforming' => $mp->non_performing_rate,
-    //             ]
-    //         ];
-    //         $mps[] = $temp;
-    //     }
-
-    //     $contents = [
-    //         'queue' => $arr,
-    //         'mps' => $mps
-    //     ]; //內容
-    //     dd($contents);
-    //     $view = [
-    //         'header' => $product->id . '製程',
-    //         'queues' => $queues,
-    //         'contents' => $contents,
-    //         'processes' => $product->processes,
-    //         'contents' => $contents
-    //     ];
-    //     return view('backend.process.show', $view);
-    // }
-
-
     public function show($id)
     {
         $product = Product::find($id);
         $machineProducts = MachineProduct::where('product_id', $id)->get();
-        $contents = [];
+        $contents = []; //每個製程裡面的內容
+        $button = []; //每個產品的製程按鈕
+        $delete = []; //每個製程的刪除按
+        $workstationList = []; //新增工作站的按鈕選單
         for ($i = 0; $i < count($product->processes); $i++) {
             $init = [];
             foreach ($machineProducts as $mp) {
@@ -176,23 +133,130 @@ class ProcessController extends Controller
                         'non_performing_rate' => $mp->non_performing_rate
                     ];
                     $init[] = $temp;
-                } 
+                } else
+                    continue;
             }
             $contents[] = $init;
+            $workstations = Workstation::where('procedure', $product->processes[$i]->procedure)->get();
+            $temp = [];
+            foreach ($workstations as $workstation) {
+                $temp[] = [
+                    'text' => $workstation->workstation_name,
+                    'value' => $workstation->id
+                ];
+
+
+                $workstationList[$i] = $temp;
+                $workstation_body [$i]= [
+                    'header' => '新增工作站',
+                    'action' => '/admin/machintProduct',
+                    'id' => 'insert-workstation'.$i,
+                    'btn' => 'insert-p'.$i,
+                    'body' => [
+                        [
+                            'lable' => '料號',
+                            'tag' => 'input',
+                            'type' => 'text',
+                            'name' => 'product_id',
+                            'value' => $id
+                        ],
+                        [
+                            'lable' => '工作站',
+                            'tag' => 'select',
+                            'type' => '',
+                            'name' => 'id',
+                            'lists' => $workstationList[$i],
+                        ]
+                    ]
+                ];
+            }
         }
-        $button=[];
-        foreach($product->processes as $p)
-        {
-            $temp=$p->procedure;
-            $button[]=$temp;
+        // dd($contents, $workstationList);
+        // dd($workstation_body);
+
+
+
+        foreach ($product->processes as $p) {
+            $temp = $p->procedure;
+            $button[] = $temp;
         }
+        foreach ($product->processes as $p) {
+            $temp = [
+
+                'tag' => 'button',
+                'type' => 'submit',
+                'class' => 'px-1 mr-3 bg-red-300 rounded hover:bg-red-500',
+                'text' => '刪除此製程',
+                'alertname' => $p->procedure,
+                'action' => 'delete',
+                'id' => $p->id
+
+            ];
+            $delete[] = $temp;
+        }
+        $delete['method'] = 'delete';
+        // dd($delete);
         // dd($contents);
-        $view=[
-            'contents'=>$contents,
+        $workstations = Workstation::all();
+        $lists = [
+            [
+                'value' => $workstations[0]->procedure,
+                'text' => $workstations[0]->procedure
+            ]
+        ];
+        $count = 0;
+        foreach ($workstations as $workstation) {
+
+            if (!in_array($workstation->procedure, $lists[$count])) {
+
+                $temp =
+                    [
+                        'value' => $workstation->procedure,
+                        'text' => $workstation->procedure
+                    ];
+                $lists[] = $temp;
+                $count++;
+            }
+        }
+
+        // dd($lists);
+
+
+        $process_body = [
+            'header' => '新增製程',
+            'action' => '/admin/process',
+            'id' => 'insert-process',
+            'btn' => 'insert-p',
+            'body' => [
+                [
+                    'lable' => '料號',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'product_id',
+                    'value' => $id
+                ],
+                [
+                    'lable' => '製程',
+                    'tag' => 'select',
+                    'type' => '',
+                    'name' => 'procedure',
+                    'lists' => $lists
+                ]
+            ]
+        ];
+
+
+
+
+       
+        // dd($contents);
+        $view = [
+            'contents' => $contents,
             'header' => $product->id . '製程',
-            'button'=>$button,
-            'process_href'=>'/admin/process/create/' . $product->id,
-            'workstation-href=>'
+            'button' => $button,
+            'process' => $process_body,
+            'delete' => $delete,
+            'workstation' => $workstation_body,
         ];
         return view('backend.process.show', $view);
     }
@@ -228,5 +292,9 @@ class ProcessController extends Controller
     public function destroy($id)
     {
         //
+        $p_id = Process::find($id)->product_id;
+        Process::destroy($id);
+
+        return redirect('admin/process/show/' . $p_id)->with('notice', '刪除成功');
     }
 }

@@ -24,8 +24,8 @@ class CreateMachineProductsTable extends Migration
            
             $table->foreign('workstation_id')->references('id')->on('workstations')->onDelete('cascade');
 
-            $table->integer('priority')->comment('優先順序');
-            $table->integer('cycle_time')->comment('C/Ts');
+            $table->integer('priority')->comment('優先順序')->nullable();
+            $table->integer('cycle_time')->comment('C/Ts')->nullable();
             $table->integer('morning_employee')->comment('日班人數');
             $table->integer('night_employee')->comment('夜班人數');
             $table->integer('cavity')->comment('穴數')->nullable();

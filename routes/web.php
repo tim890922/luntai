@@ -60,18 +60,19 @@ Route::prefix('admin')->group(function () {
     Route::post('/client', [ClientController::class, 'store']);
     Route::post('/material', [MaterialController::class, 'store']);
     Route::post('/supplier', [SupplierController::class, 'store']);
+    Route::post('/process', [ProcessController::class, 'store']);
     
 
     //edit
-    Route::get('/product/edit/{id}', [ProductController::class, 'edit']); //tim
-    Route::get('/order/edit/{id}', [OrderController::class, 'edit']); //yun
-    Route::get('/machine/edit/{id}', [MachineController::class, 'edit']); //yun
-    Route::get('/employee/edit/{id}', [EmployeeController::class, 'edit']); //xin
-    Route::get('/material/edit/{id}', [MaterialController::class, 'edit']); //xin
-    Route::get('/machineProduct/edit/{id}', [MachineProductController::class, 'edit']); //tim
-    Route::get('/supplier/edit/{id}', [SupplierController::class, 'edit']); //julie
-    Route::get('/client/edit/{id}', [ClientController::class, 'edit']); //julie
-    Route::get('/workstation/edit/{id}', [WorkstationController::class, 'edit']); //julie
+    Route::get('/product/edit/{id}', [ProductController::class, 'edit']); 
+    Route::get('/order/edit/{id}', [OrderController::class, 'edit']); 
+    Route::get('/machine/edit/{id}', [MachineController::class, 'edit']); 
+    Route::get('/employee/edit/{id}', [EmployeeController::class, 'edit']); 
+    Route::get('/material/edit/{id}', [MaterialController::class, 'edit']); 
+    Route::get('/machineProduct/edit/{id}', [MachineProductController::class, 'edit']); 
+    Route::get('/supplier/edit/{id}', [SupplierController::class, 'edit']); 
+    Route::get('/client/edit/{id}', [ClientController::class, 'edit']); 
+    Route::get('/workstation/edit/{id}', [WorkstationController::class, 'edit']); 
 
     //update
     Route::put('/product', [ProductController::class, 'update']);
@@ -107,6 +108,7 @@ Route::prefix('admin')->group(function () {
     Route::delete('/machineProduct/{id}', [MachineProductController::class, 'destroy']);
     Route::delete('/order/{id}', [OrderController::class, 'destroy']);
     Route::delete('/workstation/{id}', [WorkstationController::class, 'destroy']);
+    Route::delete('/process/{id}', [ProcessController::class, 'destroy'])->name('processDelete');
 
     //import
     Route::post('/orderImport', [OrderController::class, 'import']);

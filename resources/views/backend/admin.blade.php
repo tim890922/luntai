@@ -61,27 +61,26 @@
     <script>
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
         });
 
         $(".delete").on("click", function() {
-            let alertname = $(this).data('alertname');
+            let alertname = $(this).data("alertname");
 
-            let ans = confirm('確認刪除「' + alertname + "」嗎?");
+            let ans = confirm("確認刪除「" + alertname + "」嗎?");
 
             if (ans) {
-                let id = $(this).data('id')
-                let _this = $(this)
+                let id = $(this).data("id");
+                let _this = $(this);
                 $.ajax({
-                    type: 'delete',
+                    type: "delete",
                     url: `/admin/{{ $module }}/${id}`,
                     success: function() {
-                        _this.parents('tr').remove()
-                    }
-
-                })
+                        _this.parents("tr").remove();
+                    },
+                });
             }
-        })
+        });
     </script>
 @endsection
