@@ -21,7 +21,7 @@ class CreateDefectiveReportsTable extends Migration
             $table->unsignedBigInteger('report_id')->comment('進度回報編號');
             $table->foreign('report_id')->references('id')->on('reports')->onDelete('cascade');
             $table->integer('quantity')->comment('數量');
-            $table->string('detail')->comment('詳細說明');
+            $table->string('detail')->comment('詳細說明')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

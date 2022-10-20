@@ -36,7 +36,7 @@ class MachineProductSeeder extends Seeder
 
         $mp3 = new MachineProduct; 
         $mp3->product_id = 'BKEF834V000080';
-        $mp3->workstation_id= '1';
+        $mp3->workstation_id= '2';
         $mp3->priority = '1';
         $mp3->cycle_time = '50';
         $mp3->morning_employee = '1';

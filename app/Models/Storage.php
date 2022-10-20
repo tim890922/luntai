@@ -15,4 +15,7 @@ class Storage extends Model
     public function products(){
         return $this->belongsToMany(Product::class);
     }
+    public function product_storage(){
+        return $this->hasMany(ProductStroage::class);
+    }
 }

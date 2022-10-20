@@ -19,8 +19,8 @@ class ProductStorageSeeder extends Seeder
         $ps1->storage_id = 'A201';
         $ps1->quantity = '240';
         $ps1->basket_number = '5';
-        // $ps1->change_status = '入庫';
-        $ps1->time = '8:00';
+        $ps1->change_status = '入庫';
+        //  $ps1->time = '8:00';
         $ps1->responsible = '小鄭';
 
         $ps2 = new ProductStorage;
@@ -29,7 +29,7 @@ class ProductStorageSeeder extends Seeder
         $ps2->quantity = '288';
         $ps2->basket_number = '6';
         $ps2->change_status = '入庫';
-        $ps2->time = '9:00';
+        //$ps2->time = '9:00';
         $ps2->responsible = '小陳';
 
         $ps3 = new ProductStorage;
@@ -38,7 +38,7 @@ class ProductStorageSeeder extends Seeder
         $ps3->quantity = '336';
         $ps3->basket_number = '7';
         $ps3->change_status = '出庫';
-        $ps3->time = '19:00';
+        // $ps3->time = '19:00';
         $ps3->responsible = '小曾';
 
         $ps = [$ps1, $ps2, $ps3];

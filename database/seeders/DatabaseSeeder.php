@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
             MaterialProductSeeder::class,
             ProductStorageSeeder::class,
             DefectiveReportSeeder::class,
-            ProcessSeeder::class
+            ProcessSeeder::class,
+            MaterialChangeSeeder::class
         ]);
     }
 }

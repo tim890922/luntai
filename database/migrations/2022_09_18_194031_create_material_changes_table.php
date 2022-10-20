@@ -17,8 +17,9 @@ class CreateMaterialChangesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('material_id')->comment('原物料編號');
             $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
-            $table->enum('change_status',['入庫','出庫'])->comment('異動狀態');
             $table->integer('quantity')->comment('數量');
+            $table->string('unit')->comment('單位');
+            $table->enum('change_status',['入庫','出庫'])->comment('異動狀態');
             $table->softDeletes();
             $table->timestamps();
         });

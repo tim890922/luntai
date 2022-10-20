@@ -23,7 +23,6 @@ class CreateProductStoragesTable extends Migration
             $table->integer('quantity')->comment('數量');
             $table->integer('basket_number')->comment('籃子數');
             $table->enum('change_status',['入庫','出庫'])->comment('異動狀態');
-            $table->time('time')->comment('時間');
             $table->string('responsible')->comment('負責人');
             $table->softDeletes();
             $table->timestamps();

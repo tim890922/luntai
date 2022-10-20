@@ -11,7 +11,7 @@ class MaterialChange extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
-        'id','material_id','change_status','quantity'
+        'id','material_id','quantity','unit','change_status'
     ];
 
     public function material(){

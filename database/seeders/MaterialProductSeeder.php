@@ -176,8 +176,19 @@ class MaterialProductSeeder extends Seeder
        $m27->quantity='2';
        $m27->unit='個';
 
+       $m28 = new MaterialProduct;
+       $m28->product_id='B8R-F471N-00';
+       $m28->next='R010110-0042500';
+       $m28->quantity='2';
+       $m28->unit='個';
 
-       $M = [$m1,$m2,$m3,$m4,$m5,$m6,$m7,$m8,$m9,$m10,$m11,$m12,$m13,$m14,$m15,$m16,$m17,$m18,$m19,$m20,$m21,$m22,$m23,$m24,$m25,$m26,$m27];
+       $m29 = new MaterialProduct;
+       $m29->product_id='R010110-0042500';
+       $m29->next='R0sdf312310110-0042500';
+       $m29->quantity='2';
+       $m29->unit='個';
+
+       $M = [$m1,$m2,$m3,$m4,$m5,$m6,$m7,$m8,$m9,$m10,$m11,$m12,$m13,$m14,$m15,$m16,$m17,$m18,$m19,$m20,$m21,$m22,$m23,$m24,$m25,$m26,$m27,$m28,$m29];
        foreach($M as $m){
         $m->save();
        }

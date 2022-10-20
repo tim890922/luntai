@@ -97,8 +97,15 @@
                 生產管理
             </p>
             <ul class="hidden pl-5 text-xl font-thin">
-                <li>生產排程</li>
-                <li>進度回報</li>
+                <li>
+                    <a href="/admin/schedule" class="block hover:text-blue-600">生產排程</a>
+                </li>
+                <li>
+                    <a href="/admin/reportList">進度回報清單</a>
+                </li>
+                <li>
+                    <a href="/admin/report" class="block hover:text-blue-600">員工進度回報</a> 
+                </li>
                 <li>不良品管理</li>
             </ul>
 
@@ -109,16 +116,24 @@
             <ul class="hidden pl-5 text-xl font-thin">
                 <li>成品
                     <ul class="pl-5">
-                        <li>異動狀況</li>
+                        <li>
+                            <a href="/admin/productStorage" class="block hover:text-blue-600">
+                                異動狀況
+                            </a>
+                        </li>
                     </ul>
                 </li>
-                
+
                 <li>原物料
                     <ul class="pl-5">
-                        <li>異動狀況</li>
+                        <li>
+                            <a href="/admin/materialChange" class="block hover:text-blue-600">      
+                                異動狀況
+                            <a>
+                        </li>
                     </ul>
                 </li>
-                
+
                 <li><a href="/admin/client" class="block hover:text-blue-600">料號檢核</a></li>
             </ul>
 
