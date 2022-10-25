@@ -15,7 +15,7 @@ class ProductStorageController extends Controller
     public function index()
     {
         $productstorages = ProductStorage::all();
-        $col = ['料號', '儲位編號', '數量', '籃子數', '異動狀態', '時間', '負責人','刪除','編輯'];
+        $col = ['料號', '儲位編號', '數量', '籃子數', '異動狀態', '時間', '負責人', '刪除', '編輯'];
 
         $row = [];
 
@@ -75,7 +75,7 @@ class ProductStorageController extends Controller
 
         // dd($list);
         $view = [
-            'col' => $col, 'header' => '成品倉儲管理', 'title' => '成品異動狀態 ', 'row' => $row, 'action' => 'productStorage/create', 'method' => 'GET', 'href' => 'productStorage/create',
+            'col' => $col, 'header' => '成品倉儲管理', 'row' => $row,  'method' => 'GET', 'href' => 'productStorage/create',
             'module' => 'productStorage'
         ];
 
@@ -89,9 +89,9 @@ class ProductStorageController extends Controller
      *轉到新增畫面
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($i)
     {
-        $productstorages=ProductStorage::all();
+        $productstorages = ProductStorage::all();
         $status = [
             [
                 'value' => '出庫',
@@ -104,7 +104,9 @@ class ProductStorageController extends Controller
 
         ];
         $view = [
+            'header'=>($i==0)?'成品出庫' :'成品入庫' ,
             'action' => '/admin/productStorage',
+            'redirect'=>($i==0)?'/admin/productStorage/1' :'/admin/productStorage/0',
             'body' => [
                 [
                     'lable' => '料號',
@@ -133,23 +135,22 @@ class ProductStorageController extends Controller
                     'name' => 'basket_number'
                 ],
                 [
-                    'lable' => '異動狀態',
-                    'tag' => 'select',
-                    'name'=>'change_status',
-                    'type' => '',
-                    'lists' => $status
-                ],
-                [
                     'lable' => '負責人',
                     'tag' => 'input',
                     'type' => 'text',
-                    'name'=>'responsible',
-                    
-                    
-                ]
+                    'name' => 'responsible',
+                ],
+                [
+                    'lable' => '',
+                    'tag' => 'input',
+                    'name' => 'change_status',
+                    'type' => 'hidden',
+                    'value' => $status[$i]['value']
+                ],
             ]
 
         ];
+        
         return view('backend.create', $view);
     }
 
@@ -166,7 +167,7 @@ class ProductStorageController extends Controller
         $content = $req->validate(
             [
                 'product_id' => 'required',
-                'storage_id' => 'required', 
+                'storage_id' => 'required',
                 'quantity' => 'required',
                 'basket_number' => 'required',
                 'change_status' => 'required',
@@ -175,8 +176,9 @@ class ProductStorageController extends Controller
         );
 
         $p->create($content);
-
-        return redirect('admin/productStorage')->with('notice', '新增成功');
+        $notice=($req->change_status=='出庫')?'出庫成功':'入庫成功';
+        
+        return back()->with('notice', $notice);
     }
 
     /**

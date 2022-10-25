@@ -19,9 +19,12 @@
     <div class="w-auto h-auto px-3 py-3 mt-3 border border-gray-400">
 
         <div class="flex items-center justify-left">
-            <a href=" @isset($href) {{ $href }}" @endisset type="submit"
-                class="px-3 my-5 bg-green-400 border rounded hover:bg-green-600" id="insert">新增{{ $title }}
-            </a>
+            @isset($title)
+                <a href=" @isset($href) {{ $href }}" @endisset type="submit"
+                    class="px-3 my-5 bg-green-400 border rounded hover:bg-green-600" id="insert">新增{{ $title }}
+                </a>
+            @endisset
+
             @csrf
             @isset($import)
                 <form action="/admin/{{ $import['action'] }}" method="POST" enctype="multipart/form-data"
@@ -82,5 +85,38 @@
                 });
             }
         });
+
+        $(".check").on("click", function() {
+            let id = $(this).data('id')
+            let _this = $(this)
+            $.ajax({
+                type: 'patch',
+                url: `/admin/{{($module) }}/ch/${id}`,
+                @if ($module == 'Title')
+                    success: function(img) {
+                        if (_this.text() == "確認") {
+                            $(".show").each((idx, dom) => {
+                                if ($(dom).text() == '未確認') {
+                                    $(dom).text("確認")
+                                    return false;
+                                }
+                            })
+                            _this.text('未確認')
+                        } else {
+                            $(".check").text("未確認")
+                            _this.text('確認')
+                        }
+                    }
+                @else
+                    success: function() {
+                        if (_this.text() == "確認") {
+                            _this.text('未確認')
+                        } else {
+                            _this.text('確認')
+                        }
+                    }
+                @endif
+            })
+        })
     </script>
 @endsection

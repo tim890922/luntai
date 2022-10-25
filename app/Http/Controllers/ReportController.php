@@ -72,10 +72,10 @@ class ReportController extends Controller
                 [
                     'tag' => 'button',
                     'type' => 'button',
-                    'class' => ($p->record==0)?'px-1 bg-red-300 rounded hover:bg-red-500':'px-1 bg-blue-500 rounded hover:bg-blue-700',
+                    'class' => ($p->record==0)?'px-1 bg-red-300 check rounded hover:bg-red-500':'px-1 bg-blue-500 check rounded hover:bg-blue-700',
                     'text' =>($p->record==0)?'未確認':'確認',
-                    'alertname' => $p->id,
-                    'action' => 'delete',
+                    'alertname' =>'',
+                    'action' => 'edit',
                     'id' => $p->id
                 ],
                 [

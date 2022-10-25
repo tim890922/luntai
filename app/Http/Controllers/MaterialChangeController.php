@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Material;
 use Illuminate\Http\Request;
 use App\Models\MaterialChange;
 
@@ -67,7 +68,7 @@ class MaterialChangeController extends Controller
 
         // dd($list);
         $view = [
-            'col' => $col, 'header' => '原物料倉儲管理', 'title' => '原物料異動狀態 ', 'row' => $row, 'action' => 'materialChange/create', 'method' => 'GET', 'href' => 'materialChange/create',
+            'col' => $col, 'header' => '原物料倉儲管理', 'row' => $row, 'method' => 'GET', 
             'module' => 'materialChange'
         ];
 
@@ -81,9 +82,9 @@ class MaterialChangeController extends Controller
      *轉到新增畫面
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($i)
     {
-        $materialchanges=materialChange::all();
+        $materialchanges= MaterialChange::all();
         $status = [
             [
                 'value' => '出庫',
@@ -96,10 +97,11 @@ class MaterialChangeController extends Controller
 
         ];
         $view = [
+            'header'=>($i==0)?'原物料出庫' :'原物料入庫' ,
             'action' => '/admin/materialChange',
             'body' => [
                 [
-                    'lable' => '原物料號',
+                    'lable' => '原物料編號',
                     'tag' => 'input',
                     'type' => 'text',
                     'name' => 'material_id'
@@ -118,11 +120,11 @@ class MaterialChangeController extends Controller
                     'name' => 'unit'
                 ],
                 [
-                    'lable' => '異動狀態',
-                    'tag' => 'select',
-                    'name'=>'change_status',
-                    'type' => '',
-                    'lists' => $status
+                    'lable' => '',
+                    'tag' => 'input',
+                    'name' => 'change_status',
+                    'type' => 'hidden',
+                    'value' => $status[$i]['value']
                 ]
             ]
 
@@ -150,8 +152,8 @@ class MaterialChangeController extends Controller
         );
 
         $m->create($content);
-
-        return redirect('admin/materialChange')->with('notice', '新增成功');
+        $notice=($req->change_status=='出庫')?'出庫成功':'入庫成功';
+        return back()->with('notice', $notice);
     }
 
     /**
@@ -200,7 +202,7 @@ class MaterialChangeController extends Controller
                     'value' => $id
                 ],
                 [
-                    'lable' => '原物料號',
+                    'lable' => '原物料名稱',
                     'tag' => 'input',
                     'type' => 'text',
                     'name' => 'material_id',

@@ -55,11 +55,14 @@ Route::prefix('admin')->group(function () {
     Route::get('/process', [ProcessController::class, 'index']);
     Route::get('/report', [ReportController::class, 'index']);
     Route::get('/materialChange', [MaterialChangeController::class, 'index']);
+    Route::get('/productInOut',function(){ return view('backend.productStorage.index');} );
+    Route::get('/materialInOut',function(){ return view('backend.materialChange.index');} );
 
 
     //SHOW
     Route::get('/process/show/{id}', [ProcessController::class, 'show']);
     Route::get('/materialProduct/show/{id}', [MaterialProductController::class, 'show']);
+    
     //POST
     Route::post('/product', [ProductController::class, 'store']);
     Route::post('/machine', [MachineController::class, 'store']);
@@ -113,7 +116,9 @@ Route::prefix('admin')->group(function () {
     Route::get("/workstation/create", [WorkstationController::class, 'create']);
     Route::get('/process/create/{id}', [ProcessController::class, 'create']);
     Route::get('/productStorage/create', [ProductStorageController::class, 'create']);
-    Route::get('/materialChange/create', [MaterialChangeController::class, 'create']);
+    Route::get('/materialChange/{i}', [MaterialChangeController::class, 'create']);
+    Route::get('/productStorage/{i}', [ProductStorageController::class, 'create']);
+   
 
 
     //delete

@@ -46,7 +46,7 @@
         <ul class="cursor-pointer ">
 
             <p class="my-2 text-xl font-bold border-b-2 border-gray-500 accordion">
-                員工管理(crud皆完成)</p>
+                員工管理</p>
             <ul class="hidden pl-5 text-xl font-thin">
                 <li>
                     <a href="/admin/employee" class="block hover:text-blue-600">員工資料</a>
@@ -62,12 +62,12 @@
                 </li>
                 <li>
                     <a href="/admin/materialProduct" class="block hover:text-blue-600">
-                        物料資料(呈現畫面)
+                        物料資料
                     </a>
                 </li>
                 <li>
                     <a href="/admin/process" class="block hover:text-blue-600">
-                        製程資料(新增修改刪除)
+                        製程資料
                     </a>
                 </li>
                 <li>
@@ -101,7 +101,7 @@
                     <a href="/admin/schedule" class="block hover:text-blue-600">生產排程</a>
                 </li>
                 <li>
-                    <a href="/admin/reportList">進度回報清單</a>
+                    <a href="/admin/reportList" class="block hover:text-blue-600">進度回報清單</a>
                 </li>
                 <li>
                     <a href="/admin/report" class="block hover:text-blue-600">員工進度回報</a> 
@@ -117,8 +117,13 @@
                 <li>成品
                     <ul class="pl-5">
                         <li>
+                            <a href="/admin/productInOut" class="block hover:text-blue-600">
+                                出庫&入庫
+                            </a>
+                        </li>
+                        <li>
                             <a href="/admin/productStorage" class="block hover:text-blue-600">
-                                異動狀況
+                                異動狀態清單
                             </a>
                         </li>
                     </ul>
@@ -127,8 +132,13 @@
                 <li>原物料
                     <ul class="pl-5">
                         <li>
+                            <a href="/admin/materialInOut" class="block hover:text-blue-600">
+                                出庫&入庫
+                            </a>
+                        </li>
+                        <li>
                             <a href="/admin/materialChange" class="block hover:text-blue-600">      
-                                異動狀況
+                                異動狀態清單
                             <a>
                         </li>
                     </ul>

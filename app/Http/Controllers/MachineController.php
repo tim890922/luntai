@@ -38,7 +38,7 @@ class MachineController extends Controller
                     'tag' => 'href',
                     'type' => 'button',
                     'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
-                    'text' => '編輯',
+                    'text' => '【編輯',
                     'action' => 'edit',
                     'id' => $m->id,
                     'href' => 'machine/edit/' . $m->id

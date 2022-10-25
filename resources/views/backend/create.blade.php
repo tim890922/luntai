@@ -15,8 +15,24 @@
         </ul>
     @endif --}}
 
-    <div class="w-auto bg-gray-400">
-        <div class="p-4 ">
+
+
+    @isset($header)
+        <div class="mx-auto ">
+            <h1
+                class="flex items-center justify-center w-full h-full text-4xl font-bold bg-green-300 border-b-8 border-l-4 border-green-600 rounded-lg">
+                {{ $header }}</h1>
+        </div>
+    @endisset
+
+    @if (session()->has('notice'))
+        <div class="px-3 mt-3 text-xl bg-blue-400 rounded alert alert-success">
+            {{ session('notice') }}
+        </div>
+    @endif
+
+    <div class="-auto h-auto px-3 py-3 mt-3 border border-gray-400 bg-gray-400 rounded">
+        <div class="p-10 ">
             <form action="{{ $action }}" method="POST">
                 @csrf
                 @isset($method)
@@ -39,9 +55,11 @@
                                         @break
 
                                         @case('select')
-                                        @include('component.select', ['lists' =>$row['lists'], 'name' => $row['name']])
+                                            @include('component.select', [
+                                                'lists' => $row['lists'],
+                                                'name' => $row['name'],
+                                            ])
                                         @break
-
                                     @endswitch
 
                                 </td>
@@ -50,11 +68,23 @@
                     @endisset
 
                 </table>
-                <div class="flex w-1/2 mx-auto my-3 center">
+                <div class="flex w-1/2 mx-auto my-3 center pl-20    ">
                     <Button type="submit" class="px-3 m-auto bg-gray-300 rounded hover:bg-gray-500">送出</Button>
                     <button type="reset" class="px-3 m-auto bg-red-300 rounded hover:bg-red-500">重置</button>
                 </div>
             </form>
+
+            @isset($redirect)
+                <div class="float float-right">
+                    <a href="{{ $redirect }}" class=" m-auto bg-blue-300 rounded hover:bg-blue-500 text-2xl px-5">
+                        @if ($header == '成品出庫')
+                            入庫
+                        @else
+                            出庫
+                        @endif
+                    </a>
+                </div>
+            @endisset
         </div>
     </div>
 @endsection
