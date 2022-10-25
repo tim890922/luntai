@@ -77,14 +77,15 @@
             @isset($redirect)
                 <div class="float float-right">
                     <a href="{{ $redirect }}" class=" m-auto bg-blue-300 rounded hover:bg-blue-500 text-2xl px-5">
-                        @if ($header == '成品出庫')
-                            入庫
+                        @if ($redirect[-1] == 1)
+                            切至入庫
                         @else
-                            出庫
+                            切至出庫
                         @endif
                     </a>
                 </div>
             @endisset
+        
         </div>
     </div>
 @endsection

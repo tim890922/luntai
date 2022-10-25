@@ -117,8 +117,13 @@
                 <li>成品
                     <ul class="pl-5">
                         <li>
-                            <a href="/admin/productInOut" class="block hover:text-blue-600">
-                                出庫&入庫
+                            <a href="/admin/productStorage/0" class="block hover:text-blue-600">
+                                出庫
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/productStorage/1" class="block hover:text-blue-600">
+                                入庫
                             </a>
                         </li>
                         <li>
@@ -132,8 +137,13 @@
                 <li>原物料
                     <ul class="pl-5">
                         <li>
-                            <a href="/admin/materialInOut" class="block hover:text-blue-600">
-                                出庫&入庫
+                            <a href="/admin/materialChange/0" class="block hover:text-blue-600">
+                                出庫
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/materialChange/1" class="block hover:text-blue-600">
+                                入庫
                             </a>
                         </li>
                         <li>

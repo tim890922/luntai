@@ -99,6 +99,7 @@ class MaterialChangeController extends Controller
         $view = [
             'header'=>($i==0)?'原物料出庫' :'原物料入庫' ,
             'action' => '/admin/materialChange',
+            'redirect'=>($i==0)?'/admin/materialChange/1' :'/admin/materialChange/0',
             'body' => [
                 [
                     'lable' => '原物料編號',
@@ -129,6 +130,7 @@ class MaterialChangeController extends Controller
             ]
 
         ];
+        // dd($view['redirect'][-1]);
         return view('backend.create', $view);
     }
 

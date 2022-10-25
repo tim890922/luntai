@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\OrderController;
@@ -19,7 +20,7 @@ use App\Http\Controllers\ReportController;
 use App\Models\Client;
 
 
-Route::redirect('/', 'admin/product');
+Route::view('/','home');
 Route::redirect('/admin', 'admin/product');
 Route::prefix('admin')->group(function () {
 
