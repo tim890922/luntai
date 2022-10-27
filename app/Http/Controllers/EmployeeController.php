@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -173,9 +174,10 @@ class EmployeeController extends Controller
                 'name' => 'required',
                 'position' => 'required',
                 'account' => 'required',
-                'pass_word' => 'required'
+                'pass_word' =>'required'
             ]
         );
+        $content['pass_word']=Hash::make($content['pass_word']);
         $employee->create($content);
 
         return redirect('admin/employee')->with('notice', '新增成功');
@@ -229,7 +231,7 @@ class EmployeeController extends Controller
                 [
                     'lable' => '密碼',
                     'tag' => 'input',
-                    'type' => 'text',
+                    'type' => 'password',
                     'name' => 'pass_word',
                     'value'=>$employee->pass_word
                 ],

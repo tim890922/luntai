@@ -66,8 +66,11 @@
     <div class="w-auto h-auto px-3 py-3 mt-3 border border-gray-400">
         <div class="container">
             <form action="action_page.php">
+                
+                <label for="mname">機台編號</label>
+                <input type="text" id="mname" name="workstation_id" placeholder="機台編號">
 
-                <label for="fname">料號</label>
+                <label for="product">料號</label>
                 <input type="text" id="fname" name="product_id" placeholder="產品料號">
 
                 <label for="lname">員工編號</label>
@@ -77,9 +80,12 @@
                 <input type="text" id="lname" name="shift" placeholder="班別">
 
                 <label for="subject">生產時段</label>
-                <input type="time" id="lname" name="time_start" placeholder="生產時段">
-                到
-                <input type="time" id="lname" name="time_end" placeholder="">
+                <div class="block my-4" style=" ">
+                    <input type="time" id="lname" name="time_start" placeholder="">
+                    到
+                    <input type="time" id="lname" name="time_end" placeholder="">
+                </div>
+
 
                 <label for="good">良品數</label>
                 <input type="number" step="1" id="lname" name="good_product_quantity" placeholder="良品數">

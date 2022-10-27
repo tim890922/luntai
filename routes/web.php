@@ -17,11 +17,16 @@ use App\Http\Controllers\ProcessController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ProductStorageController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserController;
 use App\Models\Client;
 
 
-Route::view('/','home');
+Route::view('/','home')->middleware('userAuth');
 Route::redirect('/admin', 'admin/product');
+Route::post('login', [UserController::class,'login']);
+Route::get('login', [UserController::class,'showLoginPage']);
+Route::get('logout', [UserController::class,'logout']);
+
 Route::prefix('admin')->group(function () {
 
     //GET

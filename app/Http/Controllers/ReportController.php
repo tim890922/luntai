@@ -111,7 +111,7 @@ class ReportController extends Controller
 
         // dd($list);
         $view = [
-            'col' => $col, 'header' => '生產進度回報清單', 'title' => '生產進度回保', 'row' => $row, 'action' => 'report/create', 'method' => 'GET', 'href' => 'product/create',
+            'col' => $col, 'header' => '生產進度回報清單', 'title' => '生產進度回報', 'row' => $row, 'action' => 'report/create', 'method' => 'GET', 'href' => 'product/create',
             'module' => 'report'
         ];
 

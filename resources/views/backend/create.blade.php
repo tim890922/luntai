@@ -5,8 +5,8 @@
 @section('main')
 
 
-
-    {{-- @if ($errors->any())
+{{-- 
+    @if ($errors->any())
         <ul>
 
             @foreach ($errors->all() as $error)
@@ -31,7 +31,14 @@
         </div>
     @endif
 
-    <div class="-auto h-auto px-3 py-3 mt-3 border border-gray-400 bg-gray-400 rounded">
+    <div class="h-auto px-3 py-3 mt-3 bg-gray-400 border border-gray-400 rounded -auto">
+        
+                <div class="float-left float">
+                    <button class="px-5 m-auto text-xl bg-blue-300 rounded hover:bg-blue-500" onclick="history.back()">
+                        回上一頁
+                    </button>
+                </div>
+
         <div class="p-10 ">
             <form action="{{ $action }}" method="POST">
                 @csrf
@@ -68,15 +75,15 @@
                     @endisset
 
                 </table>
-                <div class="flex w-1/2 mx-auto my-3 center pl-20    ">
+                <div class="flex w-1/2 pl-20 mx-auto my-3 center ">
                     <Button type="submit" class="px-3 m-auto bg-gray-300 rounded hover:bg-gray-500">送出</Button>
                     <button type="reset" class="px-3 m-auto bg-red-300 rounded hover:bg-red-500">重置</button>
                 </div>
             </form>
 
             @isset($redirect)
-                <div class="float float-right">
-                    <a href="{{ $redirect }}" class=" m-auto bg-blue-300 rounded hover:bg-blue-500 text-2xl px-5">
+                <div class="float-right float">
+                    <a href="{{ $redirect }}" class="px-5 m-auto text-2xl bg-blue-300 rounded hover:bg-blue-500">
                         @if ($redirect[-1] == 1)
                             切至入庫
                         @else

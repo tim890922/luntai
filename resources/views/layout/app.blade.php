@@ -9,7 +9,7 @@
     <title>綸泰</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/my.css') }}">
-    
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
@@ -21,12 +21,13 @@
 
 <body>
     <header class="mx-auto bg-gray-600 " style="height:100px">
-        <div class="flex mx-5 justify-items-center">
+        <div class="flex mx-5">
             <img src="{{ asset('img/factoryLogo.png') }}" style="height: 100px" class="py-2 ">
             <p class="pt-2 pl-3 text-6xl text-white">
                 工廠管理系統
             </p>
         </div>
+
     </header>
     <main class="flex mx-5">
         {{-- 側邊選單 --}}
@@ -52,10 +53,7 @@
     <script src="{{ asset('js/my.js') }}"></script>
 </body>
 
-<script>
-    
-
-</script>
+<script></script>
 
 </html>
 @yield('script')
