@@ -104,7 +104,7 @@
                     <a href="/admin/reportList" class="block hover:text-blue-600">進度回報清單</a>
                 </li>
                 <li>
-                    <a href="/admin/report" class="block hover:text-blue-600">員工進度回報</a> 
+                    <a href="/admin/report" class="block hover:text-blue-600">員工進度回報</a>
                 </li>
                 <li>不良品管理</li>
             </ul>
@@ -147,9 +147,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/admin/materialChange" class="block hover:text-blue-600">      
+                            <a href="/admin/materialChange" class="block hover:text-blue-600">
                                 異動狀態清單
-                            <a>
+                                <a>
                         </li>
                     </ul>
                 </li>
@@ -163,20 +163,11 @@
             </p>
             <ul class="hidden pl-5 text-xl font-thin">
                 <li>
-                    <a href="/admin/machine" class="block hover:text-blue-600">機台資料</a>
+                    <a href="/admin/workstation" class="block hover:text-blue-600">工作站資料</a>
                 </li>
-                <ul class="pl-5">
-                    <li>
-                        <a href="/admin/machineProduct"class="block hover:text-blue-600">排機</a>
-                    </li>
-                </ul>
-
-                <li>
-                    <a href="/admin/workstation" class="block hover:text-blue-600">熔接站</a>
-                </li>
-                <li>
-                    <a href="/admin/workstation" class="block hover:text-blue-600">組立站</a>
-                </li>
+                <!-- <li>
+                    <a href="/admin/machineProduct"class="block hover:text-blue-600">排機資料</a>
+                </li> -->
             </ul>
             </li>
 

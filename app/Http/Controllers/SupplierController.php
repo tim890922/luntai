@@ -33,7 +33,7 @@ class SupplierController extends Controller
                         'type' => 'button',
                         'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                         'text' => '刪除',
-                        'alertname' => $m->id,
+                        'alertname' => $m->name,
                         'action' => 'delete',
                         'id' => $m->id
                     ],
@@ -116,10 +116,9 @@ class SupplierController extends Controller
             'method' => 'PUT',
             'body' => [
                 [
-                    'lable' => '供應商編號',
+                    'lable' => '',
                     'tag' => 'input',
-                    'type' => 'number',
-                    'step' => '1',
+                    'type' => 'hidden',  
                     'name' => 'id',
                     'value' => $supplier->id
                 ],
@@ -151,8 +150,7 @@ class SupplierController extends Controller
      */
     public function update(Request $req) //儲存編輯資料
     {
-        $p = Supplier::find($req->id);
-        $p->id = $req->id;
+        $p = Supplier::find($req->id); 
         $p->name = $req->name;
         $p->telephone = $req->telephone;
         $p->save();

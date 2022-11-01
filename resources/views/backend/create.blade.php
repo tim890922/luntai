@@ -5,7 +5,7 @@
 @section('main')
 
 
-{{-- 
+    {{-- 
     @if ($errors->any())
         <ul>
 
@@ -31,15 +31,27 @@
         </div>
     @endif
 
-    <div class="h-auto px-3 py-3 mt-3 bg-gray-400 border border-gray-400 rounded -auto">
-        
-                <div class="float-left float">
-                    <button class="px-5 m-auto text-xl bg-blue-300 rounded hover:bg-blue-500" onclick="history.back()">
-                        回上一頁
-                    </button>
-                </div>
+    <div class="h-auto px-3 py-3 mt-3 bg-gray-400 border border-gray-400 rounded-auto">
+
+        <div class="float-left float">
+            <button class="px-5 m-auto text-xl bg-blue-300 rounded hover:bg-blue-500" onclick="history.back()">
+                回上一頁
+            </button>
+        </div>
 
         <div class="p-10 ">
+            @isset($datas)
+                <div>
+                    <table class="mx-auto text-xl">
+                        @foreach ($datas as $data)
+                        <tr>
+                            <td class="text-right">{{$data['lable']}}：</td>
+                            <td>{{$data['text']}}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+            @endisset
             <form action="{{ $action }}" method="POST">
                 @csrf
                 @isset($method)
@@ -92,7 +104,7 @@
                     </a>
                 </div>
             @endisset
-        
+
         </div>
     </div>
 @endsection

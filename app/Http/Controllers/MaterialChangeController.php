@@ -48,7 +48,7 @@ class MaterialChangeController extends Controller
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $m->id,
+                    'alertname' => $m->material->name,
                     'action' => 'delete',
                     'id' => $m->id
                 ],
@@ -68,7 +68,7 @@ class MaterialChangeController extends Controller
 
         // dd($list);
         $view = [
-            'col' => $col, 'header' => '原物料倉儲管理', 'row' => $row, 'method' => 'GET', 
+            'col' => $col, 'header' => '原物料異動狀態清單', 'row' => $row, 'method' => 'GET', 
             'module' => 'materialChange'
         ];
 

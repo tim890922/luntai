@@ -6,4 +6,7 @@ step="{{ $step }}"
 @endisset
 @isset($required)
 required="{{ $required }}"
-@endisset>
+@endisset
+@if ($type=='number')
+  min="0"
+@endif>

@@ -1,10 +1,10 @@
 <div id="{{ $id }}" class="modal">
 
     <!-- Modal content -->
-    <div class="modal-content rounded">
+    <div class="rounded modal-content">
         <div class="modal-header">
             <span class="close">&times;</span>
-            <h2 class=" text-xl">{{ $header }}</h2>
+            <h2 class="text-xl ">{{ $header }}</h2>
         </div>
         <div class="modal-body">
             <form action="{{ $action }}" method="POST">
@@ -42,7 +42,7 @@
                     @endisset
 
                 </table>
-                <div class="flex w-1/2 mx-auto my-3 center mt-10">
+                <div class="flex w-1/2 mx-auto my-3 mt-10 center">
                     <Button type="submit" class="px-3 m-auto bg-gray-300 rounded hover:bg-gray-500">送出</Button>
                     <button type="reset" class="px-3 m-auto bg-red-300 rounded hover:bg-red-500">重置</button>
                 </div>

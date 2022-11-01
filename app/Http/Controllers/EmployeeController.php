@@ -37,7 +37,7 @@ class EmployeeController extends Controller
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $m->id,
+                    'alertname' => $m->name,
                     'action' => 'delete',
                     'id' => $m->id
                 ],

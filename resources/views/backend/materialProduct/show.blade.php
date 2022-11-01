@@ -10,47 +10,79 @@
     </div>
 
 
-    <div class=" w-auto h-auto px-3 py-3 mt-3 border border-gray-400 bg-gray-300 ">
-        <ul class=" m-auto">
-            <p class="my-2 text-xl font-bold accordion">
+    <div class="w-auto h-auto px-3 py-3 mt-3 bg-gray-300 border border-gray-400 ">
+        <ul class="m-auto ">
+            <p class="my-2 text-xl font-bold cursor-pointer accordion">
                 {{ $header }}</p>
-            <ul class=" pl-5 text-xl font-thin block">
-                {{-- for 二階料號 --}}
+            <ul class="block pl-10 text-xl font-thin ">
                 @foreach ($content as $c)
-                    @foreach ($c as $item)
-                        <li>
-                            <div class=" hover:text-blue-600 accordion grid grid-cols-2 gap-1 w-2/3">
-                                <div>
-                                    {{ $item['material'] }}
-                                </div>
-                                <div>
-                                    {{ $item['quantity'].$item['unit'] }}
-                                </div>
+                    <li>
+                        <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
+                            <div class="cursor-pointer ">
+                                {{ $c['material'] }}
                             </div>
-                            {{-- next is set for --}}
-                            <ul class=" pl-5 text-xl font-thin block">
-                                <li>
-                                    <p class="block hover:text-blue-600 accordion">三階</p>
-                                    {{-- next is set for --}}
-                                    <ul class=" pl-5 text-xl font-thin block">
-                                        <li>
-                                            <p class="block hover:text-blue-600 accordion">四階</p>
-                                            {{-- next is set for  --}}
-                                            <ul class=" pl-5 text-xl font-thin block">
-                                                <li>
-                                                    <p class="block hover:text-blue-600 accordion">五階</p>
-                                                </li>
-                                            </ul>
-                                            {{-- end for --}}
-                                        </li>
-                                    </ul>
-                                    {{-- end for --}}
-                                </li>
+                            <div class="cursor-pointer ">
+                                {{ $c['quantity'] . $c['unit'] }}
+                            </div>
+                        </div>
+                        @if ($c['next'] != [])
+                            <ul class="block pl-10 text-xl font-thin ">
+                                @foreach ($c['next'] as $next)
+                                    <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
+                                        <div class="cursor-pointer ">
+                                            {{ $next['material'] }}
+                                        </div>
+                                        <div class="cursor-pointer ">
+                                            {{ $next['quantity'] . $next['unit'] }}
+                                        </div>
+                                    </div>
+                                    @if ($c['next'] != [])
+                                        <ul class="block pl-10 text-xl font-thin ">
+                                            @foreach ($next['next'] as $next)
+                                                <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
+                                                    <div class="cursor-pointer ">
+                                                        {{ $next['material'] }}
+                                                    </div>
+                                                    <div class="cursor-pointer ">
+                                                        {{ $next['quantity'] . $next['unit'] }}
+                                                    </div>
+                                                </div>
+                                                @if ($c['next'] != [])
+                                        <ul class="block pl-10 text-xl font-thin ">
+                                            @foreach ($next['next'] as $next)
+                                                <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
+                                                    <div class="cursor-pointer ">
+                                                        {{ $next['material'] }}
+                                                    </div>
+                                                    <div class="cursor-pointer ">
+                                                        {{ $next['quantity'] . $next['unit'] }}
+                                                    </div>
+                                                </div>
+                                                @if ($c['next'] != [])
+                                        <ul class="block pl-10 text-xl font-thin ">
+                                            @foreach ($next['next'] as $next)
+                                                <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
+                                                    <div class="cursor-pointer ">
+                                                        {{ $next['material'] }}
+                                                    </div>
+                                                    <div class="cursor-pointer ">
+                                                        {{ $next['quantity'] . $next['unit'] }}
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                @endforeach
                             </ul>
-                            {{-- end for --}}
-                        </li>
-                        {{-- end for --}}
-                    @endforeach
+                        @endif
+                    </li>
+                    {{-- @endforeach --}}
                 @endforeach
 
             </ul>

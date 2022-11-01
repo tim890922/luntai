@@ -19,7 +19,7 @@ class ProcessController extends Controller
     {
         $processes = Process::all();
         $products = Product::all();
-        $col = ['料號', '詳情', '刪除', '編輯'];
+        $col = ['料號', '詳情'];
         $row = [];
         foreach ($products as $product) {
             $temp = [
@@ -36,31 +36,32 @@ class ProcessController extends Controller
                     'id' => $product->id,
                     'href' => 'process/show/' . $product->id,
                     'text' => '製程詳情'
-                ], [
-                    'tag' => 'button',
-                    'type' => 'button',
-                    'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
-                    'text' => '刪除',
-                    'alertname' => $product->id,
-                    'action' => 'delete',
-                    'id' => $product->id
-                ],
-                [
-                    'tag' => 'href',
-                    'type' => '',
-                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
-                    'text' => '編輯',
-                    'alertname' => $product->id,
-                    'action' => 'edit',
-                    'id' => $product->id,
-                    'href' => 'product/edit/' . $product->id
-                ]
+                ], 
+                // [
+                //     'tag' => 'button',
+                //     'type' => 'button',
+                //     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
+                //     'text' => '刪除',
+                //     'alertname' => $product->id,
+                //     'action' => 'delete',
+                //     'id' => $product->id
+                // ],
+                // [
+                //     'tag' => 'href',
+                //     'type' => '',
+                //     'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
+                //     'text' => '編輯',
+                //     'alertname' => $product->id,
+                //     'action' => 'edit',
+                //     'id' => $product->id,
+                //     'href' => 'product/edit/' . $product->id
+                // ]
             ];
             $row[] = $temp;
         }
 
         $view = [
-            'col' => $col, 'header' => '製程清單', 'title' => '產品製程', 'row' => $row, 'action' => 'process/create', 'method' => 'GET', 'href' => 'process/create',
+            'col' => $col, 'header' => '製程清單', 'title' => '製程','row' => $row,'action' => 'process/create', 'method' => 'GET','href' => 'process/create',
             'module' => 'process'
         ];
         return view('backend.admin', $view);

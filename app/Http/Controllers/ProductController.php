@@ -138,7 +138,9 @@ class ProductController extends Controller
                 [
                     'lable' => '重量',
                     'tag' => 'input',
-                    'type' => 'text',
+                    'type' => 'number',
+                    'step' => '0.001',
+                    'min'=>'0',
                     'name' => 'weight'
                 ],
 
@@ -147,6 +149,7 @@ class ProductController extends Controller
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '0.01',
+                    'min'=>'0',
                     'name' => 'tonnes'
                 ],
                 [
@@ -247,6 +250,7 @@ class ProductController extends Controller
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '0.001',
+                    'min'=>'0',
                     'name' => 'weight',
                     'value' => $product->weight
                 ],
@@ -255,6 +259,7 @@ class ProductController extends Controller
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '0.01',
+                    'min'=>'0',
                     'name' => 'tonnes',
                     'value' => $product->tonnes
                 ],

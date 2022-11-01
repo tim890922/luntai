@@ -80,7 +80,7 @@ class MachineProductController extends Controller
 
         $view = [
             'col' => $col,
-            'header' => '排機管理',
+            'header' => '排機資料',
             'title' => '排機',
             'row' => $row,
             'action' => 'machineProduct/create', 'method' => 'GET',

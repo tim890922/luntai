@@ -51,9 +51,10 @@
 
     {{-- <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script> --}}
     <script src="{{ asset('js/my.js') }}"></script>
+    @yield('script')
 </body>
 
-<script></script>
+
 
 </html>
-@yield('script')
+

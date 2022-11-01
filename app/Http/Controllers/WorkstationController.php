@@ -10,33 +10,29 @@ class WorkstationController extends Controller
 {
     public function index()
     {
-        $mps = MachineProduct::all();
-        $col = ['工作站名稱', '料號', '工序', '刪除', '編輯']; //表格的標題
+        $w = Workstation::all();
+        $col = ['工作站名稱', '工序', '刪除', '編輯']; //表格的標題
 
         $row = []; //表格的內容
 
-        foreach ($mps as $m) {
+        foreach ($w as $w) {
             $temp = [
                 [
                     'tag' => '',
-                    'text' => $m->workstation->workstation_name,
+                    'text' => $w->workstation_name,
                 ],
                 [
                     'tag' => '',
-                    'text' => $m->product_id,
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->workstation->procedure,
+                    'text' => $w->procedure,
                 ],
                 [
                     'tag' => 'button',
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $m->id,
+                    'alertname' => $w->workstation_name,
                     'action' => 'delete',
-                    'id' => $m->id
+                    'id' => $w->id
                 ],
                 [
                     'tag' => 'href',
@@ -44,8 +40,8 @@ class WorkstationController extends Controller
                     'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
                     'text' => '編輯',
                     'action' => 'edit',
-                    'id' => $m->id,
-                    'href' => 'workstation/edit/' . $m->id
+                    'id' => $w->id,
+                    'href' => 'workstation/edit/' . $w->id
                 ],
             ];
             $row[] = $temp;
@@ -56,7 +52,7 @@ class WorkstationController extends Controller
 
         $view = [
             'col' => $col,
-            'header' => '工作站管理',
+            'header' => '工作站資料',
             'title' => '工作站',
             'row' => $row,
             'action' => 'workstation/create',

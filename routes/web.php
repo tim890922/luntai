@@ -18,6 +18,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ProductStorageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
+
 use App\Models\Client;
 
 
@@ -94,6 +95,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/supplier/edit/{id}', [SupplierController::class, 'edit']);
     Route::get('/client/edit/{id}', [ClientController::class, 'edit']);
     Route::get('/workstation/edit/{id}', [WorkstationController::class, 'edit']);
+    Route::get('/report/edit/{id}', [ReportController::class, 'edit']);
     Route::get('/productStorage/edit/{id}', [ProductStorageController::class, 'edit']);
     Route::get('/materialChange/edit/{id}', [MaterialChangeController::class, 'edit']);
 
@@ -109,6 +111,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/workstation', [WorkstationController::class, 'update']);
     Route::put('/productStorage', [ProductStorageController::class, 'update']);
     Route::put('/materialChange', [MaterialChangeController::class, 'update']);
+    Route::put('/report', [ReportController::class, 'update']);
 
     //create
     Route::get("/product/create", [ProductController::class, 'create']);

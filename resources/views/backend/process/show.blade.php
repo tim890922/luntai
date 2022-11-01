@@ -158,10 +158,10 @@
     @endif
 
     <div class="w-auto h-auto px-3 py-3 mt-3 border border-gray-400">
-        <div class="flex ">
+        <div class="flex items-center">
             <h2 class="pl-3 mb-3 text-3xl ">製程資料</h2>
             {{-- button按鈕 --}}
-            <button onclick="history.back()" value="回到上一頁" class="ml-5 ">回上一頁</button>
+            <p onclick="history.back()" value="回到上一頁" class="p-3 ml-5 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</p>
         </div>
 
         <div class="tab " id="tab-list">

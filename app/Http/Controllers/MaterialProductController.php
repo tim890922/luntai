@@ -51,7 +51,7 @@ class MaterialProductController extends Controller
     {
         $materials = MaterialProduct::where('product_id', $id)->get();
         $contents = [];
-
+        $content = [];
         foreach ($materials as $m) {
             $temp = [
 
@@ -77,7 +77,8 @@ class MaterialProductController extends Controller
                 }
             }
         }
-        dd($contents);
+        $content = self::materialList($materials);
+        // dd($contents, $content);
         // dd($materials,$content);
 
         $view = [
@@ -87,23 +88,33 @@ class MaterialProductController extends Controller
             'method' => 'GET',
             'href' => 'process/create',
             'module' => 'process',
-            'content' => $contents
+            'content' => $content
         ];
 
         return view('backend.materialProduct.show', $view);
     }
 
-    public function isNext($product)
+    public function materialList($materials)
     {
-        $materials = MaterialProduct::where('product', $product['next'])->get();
-        $count = 0;
-        foreach ($materials as $material) {
-            if (isset($material->next))
-                $count++;
-        }
-        if ($count > 0)
-            return true;
-        else
-            return false;
+        //    如果有next 繼續呼叫並return next
+        $contents = [];
+
+        for ($i = 0; $i < count($materials); $i++) {
+            $next = MaterialProduct::where('product_id', $materials[$i]['next'])->get();
+            if (null != $next) {
+                $temp = [
+                    'material' => $materials[$i]->next,
+                    'quantity' => $materials[$i]->quantity,
+                    'unit' => $materials[$i]->unit
+
+                ];
+                $contents[] = $temp;
+                $contents[$i]['next'] = self::materialList($next);
+            }
+            // 如果沒有next 停止呼叫
+            else {
+            }
+           
+        } return $contents;
     }
 }

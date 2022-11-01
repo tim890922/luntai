@@ -55,7 +55,7 @@ class ProductStorageController extends Controller
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $p->id,
+                    'alertname' => $p->product_id,
                     'action' => 'delete',
                     'id' => $p->id
                 ],
@@ -75,7 +75,7 @@ class ProductStorageController extends Controller
 
         // dd($list);
         $view = [
-            'col' => $col, 'header' => '成品倉儲管理', 'row' => $row,  'method' => 'GET', 'href' => 'productStorage/create',
+            'col' => $col, 'header' => '成品異動狀態清單', 'row' => $row,  'method' => 'GET', 'href' => 'productStorage/create',
             'module' => 'productStorage'
         ];
 
