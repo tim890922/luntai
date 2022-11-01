@@ -11,7 +11,7 @@ use App\Models\Client;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $orders = Order::all();
         $col = ['訂單編號', '料號', '出貨位', '用方', '用方名稱', 'P/F', '訂單號', '交貨日', '數量', '包裝數', '狀態(已出貨、未出貨)', '刪除', '編輯'];
@@ -19,81 +19,83 @@ class OrderController extends Controller
         $row = [];
 
         foreach ($orders as $m) {
-            $temp = [
-                [
-                    'tag' => '',
-                    'text' => $m->id,
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->product_id,
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->position,
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->clientuser_id,
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->clientuser->name,
+            if ($m->clientuser->client_id == $id) {
+                $temp = [
+                    [
+                        'tag' => '',
+                        'text' => $m->id,
+                    ],
+                    [
+                        'tag' => '',
+                        'text' => $m->product_id,
+                    ],
+                    [
+                        'tag' => '',
+                        'text' => $m->position,
+                    ],
+                    [
+                        'tag' => '',
+                        'text' => $m->clientuser_id,
+                    ],
+                    [
+                        'tag' => '',
+                        'text' => $m->clientuser->name,
 
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->P_F,
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->order_number,
+                    ],
+                    [
+                        'tag' => '',
+                        'text' => $m->P_F,
+                    ],
+                    [
+                        'tag' => '',
+                        'text' => $m->order_number,
 
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->delivery,
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->quantity,
-                ],
-                [
-                    'tag' => '',
-                    'text' => $m->package,
-                ],
-                [
-                    'tag' => 'button',
-                    'type' => 'button',
-                    'class' => ($m->status == 1) ? 'px-1 bg-green-300 rounded hover:bg-green-500' : 'px-1 bg-red-300 rounded hover:bg-red-500',
-                    'text' => ($m->status == 1) ? '已出貨' : '未出貨',
-                    'action' => '',
-                    'id' => $m->id
-                ],
-                [
-                    'tag' => 'button',
-                    'type' => 'button',
-                    'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
-                    'text' => '刪除',
-                    'alertname' => $m->id,
-                    'action' => 'delete',
-                    'id' => $m->id
-                ],
-                [
-                    'tag' => 'href',
-                    'type' => 'button',
-                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
-                    'text' => '編輯',
-                    'action' => 'edit',
-                    'id' => $m->id,
-                    'href' => 'order/edit/' . $m->id
-                ]
-            ];
-            $row[] = $temp;
-            // dd($row);
+                    ],
+                    [
+                        'tag' => '',
+                        'text' => $m->delivery,
+                    ],
+                    [
+                        'tag' => '',
+                        'text' => $m->quantity,
+                    ],
+                    [
+                        'tag' => '',
+                        'text' => $m->package,
+                    ],
+                    [
+                        'tag' => 'button',
+                        'type' => 'button',
+                        'class' => ($m->status == 1) ? 'px-1 bg-green-300 rounded hover:bg-green-500' : 'px-1 bg-red-300 rounded hover:bg-red-500',
+                        'text' => ($m->status == 1) ? '已出貨' : '未出貨',
+                        'action' => '',
+                        'id' => $m->id
+                    ],
+                    [
+                        'tag' => 'button',
+                        'type' => 'button',
+                        'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
+                        'text' => '刪除',
+                        'alertname' => $m->id,
+                        'action' => 'delete',
+                        'id' => $m->id
+                    ],
+                    [
+                        'tag' => 'href',
+                        'type' => 'button',
+                        'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
+                        'text' => '編輯',
+                        'action' => 'edit',
+                        'id' => $m->id,
+                        'href' => 'order/edit/' . $m->id
+                    ]
+                ];
+                $row[] = $temp;
+                // dd($row);
+            }
         }
         $import = [
-            'action' => 'orderImport', 'text' => '匯入訂單','file'=>'order_file'
+            'action' => 'orderImport', 'text' => '匯入訂單', 'file' => 'order_file'
         ];
 
 
@@ -338,20 +340,19 @@ class OrderController extends Controller
         Order::destroy($id);
     }
 
-    public function user()
+    public function user($id)
     {
         // $client='YMT';
         // $C=Client::where('client_name','YMT')->get();
         // $USER=$C->clientusers->name;
         // dd($USER);
-        $C=Client::all();
-        $user=[];
-        $user[]='YMT全部用方';
+        $order = Order::all();
+        $user = [];
+        $user[] = 'YMT全部用方';
         foreach ($C as $c) {
-            $users=$c->clientusers;
-            foreach($users as $u){
-                $user[]=$u->name;
-                
+            $users = $c->clientusers;
+            foreach ($users as $u) {
+                $user[] = $u->name;
             }
             // dd($C,$c->clientusers);
         }
@@ -370,17 +371,35 @@ class OrderController extends Controller
     {
         $client = 'YMT';
         // $C=Client::where('client_name','YMT')->get();
-        $C=Client::all();
-        $user=[];
-        $i=0;
+        $C = Client::all();
+        $user = [];
+        $i = 0;
         foreach ($C as $c) {
             $i++;
-            $users=$c->clientusers;
-            foreach($users as $u){
-                $user[]=$u->name;
-                
+            $users = $c->clientusers;
+            foreach ($users as $u) {
+                $user[] = $u->name;
             }
             // dd($C,$c->clientusers);
         }
+    }
+
+    public function select()
+    {
+        $clients = Client::all();
+        
+        $body=[];
+        foreach ($clients as $client) {
+            $temp = [
+                    'client' => $client->client_name,
+                    'href' => $client->id
+            ];
+            $body[]=$temp;
+        }
+        // dd($body);
+        $view = [
+            'body' => $body
+        ];
+        return view('backend.order', $view);
     }
 }

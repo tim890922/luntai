@@ -161,7 +161,8 @@
         <div class="flex items-center">
             <h2 class="pl-3 mb-3 text-3xl ">製程資料</h2>
             {{-- button按鈕 --}}
-            <p onclick="history.back()" value="回到上一頁" class="p-3 ml-5 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</p>
+            <p onclick="history.back()" value="回到上一頁"
+                class="p-3 ml-5 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</p>
         </div>
 
         <div class="tab " id="tab-list">
@@ -171,7 +172,8 @@
                     {{ $button[$i] }}
                 </button>
             @endfor
-            <button id="{{ $process['btn'] }}" class="tablinks" style="float:right" onclick="modal()">新增製程</button>
+            <button id="{{ $process['btn'] }}" class="tablinks " style="float:right"
+                data-id="{{ $id }}">新增製程</button>
 
         </div>
         @for ($i = 0; $i < count($contents); $i++)
@@ -184,9 +186,13 @@
                         <p class="font-bold">日班需求人數：{{ $item['morning_employee'] }}</p>
                         <p class="font-bold">夜班需求人數：{{ $item['night_employee'] }}</p>
                         <p class="font-bold">不良率：{{ $item['non_performing_rate'] * 100 . '%' }}</p>
-                        <a href="" class="px-1 my-3 ml-1 bg-blue-300 rounded hover:bg-blue-500"
-                            id="edit-workstation">編輯</a>
-                        <a href="" class="px-1 my-3 ml-1 bg-red-300 rounded hover:bg-red-500">刪除</a>
+                        <button class="px-1 my-3 ml-1 bg-blue-300 rounded hover:bg-blue-500 editWorkstation inline"
+                            data-id="{{ $item['dataId'] }}">編輯</button>
+                        <form action="/admin/machineProduct/delete/{{ $item['dataId'] }}" method="POST" class=" inline">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="px-1 my-3 ml-1 bg-red-300 rounded hover:bg-red-500 ">刪除</button>
+                        </form>
                     </div>
                 @endforeach
                 <div class="flex items-center justify-center ">
@@ -197,10 +203,10 @@
                     </form>
 
 
-                    <button id="{{ $workstation[$i]['btn'] }}" class="px-1 bg-green-300 rounded hover:bg-green-500">
+                    <button id="addWorkstation" class="px-1 bg-green-300 rounded hover:bg-green-500">
                         新增工作站
                     </button>
-                    @include('component.modal', $workstation[$i])
+
                 </div>
 
 
@@ -210,10 +216,12 @@
 
 
     </div>
-
     <!-- The Modal -->
+    <div id="modalSpace" class="modal"></div>
 
-    @include('component.modal', $process)
+
+
+    {{-- @include('component.modalEmpty') --}}
 @endsection
 @section('script')
     <script>
@@ -232,5 +240,66 @@
                 return false;
             }
         });
+
+        $("#{{ $process['btn'] }}").on("click", function() {
+            let id = $(this).data('id')
+            console.log("按下按鈕了")
+            $.get(`/admin/process/create/${id}`, function(res) {
+                console.log("拿到資料了")
+                $("#modalSpace").append(res)
+                $('.modal').show()
+
+            })
+        })
+
+        $(".editWorkstation").on("click", function() {
+            let id = $(this).data('id')
+            console.log("按下按鈕了")
+            $.get(`/admin/machineProduct/edit/${id}`, function(res) {
+                console.log("拿到資料了")
+                $("#modalSpace").append(res)
+                $('.modal').show()
+                $(".close").on("click", function() {
+                    $("#modalSpace").empty();
+                })
+                $('window').on("click", function() {
+                    $("#modalSpace").empty();
+                })
+            })
+        })
+
+        $("#addWorkstation").on("click", function() {
+            let id = $(this).data('id')
+            console.log("按下按鈕了")
+            $.get(`/admin/machineProduct/edit/${id}`, function(res) {
+                console.log("拿到資料了")
+                $("#modalSpace").append(res)
+                $('.modal').show()
+                $(".close").on("click", function() {
+                    $("#modalSpace").empty();
+                })
+                // $('#modalSpace').on("blur", function() {
+                //     console.log("清除資料了")
+                //     $("#modalSpace").empty();
+                // })
+
+            })
+
+
+
+
+
+        })
+
+        $(document).on("click", ".close", function() {
+            $("#modalSpace").empty().hide();
+        })
+
+        $(document).on("click", function(e) {
+            if (e.target.id == "modalSpace") {
+                $("#modalSpace").empty().hide();
+            }
+
+        })
     </script>
 @endsection

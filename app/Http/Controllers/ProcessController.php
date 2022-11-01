@@ -36,7 +36,7 @@ class ProcessController extends Controller
                     'id' => $product->id,
                     'href' => 'process/show/' . $product->id,
                     'text' => '製程詳情'
-                ], 
+                ],
                 // [
                 //     'tag' => 'button',
                 //     'type' => 'button',
@@ -61,7 +61,7 @@ class ProcessController extends Controller
         }
 
         $view = [
-            'col' => $col, 'header' => '製程清單', 'title' => '製程','row' => $row,'action' => 'process/create', 'method' => 'GET','href' => 'process/create',
+            'col' => $col, 'header' => '製程清單',  'row' => $row, 'action' => 'process/create', 'method' => 'GET', 'href' => 'process/create',
             'module' => 'process'
         ];
         return view('backend.admin', $view);
@@ -72,11 +72,55 @@ class ProcessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
 
+        $workstations = Workstation::all();
+        $lists = [
+            [
+                'value' => $workstations[0]->procedure,
+                'text' => $workstations[0]->procedure
+            ]
+        ];
+        $count = 0;
+        foreach ($workstations as $workstation) {
 
-        return view();
+            if (!in_array($workstation->procedure, $lists[$count])) {
+
+                $temp =
+                    [
+                        'value' => $workstation->procedure,
+                        'text' => $workstation->procedure
+                    ];
+                $lists[] = $temp;
+                $count++;
+            }
+        }
+
+        $view = [
+            'action' => '/admin/process',
+            'header' => '新增製程',
+            'id' => 'insert-process',
+            'btn' => 'insert-p',
+            'footer' => '',
+            'body' => [
+                [
+                    'lable' => '料號',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'product_id',
+                    'value' => $id
+                ],
+                [
+                    'lable' => '製程',
+                    'tag' => 'select',
+                    'type' => '',
+                    'name' => 'procedure',
+                    'lists' => $lists
+                ]
+            ]
+        ];
+        return view('component.modal', $view);
     }
 
     /**
@@ -131,7 +175,8 @@ class ProcessController extends Controller
                         'ct' => $mp->cycle_time,
                         'morning_employee' => $mp->morning_employee,
                         'night_employee' => $mp->night_employee,
-                        'non_performing_rate' => $mp->non_performing_rate
+                        'non_performing_rate' => $mp->non_performing_rate,
+                        'dataId' => $mp->id
                     ];
                     $init[] = $temp;
                 } else
@@ -148,11 +193,11 @@ class ProcessController extends Controller
 
 
                 $workstationList[$i] = $temp;
-                $workstation_body [$i]= [
+                $workstation_body[$i] = [
                     'header' => '新增工作站',
                     'action' => '/admin/machintProduct',
-                    'id' => 'insert-workstation'.$i,
-                    'btn' => 'insert-p'.$i,
+                    'id' => 'insert-workstation' . $i,
+                    'btn' => 'insert-p' . $i,
                     'body' => [
                         [
                             'lable' => '料號',
@@ -250,9 +295,10 @@ class ProcessController extends Controller
 
 
 
-       
+
         // dd($contents);
         $view = [
+            'id' => $id,
             'contents' => $contents,
             'header' => $product->id . '製程',
             'button' => $button,

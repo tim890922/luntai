@@ -18,37 +18,27 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ProductStorageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClientUserController;
 
 use App\Models\Client;
 
 
-Route::view('/','home')->middleware('userAuth');
+Route::view('/', 'home')->middleware('userAuth');
 Route::redirect('/admin', 'admin/product');
-Route::post('login', [UserController::class,'login']);
-Route::get('login', [UserController::class,'showLoginPage']);
-Route::get('logout', [UserController::class,'logout']);
+Route::post('login', [UserController::class, 'login']);
+Route::get('login', [UserController::class, 'showLoginPage']);
+Route::get('logout', [UserController::class, 'logout']);
 
 Route::prefix('admin')->group(function () {
 
-    //GET
+    //GET 清單首頁
     Route::get('/product', [ProductController::class, 'index']);
     Route::get('/machine', [MachineController::class, 'index']);
     Route::get('/reportList', [ReportController::class, 'list']);
     Route::get('/schedule', [ScheduleController::class, 'index']);
     // Route::get('/order', [OrderController::class, 'index']);
-    Route::get('/order', function () {
-        $clients = Client::all();
-        $href = [];
-        foreach ($clients as $client) {
-            $href[] = strtolower($client->client_name);
-        }
-        $view = [
-            'clients' => $clients,
-            'href' => $href
-        ];
-        return view('backend.order', $view);
-    });
-    Route::get('/order/YMT', [OrderController::class, 'user']);
+    Route::get('/order',  [OrderController::class, 'select']);
+    Route::get('/order/{id}', [OrderController::class, 'index']);
     Route::get('/materialProduct', [MaterialProductController::class, 'index']);
     Route::get('/productStorage', [ProductStorageController::class, 'index']);
     Route::get('/employee/con', [EmployeeController::class, 'index']);
@@ -56,21 +46,27 @@ Route::prefix('admin')->group(function () {
     Route::get('/employee/worker', [EmployeeController::class, 'worker']);
     Route::get('/material', [MaterialController::class, 'index']);
     Route::get('/client', [ClientController::class, 'index']);
+    Route::get('/clientUser', [ClientUserController::class, 'index']);
     Route::get('/supplier', [SupplierController::class, 'index']);
     Route::get('/machineProduct', [MachineProductController::class, 'index']);
     Route::get('/workstation', [WorkstationController::class, 'index']);
     Route::get('/process', [ProcessController::class, 'index']);
     Route::get('/report', [ReportController::class, 'index']);
     Route::get('/materialChange', [MaterialChangeController::class, 'index']);
-    Route::get('/productInOut',function(){ return view('backend.productStorage.index');} );
-    Route::get('/materialInOut',function(){ return view('backend.materialChange.index');} );
+    Route::get('/productInOut', function () {
+        return view('backend.productStorage.index');
+    });
+    Route::get('/materialInOut', function () {
+        return view('backend.materialChange.index');
+    });
 
 
-    //SHOW
+    //SHOW 顯示單一詳情資料
     Route::get('/process/show/{id}', [ProcessController::class, 'show']);
     Route::get('/materialProduct/show/{id}', [MaterialProductController::class, 'show']);
-    
-    //POST
+    Route::get('/clientUser/show/{id}', [ClientUserController::class, 'index']);
+
+    //POST 新增
     Route::post('/product', [ProductController::class, 'store']);
     Route::post('/machine', [MachineController::class, 'store']);
     Route::post('/order', [OrderController::class, 'store']);
@@ -78,6 +74,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/machineProduct', [MachineProductController::class, 'store']);
     Route::post('/workstation', [WorkstationController::class, 'store']);
     Route::post('/client', [ClientController::class, 'store']);
+    Route::post('/clientUser', [ClientUserController::class, 'store']);
     Route::post('/material', [MaterialController::class, 'store']);
     Route::post('/supplier', [SupplierController::class, 'store']);
     Route::post('/process', [ProcessController::class, 'store']);
@@ -85,7 +82,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/materialChange', [MaterialChangeController::class, 'store']);
 
 
-    //edit
+    //edit 編輯畫面
     Route::get('/product/edit/{id}', [ProductController::class, 'edit']);
     Route::get('/order/edit/{id}', [OrderController::class, 'edit']);
     Route::get('/machine/edit/{id}', [MachineController::class, 'edit']);
@@ -94,14 +91,16 @@ Route::prefix('admin')->group(function () {
     Route::get('/machineProduct/edit/{id}', [MachineProductController::class, 'edit']);
     Route::get('/supplier/edit/{id}', [SupplierController::class, 'edit']);
     Route::get('/client/edit/{id}', [ClientController::class, 'edit']);
+    Route::get('/clientUser/edit/{id}', [ClientUserController::class, 'edit']);
     Route::get('/workstation/edit/{id}', [WorkstationController::class, 'edit']);
     Route::get('/report/edit/{id}', [ReportController::class, 'edit']);
     Route::get('/productStorage/edit/{id}', [ProductStorageController::class, 'edit']);
     Route::get('/materialChange/edit/{id}', [MaterialChangeController::class, 'edit']);
 
-    //update
+    //update 編輯儲存
     Route::put('/product', [ProductController::class, 'update']);
     Route::put('/client', [ClientController::class, 'update']);
+    Route::put('/clientUser', [ClientUserController::class, 'update']);
     Route::put('/order', [OrderController::class, 'update']);
     Route::put('/employee', [EmployeeController::class, 'update']);
     Route::put('/machine', [MachineController::class, 'update']);
@@ -113,13 +112,14 @@ Route::prefix('admin')->group(function () {
     Route::put('/materialChange', [MaterialChangeController::class, 'update']);
     Route::put('/report', [ReportController::class, 'update']);
 
-    //create
+    //create 新增畫面
     Route::get("/product/create", [ProductController::class, 'create']);
     Route::get("/machine/create", [MachineController::class, 'create']);
     Route::get("/order/create", [OrderController::class, 'create']);
     Route::get("/employee/create", [EmployeeController::class, 'create']);
     Route::get("/material/create", [MaterialController::class, 'create']);
     Route::get("/client/create", [ClientController::class, 'create']);
+    Route::get("/clientUser/create/{id}", [ClientUserController::class, 'create']);
     Route::get("/supplier/create", [SupplierController::class, 'create']);
     Route::get("/machineProduct/create", [MachineProductController::class, 'create']);
     Route::get("/workstation/create", [WorkstationController::class, 'create']);
@@ -127,15 +127,16 @@ Route::prefix('admin')->group(function () {
     Route::get('/productStorage/create', [ProductStorageController::class, 'create']);
     Route::get('/materialChange/{i}', [MaterialChangeController::class, 'create']);
     Route::get('/productStorage/{i}', [ProductStorageController::class, 'create']);
-   
 
 
-    //delete
+
+    //delete 刪除
     Route::delete('/product/{id}', [ProductController::class, 'destroy']);
     Route::delete('/machine/{id}', [MachineController::class, 'destroy']);
     Route::delete('/employee/{id}', [EmployeeController::class, 'destroy']);
     Route::delete('/material/{id}', [MaterialController::class, 'destroy']);
     Route::delete('/client/{id}', [ClientController::class, 'destroy']);
+    Route::delete('/clientUser/{id}', [ClientUserController::class, 'destroy']);
     Route::delete('/supplier/{id}', [SupplierController::class, 'destroy']);
     Route::delete('/machineProduct/{id}', [MachineProductController::class, 'destroy']);
     Route::delete('/order/{id}', [OrderController::class, 'destroy']);
@@ -143,8 +144,9 @@ Route::prefix('admin')->group(function () {
     Route::delete('/productStorage/{id}', [ProductStorageController::class, 'destroy']);
     Route::delete('/materialChange/{id}', [MaterialChangeController::class, 'destroy']);
     Route::delete('/process/{id}', [ProcessController::class, 'destroy'])->name('processDelete');
+    Route::delete('/machineProduct/delete/{id}', [MachineProductController::class, 'destroy']);
 
-    //import
+    //import 匯入excel
     Route::post('/orderImport', [OrderController::class, 'import']);
     Route::post('/productImport', [ProductController::class, 'import']);
 });

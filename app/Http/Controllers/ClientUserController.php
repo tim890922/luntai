@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
-use App\Models\Clientuser;
 use Illuminate\Http\Request;
+use App\Models\Clientuser;
+use App\Models\Client;
 
-class ClientController extends Controller
+class ClientUserController extends Controller
 {
-    public function index(){
-        $client = Client::all();
-        $col = ['客戶編號', '名稱', '電話','用方詳情','刪除','編輯'];
+    public function index($id){
+        $clientUser = Clientuser::where('client_id',$id)->get();
+        $col = ['用方編號', '用方名稱','用方地址','刪除','編輯'];
 
         $row = [];
-
-        foreach ($client as $m) {
+        $client=Client::find($id);
+        foreach ($clientUser as $m) {
             $temp = [
                 [
                     'tag' => '',
@@ -22,27 +22,18 @@ class ClientController extends Controller
                 ],
                 [
                     'tag' => '',
-                    'text' => $m->client_name,
+                    'text' => $m->name,
                 ],
                 [
                     'tag' => '',
-                    'text' => $m->client_phone,
-                ],
-                [
-                    'tag' => 'href',
-                    'type' => 'button',
-                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
-                    'text' => '用方詳情',
-                    'action' => 'show',
-                    'id' => $m->id,
-                    'href' => 'clientUser/'.'show/'.$m->id
+                    'text' => $m->address,
                 ],
                 [
                     'tag' => 'button',
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $m->client_name,
+                    'alertname' => $m->id,
                     'action' => 'delete',
                     'id' => $m->id
                 ],
@@ -54,7 +45,7 @@ class ClientController extends Controller
                     'alertname' => $m->id,
                     'action' => 'edit',
                     'id' => $m->id,
-                    'href' =>'client/edit/'.$m->id
+                    'href' =>'clientUser/edit/'.$m->id
                 ]
             ];
             $row[] = $temp;
@@ -64,33 +55,50 @@ class ClientController extends Controller
 
         $view = [
             'col' => $col, 
-            'header' => '客戶清單', 
-            'title' => '客戶', 
+            'header' => ($client->client_name).'用方資料', 
+            'title' => ($client->client_name).'用方', 
             'row' => $row, 
-            'action' => 'client/create', 'method' => 'GET', 
-            'href' => 'client/create',
-            'module' => 'client'
+            'method' => 'GET', 
+            'href' => '/admin/clientUser/create/'.$id,
+            'module' => 'clientUser'
         ];
         return view('backend.admin',$view);
     }
 
 
-    public function create(){
+    public function create($id){
+        $client=Client::find($id);
+        // dd($client->client_name);
         $view = [
-            'action' => '/admin/client',
+            'action' => '/admin/clientUser',
+            'header'=>'新增'.($client->client_name),
             'body' => [
                 [
-                    'lable' => '名稱',
+                    'lable' => '',
+                    'value'=>$id,
                     'tag' => 'input',
-                    'type' => 'text',
-                    'name' => 'client_name'
+                    'type' => 'hidden',
+                    'name' => 'id'
                 ],
                 [
-                    'lable' => '電話',
+                    'lable' => '用方編號',
                     'tag' => 'input',
                     'type' => 'text',
-                    'name' => 'client_phone'
+                    'name' => 'id'
                 ],
+                [
+                    'lable' => '用方名稱',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'name'
+                ],
+                [
+                    'lable' => '用方地址',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'address'
+                ],
+                
             ]
 
         ];
@@ -106,31 +114,31 @@ class ClientController extends Controller
      */
     public function edit($id)//到編輯畫面
     {
-        $client=Client::find($id);
+        $clientUser=Clientuser::find($id);
         $view = [
-            'action' => '/admin/client',
+            'action' => '/admin/clientUser',
             'method'=>'PUT',
             'body' => [
                 [
-                    'lable' => '',
-                    'tag' => 'input',
-                    'type' => 'hidden',
-                    'name' => 'id',
-                    'value'=>$client->id
-                ],
-                [
-                    'lable' => '名稱',
+                    'lable' => '用方編號',
                     'tag' => 'input',
                     'type' => 'text',
-                    'name' => 'client_name',
-                    'value'=>$client->client_name
+                    'name' => 'id',
+                    'value'=>$clientUser->id
                 ],
                 [
-                    'lable' => '電話',
+                    'lable' => '用方名稱',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'name',
+                    'value'=>$clientUser->name
+                ],
+                [
+                    'lable' => '用方地址',
                     'tag' => 'input',
                     'type' => 'text',
                     'name' => 'client_phone',
-                    'value'=>$client->client_phone
+                    'value'=>$clientUser->address
                 ]
             ]
         ];
@@ -146,33 +154,34 @@ class ClientController extends Controller
      */
     public function update(Request $req)//儲存編輯資料
     {
-        $p =Client::find($req->id);
+        $p =Clientuser::find($req->id);
         $p->id=$req->id;
-        $p->client_name=$req->client_name;
-        $p->client_phone=$req->client_phone;
+        $p->name=$req->name;
+        $p->address=$req->address;
         $p->save();
 
-        return redirect('admin/client')->with('notice', '編輯成功');
+        return redirect('admin/clientUser')->with('notice', '編輯成功');
     }
 
     
     public function destroy($id)
     {
-        Client::destroy($id);
+        Clientuser::destroy($id);
     }
 
     public function store(Request $req)
     {
 
-        $c = new client;
+        $c = new Clientuser;
         $content = $req->validate(
             [
-                'client_name' => 'required',
-                'client_phone' => 'required',
+                'id' => 'required',
+                'name' => 'required',
+                'phone' => 'required',
             ]
         );
         $c->create($content);
 
-        return redirect('admin/client')->with('notice', '新增成功');
+        return redirect('admin/clientUser')->with('notice', '新增成功');
     }
 }

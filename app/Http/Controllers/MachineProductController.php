@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MachineProduct;
 use App\Models\Machine;
+use App\Models\Workstation;
 
 class MachineProductController extends Controller
 {
@@ -93,13 +94,13 @@ class MachineProductController extends Controller
     public function create()
     {
         $machines = Machine::all();
-        $lists=[];
+        $lists = [];
         foreach ($machines as $machine) {
-            $temp=[
-                'value'=>$machine->id,
-                'text'=>$machine->id
-            ];  
-            $lists[]=$temp;
+            $temp = [
+                'value' => $machine->id,
+                'text' => $machine->id
+            ];
+            $lists[] = $temp;
         }
         //  dd($lists);
         $view = [
@@ -196,33 +197,41 @@ class MachineProductController extends Controller
     public function edit($id) //到編輯畫面
     {
         $machineProduct = MachineProduct::find($id);
+        $procedure = $machineProduct->workstation->procedure;
+        // dd($procedure);
+        $workstations = Workstation::where('procedure', $procedure)->get();
+        $lists = []; //工作站清單
+        foreach ($workstations as $workstation) {
+            $temp = [
+                'text' => $workstation->workstation_name,
+                'value' => $workstation->id,
+            ];
+            $lists[] = $temp;
+        }
+        // dd($lists);
         $view = [
             'action' => '/admin/machineProduct',
             'method' => 'PUT',
+            'header' => '',
+            'footer' => '',
             'body' => [
                 [
                     'lable' => '料號',
-                    'tag' => 'input',
+                    'tag' => '',
                     'type' => 'text',
                     'name' => 'id',
-                    'value' => $machineProduct->id
+                    'value' => $machineProduct->product->id
                 ],
                 [
-                    'lable' => '機台編號',
-                    'tag' => 'input',
-                    'type' => 'text',
-                    'name' => 'machine_id',
-                    'value' => $machineProduct->machine_id
+                    'lable' => '工作站名稱',
+                    'tag' => 'select',
+                    'type' => ' ',
+                    'name' => 'workstation_id',
+                    'lists' => $lists
                 ],
+
                 [
-                    'lable' => '模具編號',
-                    'tag' => 'input',
-                    'type' => 'text',
-                    'name' => 'model_id',
-                    'value' => $machineProduct->model_id
-                ],
-                [
-                    'lable' => 'C/Ts',
+                    'lable' => '週期時間',
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '1',
@@ -246,14 +255,6 @@ class MachineProductController extends Controller
                     'value' => $machineProduct->night_employee
                 ],
                 [
-                    'lable' => '穴數',
-                    'tag' => 'input',
-                    'type' => 'number',
-                    'step' => '1',
-                    'name' => 'cavity',
-                    'value' => $machineProduct->cavity
-                ],
-                [
                     'lable' => '不良率',
                     'tag' => 'input',
                     'type' => 'number',
@@ -262,16 +263,17 @@ class MachineProductController extends Controller
                     'value' => $machineProduct->non_performing_rate
                 ],
                 [
-                    'lable' => '優先順序',
+                    'lable' => '',
                     'tag' => 'input',
-                    'type' => 'number',
-                    'step' => '1',
-                    'name' => 'priority',
-                    'value' => $machineProduct->priority
+                    'type' => 'hidden',
+                    'step' => '0.01',
+                    'name' => 'id',
+                    'value' => $id
                 ],
+
             ]
         ];
-        return view('backend.create', $view);
+        return view('component.modal', $view);
     }
     /**
      * 上傳編輯資料
@@ -283,22 +285,20 @@ class MachineProductController extends Controller
     public function update(Request $req) //儲存編輯資料
     {
         $mp = machineProduct::find($req->id);
-        $mp->id = $req->id;
-        $mp->machine_id = $req->machine_id;
-        $mp->model_id = $req->model_id;
+        $mp->workstation_id = $req->workstation_id;
         $mp->cycle_time = $req->cycle_time;
+
         $mp->morning_employee = $req->morning_employee;
         $mp->night_employee = $req->night_employee;
-        $mp->cavity = $req->cavity;
         $mp->non_performing_rate = $req->non_performing_rate;
-        $mp->priority = $req->priority;
         $mp->save();
 
-        return redirect('admin/machineProduct')->with('notice', '編輯成功');
+        return back()->with('notice', '編輯成功');
     }
 
     public function destroy($id)
     {
         machineProduct::destroy($id);
+        return back()->with('notice','刪除成功');
     }
 }
