@@ -176,7 +176,8 @@ class ProcessController extends Controller
                         'morning_employee' => $mp->morning_employee,
                         'night_employee' => $mp->night_employee,
                         'non_performing_rate' => $mp->non_performing_rate,
-                        'dataId' => $mp->id
+                        'dataId' => $mp->id,
+                        'alertname' => $mp->workstation->workstation_name
                     ];
                     $init[] = $temp;
                 } else
@@ -308,35 +309,19 @@ class ProcessController extends Controller
         ];
         return view('backend.process.show', $view);
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
         //

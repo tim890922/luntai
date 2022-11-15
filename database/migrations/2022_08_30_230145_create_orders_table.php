@@ -26,6 +26,9 @@ class CreateOrdersTable extends Migration
             $table->string('order_number')->comment('訂單號')->nullable();
             $table->integer('quantity')->comment('數量');
             $table->integer('package')->comment('包裝數');
+            $table->boolean('record')->default(0)->comment('是否出貨');
+            $table->boolean('isLoad')->default(0)->comment('是否圈存');
+            $table->enum('schedule_status',['已排程','未排程'])->comment('排程狀態')->default('未排程');
             $table->timestamps();
             $table->softDeletes();
         });

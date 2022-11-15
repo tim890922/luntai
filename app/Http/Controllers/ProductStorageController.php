@@ -200,18 +200,36 @@ class ProductStorageController extends Controller
      */
     public function edit($id) //到編輯畫面
     {
-        $productstorage = Productstorage::find($id);
-        $status = [
-            [
-                'value' => '出庫',
-                'text' => '出庫'
-            ],
-            [
-                'value' => '入庫',
-                'text' => '入庫'
-            ],
+        $status = [];
+        $productstorage = ProductStorage::find($id);
+        if ($productstorage->change_status == '出庫') {
+            $status = [
+                [
+                    'value' => '出庫',
+                    'text' => '出庫',
+                    'selected' => 'selected'
+                ],
+                [
+                    'value' => '入庫',
+                    'text' => '入庫'
+                ],
 
-        ];
+            ];
+        } else {
+            $status = [
+                [
+                    'value' => '出庫',
+                    'text' => '出庫',
+
+                ],
+                [
+                    'value' => '入庫',
+                    'text' => '入庫',
+                    'selected' => 'selected'
+                ],
+
+            ];
+        }
 
 
 
@@ -228,7 +246,8 @@ class ProductStorageController extends Controller
                 ],
                 [
                     'lable' => '料號',
-                    'tag' => 'input',
+                    'tag' => '',
+                    'text'=>$productstorage->product_id,
                     'type' => 'text',
                     'name' => 'product_id',
                     'value' => $productstorage->product_id

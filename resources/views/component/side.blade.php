@@ -62,7 +62,7 @@
                 </li>
                 <li>
                     <a href="/admin/materialProduct" class="block hover:text-blue-600">
-                        物料資料
+                        BOM表
                     </a>
                 </li>
                 <li>
@@ -106,7 +106,9 @@
                 <li>
                     <a href="/admin/report" class="block hover:text-blue-600">員工進度回報</a>
                 </li>
-                <li>不良品管理</li>
+                <li>
+                    <a href="/admin/defectiveReport" class="block hover:text-blue-600">不良品管理</a>
+                </li>
             </ul>
 
 

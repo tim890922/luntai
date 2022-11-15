@@ -15,7 +15,7 @@ class CreateMachineProductsTable extends Migration
     public function up()
     {
         Schema::create('machine_products', function (Blueprint $table) {
-            $table->id()->comment('排機編號');
+            $table->id()->comment('排工作站編號');
 
             $table->string('product_id')->comment('料號');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

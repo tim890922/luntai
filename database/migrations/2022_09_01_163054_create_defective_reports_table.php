@@ -16,12 +16,13 @@ class CreateDefectiveReportsTable extends Migration
     {
         Schema::create('defective_reports', function (Blueprint $table) {
             $table->id()->comment('生產不良品編號流水號');
-            $table->unsignedBigInteger('defective_id')->comment('不良原因編號');
-            $table->foreign('defective_id')->references('id')->on('defectives')->onDelete('cascade');
             $table->unsignedBigInteger('report_id')->comment('進度回報編號');
             $table->foreign('report_id')->references('id')->on('reports')->onDelete('cascade');
+            $table->unsignedBigInteger('defective_id')->comment('不良原因編號');
+            $table->foreign('defective_id')->references('id')->on('defectives')->onDelete('cascade');
             $table->integer('quantity')->comment('數量');
             $table->string('detail')->comment('詳細說明')->nullable();
+            $table->boolean('record')->comment('查核紀錄')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

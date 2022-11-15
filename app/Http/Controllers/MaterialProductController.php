@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\MaterialProduct;
+use App\Models\Material;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -41,7 +42,7 @@ class MaterialProductController extends Controller
 
 
         $view = [
-            'header' => '物料清單', 'title' => '物料', 'action' => 'materialProduct/create', 'method' => 'GET', 'href' => 'materialProduct/create',
+            'header' => 'BOM表清單', 'action' => 'materialProduct/create', 'method' => 'GET',
             'module' => 'product', 'col' => $col, 'row' => $row
         ];
         return view('backend.admin', $view);
@@ -114,7 +115,7 @@ class MaterialProductController extends Controller
             // 如果沒有next 停止呼叫
             else {
             }
-           
-        } return $contents;
+        }
+        return $contents;
     }
 }

@@ -16,7 +16,7 @@ class userAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!session('username')){
+        if(!session('user')){
             return redirect('/login');
         }
         return $next($request);

@@ -292,7 +292,7 @@ class MaterialController extends Controller
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '0.001',
-                    'name' => 'winventory',
+                    'name' => 'inventory',
                     'value' => $material->inventory
                 ],
                 [

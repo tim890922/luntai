@@ -44,10 +44,10 @@
                 <div>
                     <table class="mx-auto text-xl">
                         @foreach ($datas as $data)
-                        <tr>
-                            <td class="text-right">{{$data['lable']}}：</td>
-                            <td>{{$data['text']}}</td>
-                        </tr>
+                            <tr>
+                                <td class="text-right">{{ $data['lable'] }}：</td>
+                                <td>{{ $data['text'] }}</td>
+                            </tr>
                         @endforeach
                     </table>
                 </div>
@@ -78,6 +78,15 @@
                                                 'lists' => $row['lists'],
                                                 'name' => $row['name'],
                                             ])
+                                        @break
+
+                                        @case('')
+                                            <p
+                                                @isset($row['value'])
+                                        value="{{ $row['value'] }}"
+                                    @endisset>
+                                                {{ $row['text'] }}
+                                            </p>
                                         @break
                                     @endswitch
 

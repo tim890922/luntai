@@ -19,9 +19,9 @@ class OrderSeeder extends Seeder
         $o1->clientuser_id = '9101';
         $o1->position = '1000';
         $o1->P_F = '';
-        $o1->delivery = '2022-11-01';
+        $o1->delivery = '2022-11-09';
         $o1->order_number = '';
-        $o1->quantity = '40';
+        $o1->quantity= '40';
         $o1->package= '40';
 
         $o2=new Order;
@@ -29,7 +29,7 @@ class OrderSeeder extends Seeder
         $o2->clientuser_id = '9101';
         $o2->position = '1001';
         $o2->P_F = 'P101';
-        $o2->delivery = '2022-11-02';
+        $o2->delivery = '2022-11-15';
         $o2->order_number = '';
         $o2->quantity = '40';
         $o2->package= '20';

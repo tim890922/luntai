@@ -15,12 +15,12 @@ class CreateReportsTable extends Migration
     public function up()
     {
         Schema::create('reports', function (Blueprint $table) {
-            $table->id()->comment('進度回報編號');
+            $table->id()->comment('生產進度回報編號');
             $table->unsignedBigInteger('schedule_id')->comment('生產批號');
             $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
             $table->string('product_id')->comment('料號');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->string('employee_id')->comment('員工編號');
+            $table->unsignedBigInteger('employee_id')->comment('員工編號');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->enum('shift', ['A','B','C'])->default('A')->comment('班別');
             $table->time('time_start')->comment('生產時段_開始');

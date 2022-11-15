@@ -8,6 +8,15 @@
             class="flex items-center justify-center w-full h-full text-4xl font-bold bg-green-300 border-b-8 border-l-4 border-green-600 rounded-lg">
             {{ $header }}</h1>
     </div>
+    @isset($subtitle)
+        <div class="p-3 mx-auto mt-3 rounded ">
+            @foreach ($subtitle['button'] as $body)
+                <a class="p-3 mx-3 bg-blue-300 border rounded-full cursor-pointer hover:bg-blue-500"
+                    href="{{ $body['href'] }}">{{ $body['text'] }}</a>
+            @endforeach
+        </div>
+    @endisset
+
     {{-- 訊息區 --}}
     @if (session()->has('notice'))
         <div class="px-3 mt-3 text-xl bg-green-400 rounded alert alert-success">
@@ -42,8 +51,6 @@
                             class="px-1 py-1 mt-2 ml-3 border border-gray-700 hover:bg-gray-500" style="width:80px">
 
                     </div>
-
-
                 </form>
             @endisset
         </div>
@@ -81,41 +88,76 @@
                     url: `/admin/{{ $module }}/${id}`,
                     success: function() {
                         _this.parents("tr").remove();
+                        // location.reload();
+
                     },
                 });
             }
         });
 
+
         $(".check").on("click", function() {
-            let id = $(this).data('id')
             let _this = $(this)
+            let id = $(this).data('id')
+
             $.ajax({
                 type: 'patch',
-                url: `/admin/{{($module) }}/ch/${id}`,
-                @if ($module == 'Title')
-                    success: function(img) {
-                        if (_this.text() == "確認") {
-                            $(".show").each((idx, dom) => {
-                                if ($(dom).text() == '未確認') {
-                                    $(dom).text("確認")
-                                    return false;
-                                }
-                            })
-                            _this.text('未確認')
-                        } else {
-                            $(".check").text("未確認")
-                            _this.text('確認')
-                        }
+                url: `reportList/check/${_this.data('id')}`,
+                success: function(content) {
+                    if (_this.text() == "確認") {
+                        _this.text("未確認")
+                    } else {
+                        _this.text("確認")
                     }
-                @else
-                    success: function() {
-                        if (_this.text() == "確認") {
-                            _this.text('未確認')
-                        } else {
-                            _this.text('確認')
-                        }
+                    console.log(content)
+                }
+            })
+        })
+
+        $(".output").on("click", function() {
+            let _this = $(this)
+            let id = $(this).data('id')
+
+            $.ajax({
+                type: `patch`,
+                url: `/admin/order/output/${_this.data('id')}`,
+
+                success: function(content) {
+                    console.log(content)
+                    if (_this.text() == "出貨") {
+                        _this.text("未出貨")
+                    } else {
+                        _this.text("出貨")
                     }
-                @endif
+
+                }
+            })
+        })
+
+        $(".load").on("click", function() {
+            let id = $(this).data('id')
+            let _this = $(this)
+            console.log(id)
+            $.ajax({
+                type: `post`,
+                url: `/admin/order/load/${id}`,
+                success: function(content) {
+
+
+                    if (_this.text() == "未圈存") {
+                        if (content == "圈存成功") {
+                            _this.text("圈存")
+                            alert(content);
+                        } else
+                            alert(content);
+
+                    } else {
+                        _this.text("未圈存")
+                        alert(content);
+                    }
+                    console.log(content)
+                }
+
             })
         })
     </script>

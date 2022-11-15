@@ -67,6 +67,9 @@
         <div class="container">
             <form action="action_page.php">
                 
+                <label for="schedule">生產批號</label>
+                <input type="text" id="schedule" name="id" placeholder="生產批號">
+            
                 <label for="mname">機台編號</label>
                 <input type="text" id="mname" name="workstation_id" placeholder="機台編號">
 

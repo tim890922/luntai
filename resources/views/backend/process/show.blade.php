@@ -161,8 +161,8 @@
         <div class="flex items-center">
             <h2 class="pl-3 mb-3 text-3xl ">製程資料</h2>
             {{-- button按鈕 --}}
-            <p onclick="history.back()" value="回到上一頁"
-                class="p-3 ml-5 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</p>
+            <a href="/admin/process"  value="回到上一頁"
+                class="p-3 ml-5 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</a>
         </div>
 
         <div class="tab " id="tab-list">
@@ -186,12 +186,13 @@
                         <p class="font-bold">日班需求人數：{{ $item['morning_employee'] }}</p>
                         <p class="font-bold">夜班需求人數：{{ $item['night_employee'] }}</p>
                         <p class="font-bold">不良率：{{ $item['non_performing_rate'] * 100 . '%' }}</p>
-                        <button class="px-1 my-3 ml-1 bg-blue-300 rounded hover:bg-blue-500 editWorkstation inline"
+                        <button class="inline px-1 my-3 ml-1 bg-blue-300 rounded hover:bg-blue-500 editWorkstation"
                             data-id="{{ $item['dataId'] }}">編輯</button>
-                        <form action="/admin/machineProduct/delete/{{ $item['dataId'] }}" method="POST" class=" inline">
+                        <form action="/admin/machineProduct/delete/{{ $item['dataId'] }}" method="POST" class="inline ">
                             @csrf
                             @method('delete')
-                            <button type="submit" class="px-1 my-3 ml-1 bg-red-300 rounded hover:bg-red-500 ">刪除</button>
+                            <button type="submit" class="px-1 my-3 ml-1 bg-red-300 rounded hover:bg-red-500 delete"
+                                data-alertname="{{ $item['alertname'] }}">刪除</button>
                         </form>
                     </div>
                 @endforeach
@@ -203,7 +204,8 @@
                     </form>
 
 
-                    <button id="addWorkstation" class="px-1 bg-green-300 rounded hover:bg-green-500">
+                    <button id="" class="px-1 bg-green-300 rounded hover:bg-green-500 addWorkstation"
+                        data-id="{{ $id }}">
                         新增工作站
                     </button>
 
@@ -268,20 +270,17 @@
             })
         })
 
-        $("#addWorkstation").on("click", function() {
+        $(".addWorkstation").on("click", function() {
             let id = $(this).data('id')
             console.log("按下按鈕了")
-            $.get(`/admin/machineProduct/edit/${id}`, function(res) {
+            $.get(`/admin/machineProduct/add/${id}`, function(res) {
                 console.log("拿到資料了")
                 $("#modalSpace").append(res)
                 $('.modal').show()
                 $(".close").on("click", function() {
                     $("#modalSpace").empty();
                 })
-                // $('#modalSpace').on("blur", function() {
-                //     console.log("清除資料了")
-                //     $("#modalSpace").empty();
-                // })
+
 
             })
 

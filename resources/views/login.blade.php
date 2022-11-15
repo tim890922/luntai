@@ -9,7 +9,7 @@
     <title>綸泰</title>
 </head>
 
-<body class=" bg-gray-400">
+<body class="bg-gray-400 ">
 
     <header class="mx-auto bg-gray-600 " style="height:100px">
         <div class="flex mx-5">
@@ -21,37 +21,49 @@
 
     </header>
 
-    <main class=" h-full">
+    <main class="h-full ">
 
 
-        <h1 class=" text-center text-5xl  font-bold">
+        <h1 class="text-5xl font-bold text-center ">
             登入
         </h1>
-        @if (isset($err))
-            {{ $err }}
-        @endif
-        <div class=" flex justify-center items-center">
+
+        <div class="flex items-center justify-center ">
+
             <form action="login" method="post">
                 @csrf
                 <div class="text-3xl ">
-                    <p class=" inline">帳號：</p>
-                    <input name="account" type="text" class=" border border-black w-2/3">
-                </div>
-                <br>    
-                <div class="text-3xl">
-                    <p class=" inline">密碼：</p>
-                    <input name="pass_word" type="password" class=" border border-black w-2/3">
+                    <p class="inline ">帳號：</p>
+                    <input name="account" type="text" class="w-2/3 border border-black ">
                 </div>
                 <br>
-                <div class=" flex justify-center items-center text-2xl">
-                    <button type="submit" class=" border border-black rounded bg-blue-500 w-32">登入</button>
-                    <!-- <button type="reset" class="  border border-black rounded bg-gray-600 flex-right">重置</button> -->
+                <div class="text-3xl">
+                    <p class="inline ">密碼：</p>
+                    <input name="pass_word" type="password" class="w-2/3 border border-black ">
+                </div>
+                <br>
+                <div class="flex items-center justify-center text-2xl ">
+                    <button type="submit" class="w-32 bg-blue-500 border border-black rounded ">登入</button>
+                    <!-- <button type="reset" class="bg-gray-600 border border-black rounded flex-right">重置</button> -->
 
                 </div>
-                
+
             </form>
         </div>
     </main>
+
+    {{--<script>
+        @if (isset($err))
+            alert("{{ $err }}")
+        @endif
+    </script>--}}
+   
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if(isset($err))
+        Swal.fire('{{ $err }}')
+        @endif
+    </script> 
 </body>
 
 </html>

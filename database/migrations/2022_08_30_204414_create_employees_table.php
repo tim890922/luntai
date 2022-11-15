@@ -15,7 +15,8 @@ class CreateEmployeesTable extends Migration
     public function up()
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->string('id')->primary()->comment('員工編號');
+            $table->id()->comment('員工id');
+            $table->enum('nationality', ['A', 'B'])->comment('國籍');
             $table->string('name')->comment('姓名');
             $table->string('position')->comment('職位');
             $table->string('account')->comment('識別證號');

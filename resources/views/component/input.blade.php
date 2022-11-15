@@ -9,4 +9,6 @@ required="{{ $required }}"
 @endisset
 @if ($type=='number')
   min="0"
-@endif>
+@endif @isset($readonly)
+  readonly="true"
+@endisset>

@@ -18,13 +18,13 @@ class DefectiveReportSeeder extends Seeder
         $d1->defective_id='1';
         $d1->report_id='1';
         $d1->quantity='2';
-        $d1->detail='黑點異常';
+        $d1->detail='缺料異常';
 
         $d2 = new DefectiveReport();
         $d2->defective_id='2';
         $d2->report_id='1';
         $d2->quantity='1';
-        $d2->detail='缺料異常';
+        $d2->detail='縮水異常';
 
 
         $D = [$d1,$d2];

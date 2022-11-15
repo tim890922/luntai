@@ -41,7 +41,16 @@ class ProductStorageSeeder extends Seeder
         // $ps3->time = '19:00';
         $ps3->responsible = '小曾';
 
-        $ps = [$ps1, $ps2, $ps3];
+        $ps4 = new ProductStorage;
+        $ps4->product_id = 'BFVXF155040080';
+        $ps4->storage_id = 'A201';
+        $ps4->quantity = '400';
+        $ps4->basket_number = '7';
+        $ps4->change_status = '入庫';
+        // $ps3->time = '19:00';
+        $ps4->responsible = '小曾';
+
+        $ps = [$ps1, $ps2, $ps3,$ps4];
         foreach ($ps as $ps) {
             $ps->save();
         }

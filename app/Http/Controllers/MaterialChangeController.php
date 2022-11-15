@@ -8,7 +8,7 @@ use App\Models\MaterialChange;
 
 class MaterialChangeController extends Controller
 {
-   /**
+    /**
      *列出資料
      *
      * @return \Illuminate\Http\Response
@@ -16,7 +16,7 @@ class MaterialChangeController extends Controller
     public function index()
     {
         $materialchanges = MaterialChange::all();
-        $col = ['原物料名稱', '數量', '單位', '異動狀態', '時間','刪除','編輯'];
+        $col = ['原物料名稱', '數量', '單位', '異動狀態', '時間', '刪除', '編輯'];
 
         $row = [];
 
@@ -68,7 +68,7 @@ class MaterialChangeController extends Controller
 
         // dd($list);
         $view = [
-            'col' => $col, 'header' => '原物料異動狀態清單', 'row' => $row, 'method' => 'GET', 
+            'col' => $col, 'header' => '原物料異動狀態清單', 'row' => $row, 'method' => 'GET',
             'module' => 'materialChange'
         ];
 
@@ -84,7 +84,7 @@ class MaterialChangeController extends Controller
      */
     public function create($i)
     {
-        $materialchanges= MaterialChange::all();
+        $materialchanges = MaterialChange::all();
         $status = [
             [
                 'value' => '出庫',
@@ -97,9 +97,9 @@ class MaterialChangeController extends Controller
 
         ];
         $view = [
-            'header'=>($i==0)?'原物料出庫' :'原物料入庫' ,
+            'header' => ($i == 0) ? '原物料出庫' : '原物料入庫',
             'action' => '/admin/materialChange',
-            'redirect'=>($i==0)?'/admin/materialChange/1' :'/admin/materialChange/0',
+            'redirect' => ($i == 0) ? '/admin/materialChange/1' : '/admin/materialChange/0',
             'body' => [
                 [
                     'lable' => '原物料編號',
@@ -147,14 +147,14 @@ class MaterialChangeController extends Controller
         $content = $req->validate(
             [
                 'material_id' => 'required',
-                'quantity' => 'required', 
+                'quantity' => 'required',
                 'unit' => 'required',
                 'change_status' => 'required'
             ]
         );
 
         $m->create($content);
-        $notice=($req->change_status=='出庫')?'出庫成功':'入庫成功';
+        $notice = ($req->change_status == '出庫') ? '出庫成功' : '入庫成功';
         return back()->with('notice', $notice);
     }
 
@@ -177,18 +177,37 @@ class MaterialChangeController extends Controller
      */
     public function edit($id) //到編輯畫面
     {
+        $status = [];
         $materialchange = MaterialChange::find($id);
-        $status = [
-            [
-                'value' => '出庫',
-                'text' => '出庫'
-            ],
-            [
-                'value' => '入庫',
-                'text' => '入庫'
-            ],
+        if ($materialchange->change_status == '出庫') {
+            $status = [
+                [
+                    'value' => '出庫',
+                    'text' => '出庫',
+                    'selected' => 'selected'
+                ],
+                [
+                    'value' => '入庫',
+                    'text' => '入庫'
+                ],
 
-        ];
+            ];
+        } else {
+            $status = [
+                [
+                    'value' => '出庫',
+                    'text' => '出庫',
+
+                ],
+                [
+                    'value' => '入庫',
+                    'text' => '入庫',
+                    'selected' => 'selected'
+                ],
+
+            ];
+        }
+
 
 
 
@@ -205,10 +224,11 @@ class MaterialChangeController extends Controller
                 ],
                 [
                     'lable' => '原物料名稱',
-                    'tag' => 'input',
+                    'tag' => '',
                     'type' => 'text',
                     'name' => 'material_id',
-                    'value' => $materialchange->material_id
+                    'value' => $materialchange->material_id,
+                    'text' => $materialchange->material->name,
                 ],
                 [
                     'lable' => '數量',
@@ -247,7 +267,7 @@ class MaterialChangeController extends Controller
     public function update(Request $req) //儲存編輯資料
     {
         $m = MaterialChange::find($req->id);
-        $m->material_id = $req->material_id;
+        // $m->material_id = $req->material_id;
         $m->quantity = $req->quantity;
         $m->unit = $req->unit;
         $m->change_status = $req->change_status;
@@ -266,5 +286,5 @@ class MaterialChangeController extends Controller
     public function destroy($id)
     {
         MaterialChange::destroy($id);
-    } 
+    }
 }

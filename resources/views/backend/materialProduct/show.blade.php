@@ -12,13 +12,19 @@
 
     <div class="w-auto h-auto px-3 py-3 mt-3 bg-gray-300 border border-gray-400 ">
         <ul class="m-auto ">
+            
+            <img src="{{ asset('img/createSvg.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 insert" data-id="{{ $header }}">
+            
             <p class="my-2 text-xl font-bold cursor-pointer accordion">
                 {{ $header }}</p>
             <ul class="block pl-10 text-xl font-thin ">
                 @foreach ($content as $c)
-                    <li>
+                    <li class="my-4 ">
                         <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
+
                             <div class="cursor-pointer ">
+                                <img src="{{ asset('img/createSvg.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 insert" data-id="{{ $c['material'] }}">
+                                <img src="{{ asset('img/delete.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 delete" data-id="{{ $c['material'] }}">
                                 {{ $c['material'] }}
                             </div>
                             <div class="cursor-pointer ">
@@ -26,55 +32,62 @@
                             </div>
                         </div>
                         @if ($c['next'] != [])
-                            <ul class="block pl-10 text-xl font-thin ">
+                            <ul class="block pl-10 text-xl font-thin">
                                 @foreach ($c['next'] as $next)
-                                    <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
+                                    <div class="grid w-2/3 grid-cols-2 gap-1 my-4 hover:text-blue-600 accordion">
                                         <div class="cursor-pointer ">
+                                            <img src="{{ asset('img/createSvg.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 insert" data-id="{{ $c['material'] }}">
+                                            <img src="{{ asset('img/delete.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 delete" data-id="{{ $c['material'] }}">
                                             {{ $next['material'] }}
                                         </div>
-                                        <div class="cursor-pointer ">
+                                        <div class="cursor-pointer ml">
                                             {{ $next['quantity'] . $next['unit'] }}
                                         </div>
                                     </div>
                                     @if ($c['next'] != [])
                                         <ul class="block pl-10 text-xl font-thin ">
                                             @foreach ($next['next'] as $next)
-                                                <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
+                                                <div class="grid w-2/3 grid-cols-2 gap-1 my-4 hover:text-blue-600 accordion">
                                                     <div class="cursor-pointer ">
-                                                        {{ $next['material'] }}
+                                                        <img src="{{ asset('img/createSvg.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 insert" data-id="{{ $c['material'] }}">
+                                                        <img src="{{ asset('img/delete.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 delete" data-id="{{ $c['material'] }}">{{ $next['material'] }}
                                                     </div>
                                                     <div class="cursor-pointer ">
                                                         {{ $next['quantity'] . $next['unit'] }}
                                                     </div>
                                                 </div>
                                                 @if ($c['next'] != [])
-                                        <ul class="block pl-10 text-xl font-thin ">
-                                            @foreach ($next['next'] as $next)
-                                                <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
-                                                    <div class="cursor-pointer ">
-                                                        {{ $next['material'] }}
-                                                    </div>
-                                                    <div class="cursor-pointer ">
-                                                        {{ $next['quantity'] . $next['unit'] }}
-                                                    </div>
-                                                </div>
-                                                @if ($c['next'] != [])
-                                        <ul class="block pl-10 text-xl font-thin ">
-                                            @foreach ($next['next'] as $next)
-                                                <div class="grid w-2/3 grid-cols-2 gap-1 hover:text-blue-600 accordion">
-                                                    <div class="cursor-pointer ">
-                                                        {{ $next['material'] }}
-                                                    </div>
-                                                    <div class="cursor-pointer ">
-                                                        {{ $next['quantity'] . $next['unit'] }}
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                            @endforeach
-                                        </ul>
-                                    @endif
+                                                    <ul class="block pl-10 text-xl font-thin ">
+                                                        @foreach ($next['next'] as $next)
+                                                            <div
+                                                                class="grid w-2/3 grid-cols-2 gap-1 my-4 hover:text-blue-600 accordion">
+                                                                <div class="cursor-pointer ">
+                                                                    <img src="{{ asset('img/createSvg.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 insert" data-id="{{ $c['material'] }}">
+                                                                    <img src="{{ asset('img/delete.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 delete" data-id="{{ $c['material'] }}"> {{ $next['material'] }}
+                                                                </div>
+                                                                <div class="cursor-pointer ">
+                                                                    {{ $next['quantity'] . $next['unit'] }}
+                                                                </div>
+                                                            </div>
+                                                            @if ($c['next'] != [])
+                                                                <ul class="block pl-10 text-xl font-thin ">
+                                                                    @foreach ($next['next'] as $next)
+                                                                        <div
+                                                                            class="grid w-2/3 grid-cols-2 gap-1 my-4 hover:text-blue-600 accordion">
+                                                                            <div class="cursor-pointer ">
+                                                                                <img src="{{ asset('img/createSvg.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 insert" data-id="{{ $c['material'] }}">
+                                                                                <img src="{{ asset('img/delete.svg') }}" style="height: 22px" class="inline float-left pt-1 mx-3 delete" data-id="{{ $c['material'] }}"> {{ $next['material'] }}
+                                                                            </div>
+                                                                            <div class="cursor-pointer ">
+                                                                                {{ $next['quantity'] . $next['unit'] }}
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </ul>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     @endif
@@ -95,7 +108,5 @@
     </div>
 @endsection
 @section('script')
-<script>
-    
-</script>
+    <script></script>
 @endsection

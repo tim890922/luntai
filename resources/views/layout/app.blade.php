@@ -13,20 +13,35 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
     <link rel="icon"
         href="https://cdn4.iconfinder.com/data/icons/unigrid-flat-buildings/90/008_079_factory_production_manufacturer_industry_industrial-256.png"
         type="image/x-icon" />
+
     @yield('style')
 </head>
 
 <body>
     <header class="mx-auto bg-gray-600 " style="height:100px">
-        <div class="flex mx-5">
-            <img src="{{ asset('img/factoryLogo.png') }}" style="height: 100px" class="py-2 ">
-            <p class="pt-2 pl-3 text-6xl text-white">
-                工廠管理系統
-            </p>
+        <div class="flex mx-5 justify-between">
+            <div>
+                <a href="/" class=" flex  pl-3 text-6xl text-white">
+                    <img src="{{ asset('img/factoryLogo.png') }}" style="height: 100px" class="py-2 "> 
+               
+                     工廠管理系統
+                
+                </a>
+            </div>
+
+
+            <p class=" right-0"> </p>
+            <div class="  py-10 pr-3">
+                <a href='/logout' class="border-gray-300 border-2 p-2 rounded font-bold text-xl bg-gray-300 hover:bg-gray-400 hover:border-gray-400">登出</a>
+            </div>
+
+
         </div>
+
 
     </header>
     <main class="flex mx-5">
@@ -45,8 +60,8 @@
     </main>
 
 
-    <footer class="py-3 mx-auto bg-red-500" style="height:70px">
-        <p class="text-2xl text-center ">工廠管理系統</p>
+    <footer class="py-3 mx-auto bg-gray-500" style="height:50px">
+        <p class="text-2xl text-center "></p>
     </footer>
 
     {{-- <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script> --}}
@@ -57,4 +72,3 @@
 
 
 </html>
-

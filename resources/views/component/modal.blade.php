@@ -1,5 +1,5 @@
 <div class="rounded modal-content">
-    <div id="@if (isset($id)) {{ $id }} @else"" @endif" >
+    <div id="@if (isset($id)) {{ $id }} @else"" @endif">
         <div class="modal-header">
             <span class="close">&times;</span>
             <h2 class="text-xl ">{{ $header }}</h2>

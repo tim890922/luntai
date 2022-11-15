@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all(); 
+        $products = Product::all();
         $col = ['料號', '名稱',  '材質', '重量', '射出噸數', '客戶', '刪除', '編輯'];
 
         $row = [];
@@ -74,23 +74,23 @@ class ProductController extends Controller
         // dd($row);
 
         $import = [
-            'action' => 'productImport', 'text' => '匯入料號','file'=>'product_file'
+            'action' => 'productImport', 'text' => '匯入料號', 'file' => 'product_file'
         ];
-        
-        $clients=Client::all();
-        $lists=[];
-        foreach($clients as $client){
-            $temp=[
-                'value'=>$client->id,
-                'text'=>$client->client_name
-            ];  
-            $lists[]=$temp;
+
+        $clients = Client::all();
+        $lists = [];
+        foreach ($clients as $client) {
+            $temp = [
+                'value' => $client->id,
+                'text' => $client->client_name
+            ];
+            $lists[] = $temp;
         }
-        
+
         // dd($list);
         $view = [
             'col' => $col, 'header' => '料號清單', 'title' => '料號', 'row' => $row, 'action' => 'product/create', 'method' => 'GET', 'href' => 'product/create',
-            'module' => 'product','import'=>$import,'lists'=>$lists,'name'=>'client_name'
+            'module' => 'product', 'import' => $import, 'lists' => $lists, 'name' => 'client_name'
         ];
 
 
@@ -105,14 +105,14 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $clients=Client::all();
-        $list=[];
-        foreach($clients as $client){
-            $temp=[
-                'value'=>$client->id,
-                'text'=>$client->client_name
-            ];  
-            $list[]=$temp;
+        $clients = Client::all();
+        $list = [];
+        foreach ($clients as $client) {
+            $temp = [
+                'value' => $client->id,
+                'text' => $client->client_name
+            ];
+            $list[] = $temp;
         }
         $view = [
             'action' => '/admin/product',
@@ -140,7 +140,7 @@ class ProductController extends Controller
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '0.001',
-                    'min'=>'0',
+                    'min' => '0',
                     'name' => 'weight'
                 ],
 
@@ -149,15 +149,15 @@ class ProductController extends Controller
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '0.01',
-                    'min'=>'0',
+                    'min' => '0',
                     'name' => 'tonnes'
                 ],
                 [
                     'lable' => '客戶名稱',
                     'tag' => 'select',
-                    'name'=>'client_id',
-                    'lists'=>$list
-                    
+                    'name' => 'client_id',
+                    'lists' => $list
+
                 ]
 
 
@@ -220,6 +220,27 @@ class ProductController extends Controller
     public function edit($id) //到編輯畫面
     {
         $product = Product::find($id);
+        $clients=Client::all();
+        $list = [];
+        foreach ($clients as $client) {
+            if($product->client_id==$client->id){
+                $temp = [
+                    'value' => $client->id,
+                    'text' => $client->client_name,
+                    'selected'=>'selected'
+                ];
+            }else{
+                $temp = [
+                    'value' => $client->id,
+                    'text' => $client->client_name
+                ];
+            }
+            $temp = [
+                'value' => $client->id,
+                'text' => $client->client_name
+            ];
+            $list[] = $temp;
+        }
         $view = [
             'action' => '/admin/product',
             'method' => 'PUT',
@@ -250,7 +271,7 @@ class ProductController extends Controller
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '0.001',
-                    'min'=>'0',
+                    'min' => '0',
                     'name' => 'weight',
                     'value' => $product->weight
                 ],
@@ -259,17 +280,15 @@ class ProductController extends Controller
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '0.01',
-                    'min'=>'0',
+                    'min' => '0',
                     'name' => 'tonnes',
                     'value' => $product->tonnes
                 ],
                 [
                     'lable' => '客戶編號',
-                    'tag' => 'input',
-                    'type' => 'number',
-                    'step' => '1',
+                    'tag' => 'select',
                     'name' => 'client_id',
-                    'value' => $product->client_id
+                    'lists'=>$list
                 ],
             ]
         ];
@@ -307,7 +326,7 @@ class ProductController extends Controller
     {
         Product::destroy($id);
     }
-// 匯入資料
+    // 匯入資料
     public function import(Request $req)
     {
         // $client_id=$req->client_name;

@@ -1,4 +1,9 @@
 @extends('layout.app')
+@section('style')
+    <style>
+
+    </style>
+@endsection
 @section('side')
     @include('component.side')
 @endsection
@@ -33,33 +38,34 @@
             <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
                 style="">
                 料號資料
-            </div>
         </a>
-        <a href="/admin/materialProduct">
-            <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
-                style="">
-                物料資料
-            </div>
-        </a>
-        <a href="/admin/process">
-            <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
-                style="">
-                製程資料
-            </div>
-        </a>
-        <a href="/admin/material">
-            <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
-                style="">
-                原物料資料
-            </div>
-        </a>
+    </div>
+
+    <a href="/admin/materialProduct">
+        <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
+            style="">
+            BOM表
+        </div>
+    </a>
+    <a href="/admin/process">
+        <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
+            style="">
+            製程資料
+        </div>
+    </a>
+    <a href="/admin/material">
+        <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
+            style="">
+            原物料資料
+        </div>
+    </a>
     </div>
     <div class="w-auto h-auto px-3 py-3 flex justify-left items-center">
         <a href="/admin/supplier">
-                <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
-                    style="">
-                    供應商資料
-                </div>
+            <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
+                style="">
+                供應商資料
+            </div>
         </a>
     </div>
     <div class="mx-auto py-3">
@@ -84,8 +90,8 @@
     </div>
     <div class="mx-auto py-3">
         <div class=" px-3 flex items-center justify-left w-full h-full text-3xl font-bold  bg-gray-400  rounded-lg"
-                style="">
-                生產管理
+            style="">
+            生產管理
         </div>
     </div>
     <div class="w-auto h-auto px-3  flex justify-left items-center">
@@ -107,7 +113,7 @@
                 員工進度回報
             </div>
         </a>
-        <a href="/admin/report">
+        <a href="/admin/defectiveReport">
             <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
                 style="">
                 不良品管理
@@ -116,8 +122,8 @@
     </div>
     <div class="mx-auto py-3">
         <div class=" px-3 flex items-center justify-left w-full h-full text-3xl font-bold  bg-gray-400  rounded-lg"
-                style="">
-                倉儲管理
+            style="">
+            倉儲管理
         </div>
     </div>
     <div class="w-auto h-auto px-3  flex justify-left items-center">
@@ -139,14 +145,20 @@
                 成品異動狀態清單
             </div>
         </a>
+        <a href="/admin/materialChange">
+            <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
+                style="">
+                料號檢核
+            </div>
+        </a>
+    </div>
+    <div class="w-auto h-auto px-3 py-3 flex justify-left items-center">
         <a href="/admin/materialChange/0">
             <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
                 style="">
                 原物料出庫
             </div>
         </a>
-    </div>
-    <div class="w-auto h-auto px-3 py-3 flex justify-left items-center">
         <a href="/admin/materialChange/1">
             <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
                 style="">
@@ -157,12 +169,6 @@
             <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
                 style="">
                 原物料異動狀態清單
-            </div>
-        </a>
-        <a href="/admin/materialChange">
-            <div class="flex items-center justify-center w-48 h-16 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 mx-5 "
-                style="">
-                料號檢核
             </div>
         </a>
     </div>

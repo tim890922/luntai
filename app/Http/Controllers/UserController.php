@@ -15,13 +15,13 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        $userData = Employee::where("account", $request->account)->get();
+        $userData = Employee::where("account", $request->account)->first();
         // dd($userData[0]->pass_word);
-        if (!isset($userData[0]->name)) {
+        if (!isset($userData->name)) {
 
-            return view('login', ['err' => "使用不存在"]);
-        } elseif (password_verify($request->pass_word, $userData[0]->pass_word)) {
-            session(['username' => $userData[0]->name]);
+            return view('login', ['err' => "使用者不存在"]);
+        } elseif (password_verify($request->pass_word, $userData->pass_word)) {
+            session(['user' => $userData]);
             return redirect('/');
         } else {
 
@@ -31,7 +31,7 @@ class UserController extends Controller
 
     public function logout()
     {
-        session()->forget('username');
+        session()->forget('user');
         return redirect('/');
     }
 }

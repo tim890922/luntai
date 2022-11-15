@@ -174,24 +174,28 @@ class MachineProductController extends Controller
 
     public function store(Request $req)
     {
-
-        $machineproduct = new MachineProduct;
+        // dd($req);
+        $mp = new MachineProduct;
+        // $mp->product_id = $req->product_id;
+        // $mp->workstation_id = $req->workstation_id;
+        // $mp->cycle_time = $req->cycle_time;
+        // $mp->morning_employee = $req->morning_employee;
+        // $mp->night_employee = $req->night_employee;
+        // $mp->non_performing_rate = $req->non_performing_rate;
         $content = $req->validate(
             [
                 'product_id' => 'required',
-                'machine_id' => 'required',
-                'model_id' => 'required',
+                'workstation_id' => 'required',
                 'cycle_time' => 'required',
                 'morning_employee' => 'required',
                 'night_employee' => 'required',
-                'cavity' => 'required',
                 'non_performing_rate' => 'required',
-                'priority' => 'required',
             ]
         );
-        $machineproduct->create($content);
+        // $machineproduct->create($content);
+        $mp->create($content);
 
-        return redirect('admin/machineProduct')->with('notice', '新增成功');
+        return back()->with('notice', '新增成功');
     }
 
     public function edit($id) //到編輯畫面
@@ -212,7 +216,7 @@ class MachineProductController extends Controller
         $view = [
             'action' => '/admin/machineProduct',
             'method' => 'PUT',
-            'header' => '',
+            'header' => '編輯工作站',
             'footer' => '',
             'body' => [
                 [
@@ -284,7 +288,7 @@ class MachineProductController extends Controller
      */
     public function update(Request $req) //儲存編輯資料
     {
-        $mp = machineProduct::find($req->id);
+        $mp = MachineProduct::find($req->id);
         $mp->workstation_id = $req->workstation_id;
         $mp->cycle_time = $req->cycle_time;
 
@@ -299,6 +303,78 @@ class MachineProductController extends Controller
     public function destroy($id)
     {
         machineProduct::destroy($id);
-        return back()->with('notice','刪除成功');
+        return back()->with('notice', '刪除成功');
+    }
+
+    public function add($id)
+    {
+        // $machineProduct = MachineProduct::find($id);
+        // $procedure = $machineProduct->workstation->procedure;
+        // dd($procedure);
+        $workstations = Workstation::all();
+        $lists = []; //工作站清單
+        foreach ($workstations as $workstation) {
+            $temp = [
+                'text' => $workstation->workstation_name,
+                'value' => $workstation->id,
+            ];
+            $lists[] = $temp;
+        }
+        // dd($lists);
+        $view = [
+            'action' => '/admin/machineProduct',
+            'method' => 'POST',
+            'header' => '新增工作站',
+            'footer' => '',
+            'body' => [
+                [
+                    'lable' => '料號',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'product_id',
+                    'value' => $id
+                ],
+                [
+                    'lable' => '工作站名稱',
+                    'tag' => 'select',
+                    'type' => ' ',
+                    'name' => 'workstation_id',
+                    'lists' => $lists
+                ],
+
+                [
+                    'lable' => '週期時間',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '1',
+                    'name' => 'cycle_time',
+
+                ],
+                [
+                    'lable' => '日班人數',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '1',
+                    'name' => 'morning_employee',
+
+                ],
+                [
+                    'lable' => '夜班人數',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '1',
+                    'name' => 'night_employee',
+
+                ],
+                [
+                    'lable' => '不良率',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '0.01',
+                    'name' => 'non_performing_rate'
+                ]
+            ]
+        ];
+        return view('component.modal', $view);
     }
 }
