@@ -338,4 +338,11 @@ class ProductController extends Controller
 
         return back()->with('notice', '匯入成功');
     }
+
+    public function check(){
+        
+
+        return view('check');
+    }
+
 }

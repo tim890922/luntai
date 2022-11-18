@@ -10,14 +10,108 @@ use App\Models\Report;
 class DefectiveReportController extends Controller
 {
 
-    public function index()
+    public function index(Request $req)
     {
         $defectivereports = DefectiveReport::all();
+        $filter = $req->filter;
+
         $col = ['不良品編號', '進度回報編號', '原因', '數量', '備註', '不良品詳情', '查核', '刪除', '編輯'];
 
         $row = [];
+        $subtitle = [
+            'button' => [
+                [
+                    'text' => '缺料',
+                    'href' => '/admin/defectiveReport'  . '?filter=1',
+                    'value' => ''
+                ],
+                [
+                    'text' => '縮水',
+                    'href' => '/admin/defectiveReport'  . '?filter=2',
+                    'value' => ''
+                ],
+                [
+                    'text' => '包風',
+                    'href' => '/admin/defectiveReport'  . '?filter=3',
+                    'value' => ''
+                ],
+                [
+                    'text' => '拉傷',
+                    'href' => '/admin/defectiveReport'  . '?filter=4',
+                    'value' => ''
+                ],
+                [
+                    'text' => '油點',
+                    'href' => '/admin/defectiveReport'  . '?filter=5',
+                    'value' => ''
+                ],
+                [
+                    'text' => '噴痕',
+                    'href' =>  '/admin/defectiveReport'  . '?filter=6',
+                    'value' => ''
+                ],
+                [
+                    'text' => '刮傷',
+                    'href' => '/admin/defectiveReport'  . '?filter=7',
+                    'value' => ''
+                ],
+                [
+                    'text' => '頂白',
+                    'href' => '/admin/defectiveReport'  . '?filter=8',
+                    'value' => ''
+                ],
+                [
+                    'text' => '黑點',
+                    'href' => '/admin/defectiveReport'  . '?filter=9',
+                    'value' => ''
+                ],
+                [
+                    'text' => '其他',
+                    'href' => '/admin/defectiveReport'  . '?filter=10',
+                    'value' => ''
+                ],
+            ]
+        ];
 
-        foreach ($defectivereports as $p) {
+        $d = [];
+
+        switch ($filter) {
+            case 'all':
+                $d = DefectiveReport::all();
+                break;
+            case '1':
+                $d = DefectiveReport::where('defective_id', '=', 1)->get();
+                break;
+            case '2':
+                $d = DefectiveReport::where('defective_id', '=', 2)->get();
+                break;
+            case '3':
+                $d = DefectiveReport::where('defective_id', '=', 3)->get();
+                break;
+            case '4':
+                $d = DefectiveReport::where('defective_id', '=', 4)->get();
+                break;
+            case '5':
+                $d = DefectiveReport::where('defective_id', '=', 5)->get();
+                break;
+            case '6':
+                $d = DefectiveReport::where('defective_id', '=', 6)->get();
+                break;
+            case '7':
+                $d = DefectiveReport::where('defective_id', '=', 7)->get();
+                break;
+            case '8':
+                $d = DefectiveReport::where('defective_id', '=', 8)->get();
+                break;
+            case '9':
+                $d = DefectiveReport::where('defective_id', '=', 9)->get();
+                break;
+            default:
+                $d = DefectiveReport::all();
+                break;
+        }
+
+        foreach ($d as $p) {
             $temp = [
                 [
                     'tag' => '',
@@ -53,8 +147,8 @@ class DefectiveReportController extends Controller
                 [
                     'tag' => '',
                     'type' => 'text',
-                    'action' => 'comfirm',
-                    'text' => ($p->comfirm == 1) ? '確認' : '未確認',
+                    'action' => 'record',
+                    'text' => ($p->record == 1) ? '確認' : '未確認',
                     'id' => $p->id,
                 ],
                 [
@@ -83,7 +177,7 @@ class DefectiveReportController extends Controller
         // dd($list);
         $view = [
             'col' => $col, 'header' => '不良品管理', 'row' => $row,  'method' => 'GET',
-            'module' => 'defectiveReport'
+            'module' => 'defectiveReport', 'subtitle' => $subtitle
         ];
 
 
@@ -96,12 +190,35 @@ class DefectiveReportController extends Controller
         $report = Report::find($id);
         $defectiveReports = DefectiveReport::where('report_id', $report->id)->get();
 
+        $tbody = []; //不良品原因及數量
+        foreach ($defectiveReports as $r) {
+            $temp = [
+                'reason' => $r->defective->reason,
+                'quantity' => $r->quantity
+
+            ];
+            $tbody[] = $temp;
+        }
+        // dd($tbody);
+        $table = [
+            'th' => [
+                [
+                    'lable' => '不良品原因',
+                ],
+                [
+                    'lable' => '不良品數量',
+                ]
+            ],
+            'tb' => $tbody
+        ];
 
         $view = [
             'header' => '不良品詳情',
             'title' => '不良品詳情',
+            'table' => $table,
+            // 'tbody'=>$tbody,
             'body' =>  [
-                
+
                 [
                     'lable' => '生產批號',
                     'text' => $report->schedule->id,
@@ -119,38 +236,35 @@ class DefectiveReportController extends Controller
                     'text' => $report->shift,
                 ],
                 [
-                    'lable' => '進度回報編號',
-                    'text' => $report->id,
+                    'lable' => '開始時間',
+                    'text' => $report->time_start,
                 ],
                 [
-                    'lable' => '進度回報編號',
-                    'text' => $report->id,
+                    'lable' => '結束時間',
+                    'text' => $report->time_end,
                 ],
                 [
-                    'lable' => '進度回報編號',
-                    'text' => $report->id,
+                    'lable' => '良品數量',
+                    'text' => $report->good_product_quantity,
                 ],
                 [
-                    'lable' => '進度回報編號',
-                    'text' => $report->id,
-                ],
-                [
-                    'lable' => '進度回報編號',
-                    'text' => $report->id,
-                ],
-                [
-                    'lable' => '進度回報編號',
-                    'text' => $report->id,
-                ],
-            ]
+                    'lable' => '不良品總量',
+                    'text' => $report->defective_product_quantity,
+                ]
+            ],
         ];
+
+
+
         return view('backend.report.show', $view);
     }
 
     public function edit($id) //到編輯畫面
     {
         $defectivereport = DefectiveReport::find($id);
-
+        $checked='';
+        if($defectivereport->record==1)
+            $checked='checked';
         $reason = [];
         $defectives = Defective::all();
         foreach ($defectives as $d) {
@@ -211,9 +325,11 @@ class DefectiveReportController extends Controller
                 ],
                 [
                     'lable' => '主管查核確認',
-                    'tag' => 'input',
+                    'tag' => 'checkbox',
                     'type' => 'checkbox',
                     'name' => 'check',
+                    'id'=>'',
+                    'checked'=>$checked
 
                 ],
             ]
@@ -231,16 +347,27 @@ class DefectiveReportController extends Controller
      */
     public function update(Request $req) //儲存編輯資料
     {
-        $d = DefectiveReport::find($req->id);
 
+
+        $d = DefectiveReport::find($req->id);
+        // dd($req->request);
         $d->report_id = $req->report_id;
         $d->defective_id = $req->reason;
         $d->quantity = $req->quantity;
         $d->detail = $req->detail;
+        $check = '編輯成功';
+        if (isset($req['check'])) {
+            $d->record = 1;
+            $check = '確認成功';
+        } else {
+            $d->record = 0;
+            
+        }
+
         $d->save();
 
 
-        return redirect('admin/defectiveReport')->with('notice', '編輯成功');
+        return redirect('admin/defectiveReport')->with('notice', $check);
     }
 
     /**

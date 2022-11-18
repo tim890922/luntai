@@ -5,7 +5,7 @@
 @section('main')
     <div class="mx-auto ">
         <h1
-            class="flex items-center justify-center w-full h-full text-4xl font-bold bg-green-300 border-b-8 border-l-4 border-green-600 rounded-lg">
+            class="flex items-center justify-center w-full h-full text-4xl font-bold bg-green-300 border-b-8 border-l-4 border-green-600 rounded-lg mb-3">
             {{ $header }}</h1>
     </div>
     @isset($subtitle)
@@ -17,6 +17,11 @@
         </div>
     @endisset
 
+    @isset($history)
+        <a href="{{ $history }}" value="回到上一頁"
+            class="p-3 ml-5 mt-5 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</a>
+    @endisset
+
     {{-- 訊息區 --}}
     @if (session()->has('notice'))
         <div class="px-3 mt-3 text-xl bg-green-400 rounded alert alert-success">
@@ -25,6 +30,7 @@
     @endif
 
     {{-- 內容 --}}
+
     <div class="w-auto h-auto px-3 py-3 mt-3 border border-gray-400">
 
         <div class="flex items-center justify-left">
@@ -102,7 +108,7 @@
 
             $.ajax({
                 type: 'patch',
-                url: `reportList/check/${_this.data('id')}`,
+                url: `report/show/check/${_this.data('id')}`,
                 success: function(content) {
                     if (_this.text() == "確認") {
                         _this.text("未確認")
@@ -113,6 +119,7 @@
                 }
             })
         })
+
 
         $(".output").on("click", function() {
             let _this = $(this)

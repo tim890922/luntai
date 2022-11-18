@@ -21,16 +21,16 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientUserController;
 use App\Http\Controllers\DefectiveReportController;
 
-use App\Models\Client;
 
 
-Route::view('/', 'home')->middleware('userAuth');
+
+Route::get('/',  [UserController::class, 'index'])->middleware('userAuth');
 Route::redirect('/admin', 'admin/product');
 Route::post('login', [UserController::class, 'login']);
 Route::get('login', [UserController::class, 'showLoginPage']);
 Route::get('logout', [UserController::class, 'logout']);
 
-Route::group(['prefix'=>'admin', 'before'=>'userAuth'], function(){
+Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
 
     //GET 清單首頁
     Route::get('/product', [ProductController::class, 'index']);
@@ -39,7 +39,7 @@ Route::group(['prefix'=>'admin', 'before'=>'userAuth'], function(){
     Route::get('/schedule', [ScheduleController::class, 'index']);
     // Route::get('/order', [OrderController::class, 'index']);
     Route::get('/order',  [OrderController::class, 'select']);
-    Route::get('/order/{id}', [OrderController::class, 'index']);
+    Route::get('/order/{client_id}', [OrderController::class, 'index']);
     //Route::get('/order/{id}/{filter}', [OrderController::class, 'index']);
     Route::get('/materialProduct', [MaterialProductController::class, 'index']);
     Route::get('/productStorage', [ProductStorageController::class, 'index']);
@@ -62,6 +62,7 @@ Route::group(['prefix'=>'admin', 'before'=>'userAuth'], function(){
     Route::get('/materialInOut', function () {
         return view('backend.materialChange.index');
     });
+    Route::get('/check',[ProductController::class,'check']);
 
 
     //SHOW 顯示單一詳情資料
@@ -69,6 +70,7 @@ Route::group(['prefix'=>'admin', 'before'=>'userAuth'], function(){
     Route::get('/materialProduct/show/{id}', [MaterialProductController::class, 'show']);
     Route::get('/defectiveReport/show/{id}', [DefectiveReportController::class, 'show']);
     Route::get('/clientUser/show/{id}', [ClientUserController::class, 'index']);
+    Route::get('/report/show/{id}', [ReportController::class, 'show']);
 
     //POST 新增
     Route::post('/product', [ProductController::class, 'store']);
@@ -84,8 +86,8 @@ Route::group(['prefix'=>'admin', 'before'=>'userAuth'], function(){
     Route::post('/process', [ProcessController::class, 'store']);
     Route::post('/productStorage', [ProductStorageController::class, 'store']);
     Route::post('/materialChange', [MaterialChangeController::class, 'store']);
-    Route::post('/report',[ReportController::class,'store']);
-    Route::post('/schedule',[ScheduleController::class,'store']);
+    Route::post('/report', [ReportController::class, 'store']);
+    Route::post('/schedule', [ScheduleController::class, 'store']);
 
 
     //edit 編輯畫面
@@ -164,12 +166,9 @@ Route::group(['prefix'=>'admin', 'before'=>'userAuth'], function(){
     Route::post('/productImport', [ProductController::class, 'import']);
 
     //patch 更改狀況
-    Route::patch('/reportList/check/{id}', [ReportController::class, 'check']);
+    Route::patch('/report/show/check/{id}', [ReportController::class, 'check']);
     Route::patch('/order/output/{id}', [OrderController::class, 'output']);
     Route::post('/order/load/{id}', [OrderController::class, 'load']);
-
-    
-    
 });
 
 

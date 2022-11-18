@@ -12,6 +12,12 @@ class UserController extends Controller
         return view('login');
     }
 
+    public function index()
+    {
+        $user=session()->get('user');
+        return view('home', ['user' => $user]);
+    }
+
     public function login(Request $request)
     {
 

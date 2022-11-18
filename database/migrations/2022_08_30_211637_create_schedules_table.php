@@ -25,6 +25,7 @@ class CreateSchedulesTable extends Migration
             $table->integer('total_quantity')->comment('預計總產量')->nullable();
             $table->unsignedBigInteger('workstation_id')->comment('工作站編號')->default(1);
             $table->foreign('workstation_id')->references('id')->on('workstations')->onDelete('cascade');
+            $table->boolean('isFinish')->comment('是否完成')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

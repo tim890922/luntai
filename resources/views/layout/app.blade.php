@@ -23,20 +23,24 @@
 
 <body>
     <header class="mx-auto bg-gray-600 " style="height:100px">
-        <div class="flex mx-5 justify-between">
+        <div class="flex justify-between mx-5">
             <div>
-                <a href="/" class=" flex  pl-3 text-6xl text-white">
-                    <img src="{{ asset('img/factoryLogo.png') }}" style="height: 100px" class="py-2 "> 
-               
-                     工廠管理系統
-                
+                <a href="/" class="flex pl-3 text-6xl text-white ">
+                    <img src="{{ asset('img/factoryLogo.png') }}" style="height: 100px" class="py-2 ">
+
+                    工廠管理系統
+
                 </a>
             </div>
 
 
-            <p class=" right-0"> </p>
-            <div class="  py-10 pr-3">
-                <a href='/logout' class="border-gray-300 border-2 p-2 rounded font-bold text-xl bg-gray-300 hover:bg-gray-400 hover:border-gray-400">登出</a>
+            <p class="right-0 "> </p>
+            <div class="py-10 pr-3 ">
+                @if (isset(session()->get('user')->name))
+                    {{ session()->get('user')->name }}
+                @endif
+                <a href='/logout'
+                    class="p-2 text-xl font-bold bg-gray-300 border-2 border-gray-300 rounded hover:bg-gray-400 hover:border-gray-400">登出</a>
             </div>
 
 
@@ -66,6 +70,7 @@
 
     {{-- <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script> --}}
     <script src="{{ asset('js/my.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('script')
 </body>
 

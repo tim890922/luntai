@@ -12,9 +12,9 @@ use App\Models\ProductStorage;
 
 class OrderController extends Controller
 {
-    public function index($id, Request $req/*, $filter = 'all'*/)
+    public function index($client_id, Request $req/*, $filter = 'all'*/)
     {
-
+        $id=$client_id;
         $filter = $req->filter;
 
         $col = ['訂單編號', '料號', '出貨位', '用方', '用方名稱', '交貨日', '數量', '包裝數', '庫存數量', '圈存', '狀態', '刪除', '編輯'];

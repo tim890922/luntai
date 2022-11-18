@@ -73,6 +73,10 @@
                                             @endif
                                         @break
 
+                                        @case('checkbox')
+                                            @include('component.checkbox', $row)
+                                        @break
+
                                         @case('select')
                                             @include('component.select', [
                                                 'lists' => $row['lists'],
