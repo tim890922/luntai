@@ -218,10 +218,10 @@ class ScheduleController extends Controller
                 [
                     'lable' => '總預計產量',
                     'tag' => 'input',
-                    'step'=>1,
+                    'step' => 1,
                     'type' => 'number',
                     'name' => 'total_quantity',
-                    'value' => '',
+                    'value' => $order->quantity,
                 ],
                 [
                     'lable' => '機台',
@@ -265,5 +265,117 @@ class ScheduleController extends Controller
         $order->schedule_status = '已排程';
         $order->save();
         return '排程成功';
+    }
+
+    public function mainSchedule(Request $req)
+    {
+
+        $orders_init = []; //原始訂單
+        $orders = []; //整理後訂單
+        foreach ($req->order as $id) {
+            $order = Order::find($id);
+            $orders_init[] = $order;
+            $order->schedule_status = '已排程';
+            $order->save();
+        }
+        // dd($orders);
+        foreach ($orders_init as $order) {
+            if ($order->record == 0 && $order->isLoad == 0) {
+                $processes = MachineProduct::where('product_id', $order->product_id)->get();
+                $time = 0;
+                $minInjection = 999;
+                $cycle_time = 0;
+                foreach ($processes as $p) {
+                    $minInjection = 999;
+                    if ($p->workstation->procedure == '塑膠射出') {
+                        if ($minInjection >= $p->cycle_time)
+                            $minInjection = $p->cycle_time;
+                    } else {
+                        $cycle_time += $p->cycle_time;
+                    }
+                }
+                $cycle_time += $minInjection;
+                $time = $cycle_time * $order->quantity;
+                $temp = [
+                    'id' => $order->id, 'time' => round($time / 3600, 2), 'delivery' => $order->delivery, 'product_id' => $order->product_id, 'quantity' => $order->quantity
+                ];
+                $orders[] = $temp;
+            }
+        }
+
+        foreach ($orders as $key => $row) {
+            $delivery[$key] = $row['delivery'];
+            $t[$key] = $row['time'];
+        }
+
+        array_multisort($delivery, SORT_ASC, $t, SORT_DESC, $orders);
+
+
+        $col = ['順序', '訂單號', '料號', '數量', '預計工時', '交期', '發放製令', '刪除', '編輯'];
+        $row = [];
+        foreach ($orders as $key => $o) {
+            $temp = [
+                [
+                    'tag' => '',
+                    'text' => $key + 1
+                ],
+                [
+                    'tag' => '',
+                    'text' => $o['id'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $o['product_id'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $o['quantity'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $o['time'] . '小時',
+                ],
+                [
+                    'tag' => '',
+                    'text' => $o['delivery'],
+                ],
+                [
+                    'tag' => 'button',
+                    'type' => 'button',
+                    'class' => 'px-1 bg-yellow-300 rounded hover:bg-yellow-500',
+                    'text' => '發放',
+                    'alertname' => $o['id'],
+                    'action' => 'delete',
+                    'id' => $o['id']
+                ],
+                [
+                    'tag' => 'button',
+                    'type' => 'button',
+                    'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
+                    'text' => '刪除',
+                    'alertname' =>'訂單編號'. $o['id'],
+                    'action' => 'delete',
+                    'id' => $o['id']
+                ],
+                [
+                    'tag' => 'href',
+                    'type' => '',
+                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
+                    'text' => '編輯',
+                    'alertname' => $o['id'],
+                    'action' => 'edit',
+                    'id' =>  $o['id'],
+                    'href' => 'schedule/edit/' . $o['id']
+                ],
+            ];
+            $row[] = $temp;
+        }
+
+
+
+        $view = [
+            'row' => $row, 'col' => $col, 'header' => '排程清單', 'module' => 'schedule'
+        ];
+        return view('backend.admin', $view);
     }
 }

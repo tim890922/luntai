@@ -52,7 +52,7 @@
                         @endforeach
                         <tr>
                             <td>預計總生產工時：</td>
-                            <td class="work_time">放時間
+                            <td class="work_time">
 
                             </td>
                         </tr>

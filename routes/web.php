@@ -139,7 +139,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::get('/materialChange/{i}', [MaterialChangeController::class, 'create']);
     Route::get('/productStorage/{i}', [ProductStorageController::class, 'create']);
     Route::get('/machineProduct/add/{id}', [MachineProductController::class, 'add']);
-    Route::get('/schedule/create', [ScheduleController::class, 'create']);
+    Route::get('/schedule/create', [ScheduleController::class, 'mainSchedule']);
     Route::get('/report/create/{id}', [ReportController::class, 'create']);
 
 
