@@ -17,11 +17,12 @@ class CreateBomsTable extends Migration
         Schema::create('material_products', function (Blueprint $table) {
             $table->id()->comment('物料編號');
             $table->string('product_id')->comment('料號');
-            $table->string('next')->comment('下一階料號');
+            $table->unsignedBigInteger('material_id')->comment('下一階料號');
+            $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
             $table->integer('quantity')->comment('數量');
             $table->string('unit')->comment('單位');
             $table->softDeletes();
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 

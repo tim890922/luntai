@@ -11,7 +11,7 @@ class MaterialController extends Controller
     public function index()
     { {
             $material = Material::all();
-            $col = ['原物料編號', '名稱', '類型', '庫存量', '安全庫存量', '單位', '材質', '規格', '供應商', '刪除', '編輯']; //表格的標題
+            $col = ['原物料編號', '名稱', '類型', '單位', '材質', '規格', '供應商', '刪除', '編輯']; //表格的標題
 
             $row = []; //表格的內容
 
@@ -28,14 +28,6 @@ class MaterialController extends Controller
                     [
                         'tag' => '',
                         'text' => $m->type,
-                    ],
-                    [
-                        'tag' => '',
-                        'text' => $m->inventory,
-                    ],
-                    [
-                        'tag' => '',
-                        'text' => $m->safety,
                     ],
                     [
                         'tag' => '',
@@ -141,12 +133,6 @@ class MaterialController extends Controller
                     'lists' => $lists,
                 ],
                 [
-                    'lable' => '庫存量',
-                    'tag' => 'input',
-                    'type' => 'number',
-                    'name' => 'inventory'
-                ],
-                [
                     'lable' => '安全庫存量',
                     'tag' => 'input',
                     'type' => 'number',
@@ -190,7 +176,6 @@ class MaterialController extends Controller
             [
                 'name' => 'required',
                 'type' => 'required',
-                'inventory' => 'required',
                 'safety' => 'required',
                 'unit' => 'required',
                 'material' => 'required',
@@ -288,14 +273,6 @@ class MaterialController extends Controller
                     'lists' => $lists,
                 ],
                 [
-                    'lable' => '庫存量',
-                    'tag' => 'input',
-                    'type' => 'number',
-                    'step' => '0.001',
-                    'name' => 'inventory',
-                    'value' => $material->inventory
-                ],
-                [
                     'lable' => '安全庫存量',
                     'tag' => 'input',
                     'type' => 'number',
@@ -349,7 +326,6 @@ class MaterialController extends Controller
         $p->id = $req->id;
         $p->name = $req->name;
         $p->type = $req->type;
-        $p->inventory = $req->inventory;
         $p->safety = $req->safety;
         $p->unit = $req->unit;
         $p->material = $req->material;

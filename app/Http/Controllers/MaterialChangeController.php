@@ -166,7 +166,45 @@ class MaterialChangeController extends Controller
      */
     public function show($id)
     {
-        //
+        $storage = MaterialChange::where('material_id', $id)->get();
+        $col = [
+            '原物料編號', '名稱', '異動狀態', '數量', '時間'
+        ];
+        $row = [];
+        foreach ($storage as $storage) {
+            $temp = [
+                [
+                    'tag' => '',
+                    'text' => $storage->material_id
+                ],
+                [
+                    'tag' => '',
+                    'text' => $storage->material->name
+                ],
+                [
+                    'tag' => '',
+                    'text' => $storage->change_status
+                ],
+                [
+                    'tag' => '',
+                    'text' => $storage->quantity
+                ],
+
+                [
+                    'tag' => '',
+                    'text' => $storage->created_at
+                ],
+            ];
+            $row[] = $temp;
+        }
+
+
+        $view = [
+            'header' => '原物料異動清單', 'row' => $row, 'col' => $col
+
+        ];
+
+        return view('backend.admin', $view);
     }
 
     /**
@@ -286,5 +324,107 @@ class MaterialChangeController extends Controller
     public function destroy($id)
     {
         MaterialChange::destroy($id);
+    }
+
+    public function list()
+    {
+        $materials = Material::all();
+
+        $col = [
+            '原物料編號', '原物料名稱', '規格', '安全庫存量', '庫存數量', '狀態',  '異動詳情',
+        ];
+        $row = [];
+        $content = [];
+
+        foreach ($materials as $material) {
+            $storage = MaterialChange::where('material_id', $material->id)->get();
+            $total = 0;
+            $useable = 0;
+            foreach ($storage as $storage) {
+
+                switch ($storage->change_status) {
+                    case '入庫':
+                        $total = $total + $storage->quantity;
+                        $useable = $useable + $storage->quantity;
+                        break;
+                    case '出庫':
+                        $total = $total - $storage->quantity;
+                        $useable = $useable - $storage->quantity;
+                        break;
+                    case '圈存':
+
+                        $useable = $useable - $storage->quantity;
+                        break;
+                    case '解圈存':
+
+                        $useable = $useable + $storage->quantity;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            $temp = [
+                'material_id' => $material->id,
+                'material_name' => $material->name,
+                'total' => $total,
+                'useable' => $useable,
+                'specification' => $material->specification,
+                'safety' => $material->safety
+            ];
+            $content[] = $temp;
+        }
+        // dd($content, $materials);
+        foreach ($content as $item) {
+            $status = '充足';
+            if ($item['safety'] > $item['total']) {
+                $status = '庫存不足';
+            }
+            $temp = [
+                [
+                    'tag' => '',
+                    'text' => $item['material_id'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $item['material_name'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $item['specification'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $item['safety'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $item['total'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $status,
+                ],
+                [
+                    'tag' => 'href',
+                    'type' => '',
+                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
+                    'text' => '查看',
+                    'action' => 'show',
+                    'id' => $item['material_id'],
+                    'href' => $item['material_id']
+                ]
+
+            ];
+            $row[] = $temp;
+        }
+
+
+
+        $view = [
+            'header' => '原物料庫存清單', 'row' => $row, 'col' => $col
+
+        ];
+
+        return view('backend.admin', $view);
     }
 }

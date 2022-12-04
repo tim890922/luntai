@@ -55,8 +55,8 @@ class MaterialProductController extends Controller
         $content = [];
         foreach ($materials as $m) {
             $temp = [
-
-                'material' => $m->next,
+                'id' => $m->product_id,
+                'material' => $m->material->name,
                 'quantity' => $m->quantity,
                 'unit' => $m->unit
 
@@ -79,11 +79,12 @@ class MaterialProductController extends Controller
             }
         }
         $content = self::materialList($materials);
-        // dd($contents, $content);
+        // dd($content);
         // dd($materials,$content);
 
         $view = [
             'header' => $id,
+            'id' => $id,
             'title' => '產品製程',
             'action' => 'process/create',
             'method' => 'GET',
@@ -91,25 +92,29 @@ class MaterialProductController extends Controller
             'module' => 'process',
             'content' => $content
         ];
+        // dd($content);
 
         return view('backend.materialProduct.show', $view);
     }
 
-    public function materialList($materials)
+    public static function materialList($materials)
     {
         //    如果有next 繼續呼叫並return next
         $contents = [];
 
         for ($i = 0; $i < count($materials); $i++) {
-            $next = MaterialProduct::where('product_id', $materials[$i]['next'])->get();
-            if (null != $next) {
-                $temp = [
-                    'material' => $materials[$i]->next,
-                    'quantity' => $materials[$i]->quantity,
-                    'unit' => $materials[$i]->unit
+            $next = MaterialProduct::where('product_id', $materials[$i]['material_id'])->get();
+            $temp = [
+                'material' => ($materials[$i]->material->name) . '  材質:' . ($materials[$i]->material->material) . ' 規格:' . ($materials[$i]->material->specification),
+                'quantity' => $materials[$i]->quantity,
+                'unit' => $materials[$i]->unit,
+                'id' => $materials[$i]->material_id
 
-                ];
-                $contents[] = $temp;
+            ];
+            $contents[] = $temp;
+            if (null != $next) {
+
+
                 $contents[$i]['next'] = self::materialList($next);
             }
             // 如果沒有next 停止呼叫
@@ -117,5 +122,70 @@ class MaterialProductController extends Controller
             }
         }
         return $contents;
+    }
+    public function create($id)
+    {
+
+        $materials = Material::all();
+        $lists = [];
+        foreach ($materials as $materials) {
+            $temp = [
+
+                'value' => $materials->id,
+                'text' => $materials->name
+
+            ];
+            $lists[] = $temp;
+        }
+
+        $view = [
+            'action' => '/admin/materialProduct',
+            'header' => '新增原物料',
+            'id' => 'insert-materialProduct',
+            'btn' => 'insert-mp',
+            'footer' => '',
+            'body' => [
+                [
+                    'lable' => '料號',
+                    'tag' => 'select',
+                    'type' => '',
+                    'name' => 'procedure',
+                    'lists' => $lists
+                ],
+                [
+                    'lable' => '數量',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'name' => 'quantity',
+                ],
+                [
+                    'lable' => '單位',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'unit',
+                ],
+                [
+                    'lable' => '',
+                    'tag' => 'input',
+                    'type' => 'hidden',
+                    'name' => 'product_id',
+                    'value' => $id,
+                ]
+            ]
+        ];
+        return view('component.modal', $view);
+    }
+
+    public function store(Request $req)
+    {
+
+        $materialProduct = new MaterialProduct;
+        $materialProduct->product_id = $req->product_id;
+        $materialProduct->material_id = $req->procedure;
+        $materialProduct->quantity = $req->quantity;
+        $materialProduct->unit = $req->unit;
+        $materialProduct->save();
+
+        return back()->with('notice', '新增成功');
     }
 }

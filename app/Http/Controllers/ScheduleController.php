@@ -8,6 +8,7 @@ use App\Models\ProductStorage;
 use App\Models\MachineProduct;
 use App\Models\Process;
 use App\Models\Schedule;
+use App\Models\MaterialProduct;
 
 class ScheduleController extends Controller
 {
@@ -15,7 +16,7 @@ class ScheduleController extends Controller
     {
 
 
-        $orders = Order::where([['schedule_status', '未排程'], ['record', 0], ['isLoad', 0]])->orderBy('delivery')->get();
+        $orders = Order::where([['schedule_status', '未排程'], ['record', 0], ['isLoad', 0]])->orderBy('delivery', 'desc')->get();
         // $orders=$orders->links()->orderBy('delevery','desc')->get();
         $col = ['訂單編號', '料號', '交貨日', '預估生產時間(h)', '訂單剩餘天數', '數量', '庫存數', '排程狀態', ''];
         $row = [];
@@ -70,7 +71,7 @@ class ScheduleController extends Controller
                     ],
                     [
                         'tag' => '',
-                        'text' => (strtotime(date('Y-m-d')) <= strtotime($order->delivery)) ? round((strtotime("now") - strtotime($order->delivery)) / (60 * 60 * 24), 0) : '已逾期' . round((strtotime("now") - strtotime($order->delivery)) / (60 * 60 * 24), 0) . '天',
+                        'text' => (strtotime(date('Y-m-d')) <= strtotime($order->delivery)) ? -1 * (round((strtotime("now") - strtotime($order->delivery)) / (60 * 60 * 24), 0)) : '已逾期' . round((strtotime("now") - strtotime($order->delivery)) / (60 * 60 * 24), 0) . '天',
                         'class' => (strtotime(date('Y-m-d')) <= strtotime($order->delivery)) ? '' : 'bg-red-300'
                     ],
                     [
@@ -127,131 +128,161 @@ class ScheduleController extends Controller
         return view('backend.schedule.index', $view);
     }
 
-    public function create(Request $req)
+    public function create($id)
     {
         $body = [];
-        $orders = []; //訂單陣列
+        $schedule = Schedule::find($id); //訂單陣列
         $orderCTs = []; //每筆訂單的單產品生產時間
+        $material = MaterialProduct::where('product_id', $schedule->product_id)->get();
+        $material = MaterialProductController::materialList($material); //原物料
         $content = [
             [
                 'text' => '量產',
                 'value' => '量產'
             ]
         ];
+        $materials = [];
+        //material數量計算
+        // foreach ($material as $material) {
+        //     $material['quantity'] *= $schedule->total_quantity;
+
+        //     if (isset($material['next'])) {
+        //         foreach ($material['next'] as $next) {
+        //             $next['quantity'] *= $schedule->total_quantity;
+        //         }
+        //     }
+        //     $materials[] = $material;
+        // }
+        // dd($materials);
+        // for($i=0;$i<count($material);$i++){
+        //     $material[$i]['quantity']*=$schedule->total_quantity;
+        //     if(isset($material[$i]['next'])){
+        //         for($j=0;$j<count($material[$i]['next']);$j++){
+        //             $material[$i]['next'][$j]['quantity']*=$schedule->total_quantity;
+        //         }
+        //     }
+        // }
+
+        // dd($schedule);
 
 
-
-
-        foreach ($req->order as $id) {
-            $orders[] = Order::find($id);
-        }
         $status = [];
-        foreach ($orders as $order) {
-            $status_temp = ($order->schedule_status == '已排程') ? '已發放' : '發放製令';
-            $status[] = $status_temp;
-            $machines = MachineProduct::where('product_id', $order->product_id)->get();
-            $machineList = [];
-            $machineTime = [];
+
+        $status_temp = (!$schedule->isAssign == '0') ? '已發放' : '發放製令';
+        $status[] = $status_temp;
+        $machines = MachineProduct::where('product_id', $schedule->product_id)->get();
+        $machineList = [];
+        $machineTime = [];
 
 
 
-            foreach ($machines as $m) {
-                if ($m->workstation->procedure == '塑膠射出') {
-                    $temp = [
-                        'text' => $m->workstation->workstation_name,
-                        'value' => $m->workstation_id
-                    ];
+        foreach ($machines as $m) {
+            if ($m->workstation->procedure == '塑膠射出') {
+                $temp = [
+                    'text' => $m->workstation->workstation_name,
+                    'value' => $m->workstation_id
+                ];
 
-                    $temp_1[$order->product_id][$m->workstation_id] = $m->cycle_time;
-                    $machineList[] = $temp;
-                    $machineTime = $temp_1;
-                }
+                $temp_1[$schedule->product_id][$m->workstation_id] = $m->cycle_time;
+                $machineList[] = $temp;
+                $machineTime = $temp_1;
             }
-
-            $temp = [
-
-                [
-                    'lable' => '訂單號',
-                    'readonly' => '',
-                    'tag' => 'input',
-                    'type' => 'text',
-                    'name' => 'order_id',
-                    'value' => $order->id,
-                    'readonly' => ''
-                ],
-                [
-                    'lable' => '料號',
-                    'tag' => 'input',
-                    'type' => 'text',
-                    'name' => 'product_id',
-                    'value' => $order->product_id,
-                    'readonly' => ''
-                ],
-                [
-                    'lable' => '日期',
-                    'tag' => 'input',
-                    'type' => 'date',
-                    'name' => 'today',
-                    'value' => date('Y-m-d', strtotime('+1 day')),
-                ],
-                [
-                    'lable' => '開始時間',
-                    'tag' => 'input',
-                    'type' => 'time',
-                    'name' => 'period_start',
-                    'value' => '',
-                ],
-                [
-                    'lable' => '結束時間',
-                    'tag' => 'input',
-                    'type' => 'time',
-                    'name' => 'period_end',
-                    'value' => '',
-                ],
-                [
-                    'lable' => '內容',
-                    'tag' => 'select',
-                    'type' => 'text',
-                    'name' => 'content',
-                    'lists' => $content,
-                ],
-                [
-                    'lable' => '總預計產量',
-                    'tag' => 'input',
-                    'step' => 1,
-                    'type' => 'number',
-                    'name' => 'total_quantity',
-                    'value' => $order->quantity,
-                ],
-                [
-                    'lable' => '機台',
-                    'tag' => 'select',
-                    'data_attr' => $order->product_id,
-                    'type' => 'date',
-                    'name' => 'workstation_id',
-                    'lists' => $machineList,
-                ]
-            ];
-            $body[] = $temp;
         }
-        // dd($body[0][0]['value']);
 
+        $temp = [
+            [
+                'lable' => '生產批號',
+                'readonly' => '',
+                'tag' => 'input',
+                'type' => 'text',
+                'name' => 'schedule_id',
+                'value' => $schedule->id,
+                'readonly' => ''
+            ],
+            [
+                'lable' => '訂單號',
+                'readonly' => '',
+                'tag' => 'input',
+                'type' => 'text',
+                'name' => 'order_id',
+                'value' => $schedule->order->id,
+                'readonly' => ''
+            ],
+            [
+                'lable' => '料號',
+                'tag' => 'input',
+                'type' => 'text',
+                'name' => 'product_id',
+                'value' => $schedule->product_id,
+                'readonly' => ''
+            ],
+            [
+                'lable' => '日期',
+                'tag' => 'input',
+                'type' => 'date',
+                'name' => 'today',
+                'value' => date('Y-m-d', strtotime('+1 day')),
+            ],
+            [
+                'lable' => '開始時間',
+                'tag' => 'input',
+                'type' => 'time',
+                'name' => 'period_start',
+                'value' => '',
+            ],
+            [
+                'lable' => '結束時間',
+                'tag' => 'input',
+                'type' => 'time',
+                'name' => 'period_end',
+                'value' => '',
+            ],
+            [
+                'lable' => '內容',
+                'tag' => 'select',
+                'type' => 'text',
+                'name' => 'content',
+                'lists' => $content,
+            ],
+            [
+                'lable' => '總預計產量',
+                'tag' => 'input',
+                'step' => 1,
+                'type' => 'number',
+                'name' => 'total_quantity',
+                'value' => $schedule->total_quantity,
+            ],
+            [
+                'lable' => '機台',
+                'tag' => 'select',
+                'data_attr' => $schedule->product_id,
+                'type' => 'date',
+                'name' => 'workstation_id',
+                'lists' => $machineList,
+            ]
+        ];
+        $body[] = $temp;
+
+        // dd($body[0][0]['value']);
+        // dd($material);
 
         $view = [
             'body' => $body,
             'status' => $status,
             'machineTime' => $machineTime,
+            'header'=>$schedule->product_id,
+            'content' => $material
 
         ];
-        // dd($view);
-        // dd($view);
-        // dd($machineTime);
+
         return view('backend.schedule.create', $view);
     }
 
     public function store(Request $req)
     {
-        $s = new Schedule;
+        // dd($req);
+        $s =Schedule::find($req->schedule_id);
+        
         $s->product_id = $req->product_id;
         $s->today = $req->today;
         $s->period_start = $req->period_start;
@@ -259,11 +290,13 @@ class ScheduleController extends Controller
         $s->content = $req->content;
         $s->total_quantity = $req->total_quantity;
         $s->workstation_id = $req->workstation_id;
+        $s->order_id=$req->order_id;
+        $s->isAssign=1;
         $s->save();
 
-        $order = Order::find($req->order_id);
-        $order->schedule_status = '已排程';
-        $order->save();
+        // $order = Order::find($req->order_id);
+        // $order->schedule_status = '已排程';
+        // $order->save();
         return '排程成功';
     }
 
@@ -278,8 +311,19 @@ class ScheduleController extends Controller
             $order->schedule_status = '已排程';
             $order->save();
         }
-        // dd($orders);
         foreach ($orders_init as $order) {
+            $schedule = new Schedule;
+            $schedule->product_id = $order->product_id;
+            $schedule->order_id = $order->id;
+            $schedule->today = date("Y-m-d");
+            $schedule->content = '量產';
+            $schedule->total_quantity = $order->quantity;
+            $schedule->save();
+        }
+        // dd($orders);
+
+        $schedules = Schedule::where('isFinish', 0)->get();
+        foreach ($schedules as $order) {
             if ($order->record == 0 && $order->isLoad == 0) {
                 $processes = MachineProduct::where('product_id', $order->product_id)->get();
                 $time = 0;
@@ -295,20 +339,54 @@ class ScheduleController extends Controller
                     }
                 }
                 $cycle_time += $minInjection;
-                $time = $cycle_time * $order->quantity;
+                $time = $cycle_time * $order->total_quantity;
                 $temp = [
-                    'id' => $order->id, 'time' => round($time / 3600, 2), 'delivery' => $order->delivery, 'product_id' => $order->product_id, 'quantity' => $order->quantity
+                    'id' => $order->id, 'time' => round($time / 3600, 2), 'delivery' => $order->order->delivery, 'product_id' => $order->product_id, 'quantity' => $order->total_quantity
+                ];
+                $orders[] = $temp;
+            }
+        }
+        return redirect('/admin/schedule/list');
+    }
+
+    public function list()
+    {
+        $schedules = Schedule::where('isFinish', 0)->get();
+        $orders = [];
+        foreach ($schedules as $order) {
+            if ($order->record == 0 && $order->isLoad == 0) {
+                $processes = MachineProduct::where('product_id', $order->product_id)->get();
+                $time = 0;
+                $minInjection = 999;
+                $cycle_time = 0;
+                foreach ($processes as $p) {
+                    $minInjection = 999;
+                    if ($p->workstation->procedure == '塑膠射出') {
+                        if ($minInjection >= $p->cycle_time)
+                            $minInjection = $p->cycle_time;
+                    } else {
+                        $cycle_time += $p->cycle_time;
+                    }
+                }
+                $cycle_time += $minInjection;
+                $time = $cycle_time * $order->total_quantity;
+                $temp = [
+                    'order_id' => $order->order->id, 'time' => round($time / 3600, 2), 'delivery' => $order->order->delivery, 'product_id' => $order->product_id, 'quantity' => $order->total_quantity, 'id' => $order->id,'isAssign'=>$order->isAssign
                 ];
                 $orders[] = $temp;
             }
         }
 
-        foreach ($orders as $key => $row) {
-            $delivery[$key] = $row['delivery'];
-            $t[$key] = $row['time'];
+        // dd($orders);
+        if (!isset($orders)) {
+            foreach ($orders as $key => $row) {
+                $delivery[$key] = $row['delivery'];
+                $t[$key] = $row['time'];
+            }
+
+            array_multisort($delivery, SORT_ASC, $t, SORT_DESC, $orders);
         }
 
-        array_multisort($delivery, SORT_ASC, $t, SORT_DESC, $orders);
 
 
         $col = ['順序', '訂單號', '料號', '數量', '預計工時', '交期', '發放製令', '刪除', '編輯'];
@@ -321,7 +399,7 @@ class ScheduleController extends Controller
                 ],
                 [
                     'tag' => '',
-                    'text' => $o['id'],
+                    'text' => $o['order_id'],
                 ],
                 [
                     'tag' => '',
@@ -340,20 +418,21 @@ class ScheduleController extends Controller
                     'text' => $o['delivery'],
                 ],
                 [
-                    'tag' => 'button',
-                    'type' => 'button',
-                    'class' => 'px-1 bg-yellow-300 rounded hover:bg-yellow-500',
-                    'text' => '發放',
+                    'tag' => 'href',
+                    'type' => '',
+                    'class' => ($o['isAssign']==0)?'px-1 bg-yellow-300 rounded hover:bg-yellow-500':'px-1 bg-orange-300 rounded hover:bg-orange-500',
+                    'text' => ($o['isAssign']==0)?'發放':'已發放',
                     'alertname' => $o['id'],
-                    'action' => 'delete',
-                    'id' => $o['id']
+                    'action' => 'push',
+                    'id' => $o['id'],
+                    'href' => 'release/' . $o['id']
                 ],
                 [
                     'tag' => 'button',
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' =>'訂單編號'. $o['id'],
+                    'alertname' => '訂單編號' . $o['id'],
                     'action' => 'delete',
                     'id' => $o['id']
                 ],
@@ -377,5 +456,10 @@ class ScheduleController extends Controller
             'row' => $row, 'col' => $col, 'header' => '排程清單', 'module' => 'schedule'
         ];
         return view('backend.admin', $view);
+    }
+
+    public function release($id)
+    {
+        $schedule = Schedule::find($id);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductStorage;
+use App\Models\Product;
 
 class ProductStorageController extends Controller
 {
@@ -104,9 +105,9 @@ class ProductStorageController extends Controller
 
         ];
         $view = [
-            'header'=>($i==0)?'成品出庫' :'成品入庫' ,
+            'header' => ($i == 0) ? '成品出庫' : '成品入庫',
             'action' => '/admin/productStorage',
-            'redirect'=>($i==0)?'/admin/productStorage/1' :'/admin/productStorage/0',
+            'redirect' => ($i == 0) ? '/admin/productStorage/1' : '/admin/productStorage/0',
             'body' => [
                 [
                     'lable' => '料號',
@@ -150,7 +151,7 @@ class ProductStorageController extends Controller
             ]
 
         ];
-        
+
         return view('backend.create', $view);
     }
 
@@ -176,8 +177,8 @@ class ProductStorageController extends Controller
         );
 
         $p->create($content);
-        $notice=($req->change_status=='出庫')?'出庫成功':'入庫成功';
-        
+        $notice = ($req->change_status == '出庫') ? '出庫成功' : '入庫成功';
+
         return back()->with('notice', $notice);
     }
 
@@ -189,7 +190,44 @@ class ProductStorageController extends Controller
      */
     public function show($id)
     {
-        //
+        $storage = ProductStorage::where('product_id', $id)->get();
+        $col = [
+            '料號', '異動狀態', '數量', '負責人', '時間'
+        ];
+        $row = [];
+        foreach ($storage as $storage) {
+            $temp = [
+                [
+                    'tag'=>'',
+                    'text'=>$storage->product_id
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$storage->change_status
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$storage->quantity
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$storage->responsible
+                ],
+                [
+                    'tag'=>'',
+                    'text'=>$storage->created_at
+                ],
+            ];
+            $row[]=$temp;
+        }
+
+
+        $view = [
+            'header' => '成品庫存清單', 'row' => $row, 'col' => $col
+
+        ];
+
+        return view('backend.admin', $view);
     }
 
     /**
@@ -247,7 +285,7 @@ class ProductStorageController extends Controller
                 [
                     'lable' => '料號',
                     'tag' => '',
-                    'text'=>$productstorage->product_id,
+                    'text' => $productstorage->product_id,
                     'type' => 'text',
                     'name' => 'product_id',
                     'value' => $productstorage->product_id
@@ -325,5 +363,90 @@ class ProductStorageController extends Controller
     public function destroy($id)
     {
         Productstorage::destroy($id);
+    }
+
+    public function list()
+    {
+
+        $products = Product::all();
+
+        $col = [
+            '料號', '庫存數量', '可用庫存數量', '異動詳情'
+        ];
+        $row = [];
+        $content = [];
+        foreach ($products as $product) {
+            $storage = ProductStorage::where('product_id', $product->id)->get();
+            $total = 0;
+            $useable = 0;
+            foreach ($storage as $storage) {
+
+                switch ($storage->change_status) {
+                    case '入庫':
+                        $total = $total + $storage->quantity;
+                        $useable = $useable + $storage->quantity;
+                        break;
+                    case '出庫':
+                        $total = $total - $storage->quantity;
+                        $useable = $useable - $storage->quantity;
+                        break;
+                    case '圈存':
+
+                        $useable = $useable - $storage->quantity;
+                        break;
+                    case '解圈存':
+
+                        $useable = $useable + $storage->quantity;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            $temp = [
+                'product_id' => $product->id,
+                'total' => $total,
+                'useable' => $useable
+            ];
+            $content[] = $temp;
+        }
+        // dd($content, $products);
+        foreach ($content as $item) {
+            $temp = [
+                [
+                    'tag' => '',
+                    'text' => $item['product_id'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $item['total'],
+                ],
+                [
+                    'tag' => '',
+                    'text' => $item['useable'],
+                ],
+                [
+                    'tag' => 'href',
+                    'type' => '',
+                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
+                    'text' => '查看',
+                    'action' => 'show',
+                    'id' => $item['product_id'],
+                    'href' =>$item['product_id']
+                ]
+
+            ];
+            $row[] = $temp;
+        }
+
+
+
+        $view = [
+            'header' => '成品庫存清單', 'row' => $row, 'col' => $col
+
+        ];
+
+
+
+        return view('backend.admin', $view);
     }
 }

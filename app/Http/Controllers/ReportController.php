@@ -34,7 +34,7 @@ class ReportController extends Controller
     }
     public function scheduleList()
     {   //員工進度回報
-        $schedules = Schedule::all();
+        $schedules = Schedule::where('isAssign',1)->get();
         $col = ['生產批號', '料號', '日期',  '開始時間', '結束時間', '內容', '預計總產量', '進度回報'];
 
         $row = [];
@@ -246,7 +246,7 @@ class ReportController extends Controller
         $reason = Defective::all();
         foreach ($reason as $reason) {
             $reasonQ = ($reason->reason) . '_quantity';
-            $reasonC = ($reason->reason) . '_commend';
+            $reasonC = ($reason->reason) . 'commend';
             if (!$req->$reasonQ == null && !$req->$reasonQ == 0) {
                 $dr = new DefectiveReport; //生產批號不良
                 $dr->defective_id = $reason->id;

@@ -5,13 +5,13 @@
 @section('main')
     <div class="mx-auto ">
         <h1
-            class="flex items-center justify-center w-full h-full text-4xl font-bold bg-green-300 border-b-8 border-l-4 border-green-600 rounded-lg mb-3">
+            class="flex items-center justify-center w-full h-full mb-3 text-4xl font-bold bg-green-300 border-b-8 border-l-4 border-green-600 rounded-lg">
             {{ $header }}</h1>
     </div>
     @isset($subtitle)
         <div class="p-3 mx-auto mt-3 rounded ">
             @foreach ($subtitle['button'] as $body)
-                <a class="p-3 mx-3 bg-blue-300 border rounded-full cursor-pointer hover:bg-blue-500"
+                <a class="{{ $body['class'] }}"
                     href="{{ $body['href'] }}">{{ $body['text'] }}</a>
             @endforeach
         </div>
@@ -19,7 +19,7 @@
 
     @isset($history)
         <a href="{{ $history }}" value="回到上一頁"
-            class="p-3 ml-5 mt-5 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</a>
+            class="p-3 mt-5 ml-5 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</a>
     @endisset
 
     {{-- 訊息區 --}}
@@ -81,25 +81,28 @@
             },
         });
 
-        $(".delete").on("click", function() {
-            let alertname = $(this).data("alertname");
+        @isset($module)
+            $(".delete").on("click", function() {
+                let alertname = $(this).data("alertname");
 
-            let ans = confirm("確認刪除「" + alertname + "」嗎?");
+                let ans = confirm("確認刪除「" + alertname + "」嗎?");
 
-            if (ans) {
-                let id = $(this).data("id");
-                let _this = $(this);
-                $.ajax({
-                    type: "delete",
-                    url: `/admin/{{ $module }}/${id}`,
-                    success: function() {
-                        _this.parents("tr").remove();
-                        // location.reload();
+                if (ans) {
+                    let id = $(this).data("id");
+                    let _this = $(this);
+                    $.ajax({
+                        type: "delete",
+                        url: `/admin/{{ $module }}/${id}`,
+                        success: function() {
+                            _this.parents("tr").remove();
+                            // location.reload();
 
-                    },
-                });
-            }
-        });
+                        },
+                    });
+                }
+            });
+        @endisset
+
 
 
         $(".check").on("click", function() {

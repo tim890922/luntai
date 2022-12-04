@@ -59,13 +59,19 @@
             <ul class="hidden pl-5 text-xl font-thin">
                 <li>
                     <a href="/admin/schedule" class="block hover:text-blue-600">生產排程</a>
+                    <ul class="pl-5 ">
+                        <li>
+                        <a href="/admin/schedule/list" class="block hover:text-blue-600">排程清單</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="/admin/reportList" class="block hover:text-blue-600">進度回報清單</a>
-                </li>
-                <li>
-                    <a href="/admin/report" class="block hover:text-blue-600">員工進度回報</a>
-                </li>
+                    <a href="/admin/report" class="block hover:text-blue-600">進度回報</a>
+                    <ul class="pl-5 ">
+                        <li>
+                        <a href="/admin/reportList" class="block hover:text-blue-600">回報清單</a>
+                        </li>
+                    </ul>
                 <li>
                     <a href="/admin/defectiveReport" class="block hover:text-blue-600">不良品管理</a>
                 </li>
@@ -93,6 +99,11 @@
                                 異動狀態清單
                             </a>
                         </li>
+                        <li>
+                            <a href="/admin/productStoratge/List" class="block hover:text-blue-600">
+                                庫存清單
+                                <a>
+                        </li>
                     </ul>
                 </li>
 
@@ -111,6 +122,11 @@
                         <li>
                             <a href="/admin/materialChange" class="block hover:text-blue-600">
                                 異動狀態清單
+                                <a>
+                        </li>
+                        <li>
+                            <a href="/admin/materialStorage/List" class="block hover:text-blue-600">
+                                庫存清單
                                 <a>
                         </li>
                     </ul>

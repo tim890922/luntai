@@ -10,7 +10,7 @@ class Schedule extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=['id', 'product_id','today','period_start','period_end','content','total_quantity'];
+    protected $fillable=['id', 'product_id','today','period_start','period_end','content','total_quantity','isAssign'];
 
     public function product(){
         return $this->belongsTo(Product::class);
@@ -22,6 +22,10 @@ class Schedule extends Model
 
     public function reports(){
         return $this->hasMany(Report::class);
+    }
+
+    public function order(){
+        return $this->belongsTo(Order::class);
     }
     
 }

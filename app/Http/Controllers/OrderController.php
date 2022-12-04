@@ -430,19 +430,7 @@ class OrderController extends Controller
 
     public function test()
     {
-        $client = 'YMT';
-        // $C=Client::where('client_name','YMT')->get();
-        $C = Client::all();
-        $user = [];
-        $i = 0;
-        foreach ($C as $c) {
-            $i++;
-            $users = $c->clientusers;
-            foreach ($users as $u) {
-                $user[] = $u->name;
-            }
-            // dd($C,$c->clientusers);
-        }
+       
     }
 
     public function select()
@@ -502,7 +490,7 @@ class OrderController extends Controller
                 $ps->product_id = $order->product_id;
                 $ps->quantity = $order->quantity;
                 $ps->change_status = '圈存';
-                $ps->responsible = session()->get('user')->id;
+                $ps->responsible = session()->get('user')->name;
                 $ps->save();
                 $order->save();
                 return "圈存成功";

@@ -13,7 +13,7 @@ class ScheduleSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {   
         $s1 = new Schedule;
         $s1->product_id = 'BKEF834V000080';
         $s1->today = '2021-07-28';

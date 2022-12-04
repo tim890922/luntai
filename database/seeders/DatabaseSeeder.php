@@ -24,15 +24,15 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             ProductSeeder::class,
             ClientuserSeeder::class,
-            ScheduleSeeder::class,
+            // ScheduleSeeder::class,
             DefectiveSeeder::class,
             OrderSeeder::class,
-            ReportSeeder::class,
+            // ReportSeeder::class,
             MaterialSeeder::class,
             MachineProductSeeder::class,
             MaterialProductSeeder::class,
             ProductStorageSeeder::class,
-            DefectiveReportSeeder::class,
+            // DefectiveReportSeeder::class,
             ProcessSeeder::class,
             MaterialChangeSeeder::class
         ]);

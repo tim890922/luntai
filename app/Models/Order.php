@@ -19,5 +19,9 @@ class Order extends Model
     public function clientuser(){
         return $this->belongsTo(Clientuser::class);
     }
+
+    public function schedule(){
+        return $this->hasOne(Clientuser::class);
+    }
 }
 

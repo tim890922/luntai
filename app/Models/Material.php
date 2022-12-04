@@ -24,4 +24,8 @@ class Material extends Model
     public function material_changes(){
         return $this->hasMany(MaterialChange::class);
     }
+
+    public function material_products(){
+        return $this->hasMany(MaterialProduct::class);
+    }
 }

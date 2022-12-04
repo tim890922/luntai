@@ -280,14 +280,7 @@
                 $(".close").on("click", function() {
                     $("#modalSpace").empty();
                 })
-
-
             })
-
-
-
-
-
         })
 
         $(document).on("click", ".close", function() {

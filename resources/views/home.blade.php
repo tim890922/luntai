@@ -65,15 +65,14 @@
             原物料資料
         </div>
     </a>
+    <a href="/admin/supplier">
+        <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
+        style="">
+            供應商資料
+        </div>
+    </a>
     </div>
-    <div class="flex items-center w-auto h-auto px-3 py-3 justify-left">
-        <a href="/admin/supplier">
-            <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
-                style="">
-                供應商資料
-            </div>
-        </a>
-    </div>
+    
     <div class="py-3 mx-auto">
         <div class="flex items-center w-full h-full px-3 text-3xl font-bold bg-gray-400 rounded-lg justify-left"
             style="">
@@ -107,16 +106,22 @@
                 生產排程
             </div>
         </a>
-        <a href="/admin/reportList">
+        <a href="/admin/schedule/list">
             <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
                 style="">
-                進度回報清單
+                排程清單
             </div>
         </a>
         <a href="/admin/report">
             <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
                 style="">
-                員工進度回報
+                進度回報
+            </div>
+        </a>
+        <a href="/admin/reportList">
+            <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
+                style="">
+                回報清單
             </div>
         </a>
         <a href="/admin/defectiveReport">
@@ -151,7 +156,13 @@
                 成品異動狀態清單
             </div>
         </a>
-        <a href="/admin/materialChange">
+        <a href="/admin/productStoratge/List">
+            <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
+                style="">
+                成品庫存清單
+            </div>
+        </a>
+        <a href="/admin/check">
             <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
                 style="">
                 料號檢核
@@ -175,6 +186,12 @@
             <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
                 style="">
                 原物料異動狀態清單
+            </div>
+        </a>
+        <a href="/admin/materialStorage/List">
+            <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
+                style="">
+                原物料庫存清單
             </div>
         </a>
     </div>

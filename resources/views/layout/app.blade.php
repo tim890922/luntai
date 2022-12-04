@@ -17,6 +17,8 @@
     <link rel="icon"
         href="https://cdn4.iconfinder.com/data/icons/unigrid-flat-buildings/90/008_079_factory_production_manufacturer_industry_industrial-256.png"
         type="image/x-icon" />
+    {{-- <script src="{{ asset('chart.js/chart.js') }}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @yield('style')
 </head>
@@ -36,9 +38,7 @@
 
             <p class="right-0 "> </p>
             <div class="py-10 pr-3 ">
-                @if (isset(session()->get('user')->name))
-                    {{ session()->get('user')->name }}
-                @endif
+                
                 <a href='/logout'
                     class="p-2 text-xl font-bold bg-gray-300 border-2 border-gray-300 rounded hover:bg-gray-400 hover:border-gray-400">登出</a>
             </div>
@@ -70,8 +70,12 @@
 
     {{-- <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script> --}}
     <script src="{{ asset('js/my.js') }}"></script>
+    {{-- <script src="{{ asset('chart.js/chart.js') }}"></script> --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
     @yield('script')
+
 </body>
 
 

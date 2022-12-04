@@ -10,7 +10,10 @@ class MaterialProduct extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=['id','product_id','next','quantity','unit'];
+    protected $fillable=['id','product_id','material_id','quantity','unit'];
     
+    public function material(){
+        return $this->belongsTo(Material::class);
+    }
     
 }

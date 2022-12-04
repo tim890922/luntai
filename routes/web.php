@@ -63,6 +63,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
         return view('backend.materialChange.index');
     });
     Route::get('/check',[ProductController::class,'check']);
+    Route::get('/schedule/list',[ScheduleController::class,'list']);
+    Route::get('/materialStorage/List',[MaterialChangeController::class,'list']);
+    Route::get('/productStoratge/List',[ProductStorageController::class,'list']);
+    Route::get('/defectiveChart',[DefectiveReportController::class,'chart']);
 
 
     //SHOW 顯示單一詳情資料
@@ -71,6 +75,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::get('/defectiveReport/show/{id}', [DefectiveReportController::class, 'show']);
     Route::get('/clientUser/show/{id}', [ClientUserController::class, 'index']);
     Route::get('/report/show/{id}', [ReportController::class, 'show']);
+    Route::get('/productStoratge/{id}', [ProductStorageController::class, 'show']);
+    Route::get('/materialStorage/{id}', [MaterialChangeController::class, 'show']);
 
     //POST 新增
     Route::post('/product', [ProductController::class, 'store']);
@@ -88,6 +94,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::post('/materialChange', [MaterialChangeController::class, 'store']);
     Route::post('/report', [ReportController::class, 'store']);
     Route::post('/schedule', [ScheduleController::class, 'store']);
+    Route::post('/materialProduct', [MaterialProductController::class, 'store']);
 
 
     //edit 編輯畫面
@@ -104,7 +111,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::get('/report/edit/{id}', [ReportController::class, 'edit']);
     Route::get('/productStorage/edit/{id}', [ProductStorageController::class, 'edit']);
     Route::get('/materialChange/edit/{id}', [MaterialChangeController::class, 'edit']);
-    Route::get('/defectiveReport/edit/{id}', [DefectiveReportController::class, 'edit']);
+    Route::get('/defectiveReport/show/edit/{id}', [DefectiveReportController::class, 'edit']);
 
     //update 編輯儲存
     Route::put('/product', [ProductController::class, 'update']);
@@ -131,6 +138,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::get("/materialProduct/create", [MaterialProductController::class, 'create']);
     Route::get("/client/create", [ClientController::class, 'create']);
     Route::get("/clientUser/create/{id}", [ClientUserController::class, 'create']);
+    Route::get("/materialProduct/create/{id}", [MaterialProductController::class, 'create']);
     Route::get("/supplier/create", [SupplierController::class, 'create']);
     Route::get("/machineProduct/create", [MachineProductController::class, 'create']);
     Route::get("/workstation/create", [WorkstationController::class, 'create']);
@@ -141,6 +149,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::get('/machineProduct/add/{id}', [MachineProductController::class, 'add']);
     Route::get('/schedule/create', [ScheduleController::class, 'mainSchedule']);
     Route::get('/report/create/{id}', [ReportController::class, 'create']);
+    Route::get('/schedule/release/{id}', [ScheduleController::class, 'create']);
 
 
 
@@ -169,10 +178,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::patch('/report/show/check/{id}', [ReportController::class, 'check']);
     Route::patch('/order/output/{id}', [OrderController::class, 'output']);
     Route::post('/order/load/{id}', [OrderController::class, 'load']);
+    Route::post('/defectiveReport/check/{id}',[DefectiveReportController::class,'check']);
+
+    //get資料
+   
 });
 
 
-Route::get('/test', [OrderController::class, 'test']);
+Route::get('/test',function(){
+    return view('test');
+});
 //訂單新增
 Route::get("/order/create/{id}", [OrderController::class, 'create']);
 Route::get("/order/edit/{id}", [OrderController::class, 'edit']);
+Route::post('/admin/getDefective',[DefectiveReportController::class,'getDefective']);
