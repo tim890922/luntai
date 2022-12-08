@@ -14,43 +14,50 @@ class OrderController extends Controller
 {
     public function index($client_id, Request $req/*, $filter = 'all'*/)
     {
-        $id=$client_id;
+        $id = $client_id;
         $filter = $req->filter;
 
         $col = ['訂單編號', '料號', '出貨位', '用方', '用方名稱', '交貨日', '數量', '包裝數', '庫存數量', '圈存', '狀態', '刪除', '編輯'];
 
         $row = [];
+        $class = 'p-3 mx-3 bg-blue-300 border rounded-full cursor-pointer hover:bg-blue-500';
         $subtitle = [
             'button' => [
                 [
                     'text' => '已逾期訂單',
                     'href' => '/admin/order/' . $id . '?filter=overdue',
-                    'value' => ''
+                    'value' => '',
+                    'class' => $class
                 ],
                 [
                     'text' => '今日訂單',
                     'href' => '/admin/order/' . $id . '?filter=today',
-                    'value' => ''
+                    'value' => '',
+                    'class' => $class
                 ],
                 [
                     'text' => '一周內訂單',
                     'href' => '/admin/order/' . $id . '?filter=week',
-                    'value' => ''
+                    'value' => '',
+                    'class' => $class
                 ],
                 [
                     'text' => '一個月內訂單',
                     'href' => '/admin/order/' . $id . '?filter=month',
-                    'value' => ''
+                    'value' => '',
+                    'class' => $class
                 ],
                 [
                     'text' => '已出貨',
                     'href' => '/admin/order/' . $id . '?filter=shipped',
-                    'value' => ''
+                    'value' => '',
+                    'class' => $class
                 ],
                 [
                     'text' => '未出貨',
                     'href' =>  '/admin/order/' . $id . '?filter=notshipped',
-                    'value' => ''
+                    'value' => '',
+                    'class' => $class
                 ]
             ]
         ];
@@ -138,7 +145,7 @@ class OrderController extends Controller
                         'tag' => 'button',
                         'type' => 'button',
                         'action' => 'load',
-                        'text' => ($m->isLoad == 0) ? '未圈存' : '圈存',
+                        'text' => ($m->isLoad == 0) ? '未圈存' : '已圈存',
                         'class' => 'px-1 bg-blue-300 rounded hover:bg-blue-500',
                         'id' => $m->id
                     ],
@@ -147,7 +154,7 @@ class OrderController extends Controller
                         'type' => 'button',
                         'action' => 'output',
                         'class' => 'px-1 bg-green-300 rounded hover:bg-green-500',
-                        'text' => ($m->record == 1) ? '出貨' : '未出貨',
+                        'text' => ($m->record == 1) ? '已出貨' : '未出貨',
                         'id' => $m->id,
                     ],
                     [
@@ -430,7 +437,6 @@ class OrderController extends Controller
 
     public function test()
     {
-       
     }
 
     public function select()
@@ -455,14 +461,15 @@ class OrderController extends Controller
     public function output($id)
     {
         $order = Order::find($id);
-
-        if ($order->record == 0)
+        $text = '';
+        if ($order->record == 0) {
             $order->record = 1;
-        else
+            $text = '已出貨';
+        } else
             $order->record = 0;
 
         $order->save();
-        return "return";
+        return $text;
     }
 
     public function filter($id, $filter)

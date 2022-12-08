@@ -162,12 +162,12 @@
                 成品庫存清單
             </div>
         </a>
-        <a href="/admin/check">
+         <a href="/admin/check">
             <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
                 style="">
                 料號檢核
             </div>
-        </a>
+        </a> 
     </div>
     <div class="flex items-center w-auto h-auto px-3 py-3 justify-left">
         <a href="/admin/materialChange/0">

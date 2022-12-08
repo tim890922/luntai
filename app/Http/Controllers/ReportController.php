@@ -34,7 +34,7 @@ class ReportController extends Controller
     }
     public function scheduleList()
     {   //員工進度回報
-        $schedules = Schedule::where('isAssign',1)->get();
+        $schedules = Schedule::where('isAssign', 1)->get();
         $col = ['生產批號', '料號', '日期',  '開始時間', '結束時間', '內容', '預計總產量', '進度回報'];
 
         $row = [];
@@ -89,7 +89,7 @@ class ReportController extends Controller
 
 
         $view = [
-            'col' => $col, 'header' => '員工進度回報', 'row' => $row, 'action' => 'product/create', 'method' => 'GET', 'href' => '',
+            'col' => $col, 'header' => '進度回報', 'row' => $row, 'action' => 'product/create', 'method' => 'GET', 'href' => '',
             'module' => 'schedule',
         ];
 
@@ -195,13 +195,6 @@ class ReportController extends Controller
                 'type' => 'number',
                 'step' => '1',
                 'name' => 'good_product_quantity',
-            ],
-            [
-                'lable' => '不良品總量',
-                'tag' => 'input',
-                'type' => 'number',
-                'step' => '1',
-                'name' => 'defective_product_total_quantity',
             ]
 
         ];
@@ -232,6 +225,15 @@ class ReportController extends Controller
     public function store(Request $req)
     {
         // dd($req);
+        $reason = Defective::all();
+        $defective_product_total_quantity = 0;
+        foreach ($reason as $r) {
+            $reasonQ = ($r->reason) . '_quantity';
+            $reasonC = ($r->reason) . 'commend';
+            if (!$req->$reasonQ == null && !$req->$reasonQ == 0) {
+                $defective_product_total_quantity += ($req->$reasonQ);
+            }
+        }
         $report = new Report;
         $report->schedule_id = $req->schedule_id;
         $report->employee_id = $req->employee_id;
@@ -240,10 +242,13 @@ class ReportController extends Controller
         $report->time_start = $req->time_start;
         $report->time_end = $req->time_end;
         $report->good_product_quantity = $req->good_product_quantity;
-        $report->defective_product_quantity = $req->defective_product_total_quantity;
 
+
+
+
+
+        $report->defective_product_quantity = $defective_product_total_quantity;
         $report->save();
-        $reason = Defective::all();
         foreach ($reason as $reason) {
             $reasonQ = ($reason->reason) . '_quantity';
             $reasonC = ($reason->reason) . 'commend';
@@ -251,6 +256,7 @@ class ReportController extends Controller
                 $dr = new DefectiveReport; //生產批號不良
                 $dr->defective_id = $reason->id;
                 $dr->report_id = $report->id;
+
                 $dr->quantity = ($req->$reasonQ);
                 $dr->detail = ($req->$reasonC);
                 $dr->save();
@@ -264,8 +270,8 @@ class ReportController extends Controller
     public function list()
     {   //生產進度回報
         $reports = Report::all();
-        $schedule = Schedule::where('isFinish', 0)->get();
-        $col = ['生產批號', '料號', '日期', '時段', '回報清單'];
+        $schedule = Schedule::where('isFinish', 0)->where('isAssign',1)->get();
+        $col = ['生產批號', '料號', '日期', '時段','是否完成', '回報清單'];
 
         $row = [];
 
@@ -287,6 +293,11 @@ class ReportController extends Controller
                 [
                     'tag' => '',
                     'text' => $p->period_start . '-' . $p->period_end,
+                ],
+                [
+                    'tag' => '',
+                    'text' => ($p->isFinish==0)?'未完成':'已完成',
+                    'class'=>($p->isFinish==0)?'bg-red-300':'bg-green-300'
                 ],
                 [
                     'tag' => 'href',
@@ -326,7 +337,7 @@ class ReportController extends Controller
         $reports = Report::where('schedule_id', $id)->get();
 
         $col = [
-            '進度回報編號', '料號', '員工', '班別', '生產時段', '良品數', '不良品總數', '查核'
+            '進度回報編號', '料號', '員工', '班別', '生產時段', '良品數', '不良品總數', '刪除', '編輯', '查核'
         ];
         $row = [];
 
@@ -364,6 +375,24 @@ class ReportController extends Controller
                 [
                     'tag' => 'button',
                     'type' => 'button',
+                    'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
+                    'text' => '刪除',
+                    'alertname' => $p->id,
+                    'action' => 'delete',
+                    'id' => $p->id
+                ],
+                [
+                    'tag' => 'href',
+                    'type' => 'button',
+                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
+                    'text' => '編輯',
+                    'action' => 'edit',
+                    'id' => $p->id,
+                    'href' => '/admin/report/edit/' . $p->id
+                ],
+                [
+                    'tag' => 'button',
+                    'type' => 'button',
                     'action' => 'check',
                     'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
                     'text' => ($p->record == 1) ? '確認' : '未確認',
@@ -376,7 +405,7 @@ class ReportController extends Controller
 
         $view = [
             'col' => $col, 'header' => '生產批號' . $id . '', 'row' => $row, 'method' => 'GET',
-            'module' => 'report','history'=>'/admin/reportList'
+            'module' => 'report', 'history' => '/admin/reportList'
         ];
         return view('backend.admin', $view);
     }
@@ -476,18 +505,23 @@ class ReportController extends Controller
     public function destroy($id)
     {
         Report::destroy($id);
+        return "刪除成功";
     }
 
     public function check($id)
     {
         $report = Report::find($id);
-
-        if ($report->record == 0)
+        $text = '';
+        if ($report->record == 0) {
             $report->record = 1;
-        else
+            $text = '確認成功';
+        } else {
             $report->record = 0;
+            $text = '取消確認成功';
+        }
+
 
         $report->save();
+        return $text;
     }
-
 }

@@ -127,13 +127,13 @@ class DefectiveReportController extends Controller
                 $d = Report::all();
                 break;
         }
-        $isCheck='確認';
+        $isCheck = '確認';
 
         foreach ($d as $p) {
-            $defectiveReport=DefectiveReport::where('report_id',$p->id)->get();
-            foreach($defectiveReport as $d){
-                if($d->record==0){
-                    $isCheck='未確認';
+            $defectiveReport = DefectiveReport::where('report_id', $p->id)->get();
+            foreach ($defectiveReport as $d) {
+                if ($d->record == 0) {
+                    $isCheck = '未確認';
                     break;
                 }
             }
@@ -154,13 +154,13 @@ class DefectiveReportController extends Controller
                     'alertname' => $p->id,
                     'action' => 'show',
                     'id' => $p->id,
-                    'href' => 'show/' . $p->id
+                    'href' => '/admin/defectiveReport/show/' . $p->id
                 ],
                 [
                     'tag' => '',
                     'type' => 'text',
                     'action' => 'record',
-                    'text' =>$isCheck,
+                    'text' => $isCheck,
                     'id' => $p->id,
                 ],
             ];
@@ -203,7 +203,7 @@ class DefectiveReportController extends Controller
                     'tag' => 'button',
                     'type' => 'button',
                     'class' => 'px-1 bg-green-300 rounded hover:bg-green-500',
-                    'text' => ($r->record == 1) ? '已確認' : '確認',
+                    'text' => ($r->record == 1) ? '已確認' : '未確認',
                     'action' => 'check',
                     'id' => $r->id
                 ]
@@ -226,7 +226,7 @@ class DefectiveReportController extends Controller
                     'lable' => '編輯'
                 ],
                 [
-                    'lable' => '確認'
+                    'lable' => '查核'
                 ]
             ],
             'tb' => $tbody
@@ -354,16 +354,17 @@ class DefectiveReportController extends Controller
         } else {
             $d->record = 0;
         }
+        $d->save();
         foreach ($ds as $ds) {
             $total += $ds->quantity;
         }
         $report = Report::find($d->report_id);
         $report->defective_product_quantity = $total;
         $report->save();
-        $d->save();
 
 
-        return redirect('admin/defectiveReport/show/' . $req->id)->with('notice', $check);
+
+        return redirect('admin/defectiveReport/show/' . $report->id)->with('notice', $check);
     }
 
     /**
@@ -387,8 +388,8 @@ class DefectiveReportController extends Controller
     public function getDefective(Request $req)
     {
         // dd($form);
-        $from = date($req->start . '-1');
-        $to = date($req->end . '-31');
+        $from = date($req->start);
+        $to = date($req->end);
         $defectiveReport = DefectiveReport::whereBetween('created_at', [$from, $to])->get();
         $defectiveReasons = Defective::all();
         $lables = [];

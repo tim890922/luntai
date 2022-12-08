@@ -164,6 +164,7 @@ class ProcessController extends Controller
         $button = []; //每個產品的製程按鈕
         $delete = []; //每個製程的刪除按
         $workstationList = []; //新增工作站的按鈕選單
+        $workstation_body= [];
         for ($i = 0; $i < count($product->processes); $i++) {
             $init = [];
             foreach ($machineProducts as $mp) {
@@ -191,7 +192,7 @@ class ProcessController extends Controller
                     'text' => $workstation->workstation_name,
                     'value' => $workstation->id
                 ];
-
+                
 
                 $workstationList[$i] = $temp;
                 $workstation_body[$i] = [
@@ -294,7 +295,7 @@ class ProcessController extends Controller
         ];
 
 
-
+        
 
 
         // dd($contents);
@@ -307,21 +308,22 @@ class ProcessController extends Controller
             'delete' => $delete,
             'workstation' => $workstation_body,
         ];
+        // dd($view);
         return view('backend.process.show', $view);
     }
-   
+
     public function edit($id)
     {
         //
     }
 
-   
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    
+
     public function destroy($id)
     {
         //

@@ -61,7 +61,7 @@
                     <a href="/admin/schedule" class="block hover:text-blue-600">生產排程</a>
                     <ul class="pl-5 ">
                         <li>
-                        <a href="/admin/schedule/list" class="block hover:text-blue-600">排程清單</a>
+                            <a href="/admin/schedule/list" class="block hover:text-blue-600">排程清單</a>
                         </li>
                     </ul>
                 </li>
@@ -69,7 +69,7 @@
                     <a href="/admin/report" class="block hover:text-blue-600">進度回報</a>
                     <ul class="pl-5 ">
                         <li>
-                        <a href="/admin/reportList" class="block hover:text-blue-600">回報清單</a>
+                            <a href="/admin/reportList" class="block hover:text-blue-600">回報清單</a>
                         </li>
                     </ul>
                 <li>
@@ -143,9 +143,7 @@
                 <li>
                     <a href="/admin/workstation" class="block hover:text-blue-600">工作站資料</a>
                 </li>
-                <!-- <li>
-                    <a href="/admin/machineProduct"class="block hover:text-blue-600">排機資料</a>
-                </li> -->
+
             </ul>
             </li>
 

@@ -95,7 +95,7 @@ class ScheduleController extends Controller
                         'type' => 'button',
                         'action' => 'schedule',
                         'text' => $order->schedule_status,
-                        'class' => 'px-1 bg-green-300 rounded hover:bg-green-500',
+                        'class' => '',
                         'id' => $order->id
                     ],
                     [
@@ -270,7 +270,7 @@ class ScheduleController extends Controller
             'body' => $body,
             'status' => $status,
             'machineTime' => $machineTime,
-            'header'=>$schedule->product_id,
+            'header' => $schedule->product_id,
             'content' => $material
 
         ];
@@ -281,8 +281,8 @@ class ScheduleController extends Controller
     public function store(Request $req)
     {
         // dd($req);
-        $s =Schedule::find($req->schedule_id);
-        
+        $s = Schedule::find($req->schedule_id);
+
         $s->product_id = $req->product_id;
         $s->today = $req->today;
         $s->period_start = $req->period_start;
@@ -290,8 +290,8 @@ class ScheduleController extends Controller
         $s->content = $req->content;
         $s->total_quantity = $req->total_quantity;
         $s->workstation_id = $req->workstation_id;
-        $s->order_id=$req->order_id;
-        $s->isAssign=1;
+        $s->order_id = $req->order_id;
+        $s->isAssign = 1;
         $s->save();
 
         // $order = Order::find($req->order_id);
@@ -371,14 +371,17 @@ class ScheduleController extends Controller
                 $cycle_time += $minInjection;
                 $time = $cycle_time * $order->total_quantity;
                 $temp = [
-                    'order_id' => $order->order->id, 'time' => round($time / 3600, 2), 'delivery' => $order->order->delivery, 'product_id' => $order->product_id, 'quantity' => $order->total_quantity, 'id' => $order->id,'isAssign'=>$order->isAssign
+                    'order_id' => $order->order->id, 'time' => round($time / 3600, 2), 'delivery' => $order->order->delivery, 'product_id' => $order->product_id, 'quantity' => $order->total_quantity, 'id' => $order->id, 'isAssign' => $order->isAssign
                 ];
                 $orders[] = $temp;
             }
         }
 
         // dd($orders);
-        if (!isset($orders)) {
+        $t = [];
+        $delivery = [];
+        if (isset($orders)) {
+
             foreach ($orders as $key => $row) {
                 $delivery[$key] = $row['delivery'];
                 $t[$key] = $row['time'];
@@ -387,9 +390,10 @@ class ScheduleController extends Controller
             array_multisort($delivery, SORT_ASC, $t, SORT_DESC, $orders);
         }
 
+        // dd($orders,$t);
 
 
-        $col = ['順序', '訂單號', '料號', '數量', '預計工時', '交期', '發放製令', '刪除', '編輯'];
+        $col = ['順序', '訂單號', '料號', '數量', '預計工時', '交期', '料號單', '發放製令'];
         $row = [];
         foreach ($orders as $key => $o) {
             $temp = [
@@ -420,32 +424,23 @@ class ScheduleController extends Controller
                 [
                     'tag' => 'href',
                     'type' => '',
-                    'class' => ($o['isAssign']==0)?'px-1 bg-yellow-300 rounded hover:bg-yellow-500':'px-1 bg-orange-300 rounded hover:bg-orange-500',
-                    'text' => ($o['isAssign']==0)?'發放':'已發放',
-                    'alertname' => $o['id'],
-                    'action' => 'push',
-                    'id' => $o['id'],
-                    'href' => 'release/' . $o['id']
-                ],
-                [
-                    'tag' => 'button',
-                    'type' => 'button',
-                    'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
-                    'text' => '刪除',
-                    'alertname' => '訂單編號' . $o['id'],
-                    'action' => 'delete',
-                    'id' => $o['id']
+                    'class' => 'bg-red-300',
+                    'action' => '',
+                    'id' => '',
+                    'text' => '生成料號單',
+                    'href' => 'generateProductLabel/' . $o['product_id'],
+                    'target'=>'_blank'
                 ],
                 [
                     'tag' => 'href',
                     'type' => '',
-                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
-                    'text' => '編輯',
+                    'class' => ($o['isAssign'] == 0) ? 'px-1 bg-yellow-300 rounded hover:bg-yellow-500' : '',
+                    'text' => ($o['isAssign'] == 0) ? '發放' : '已發放',
                     'alertname' => $o['id'],
-                    'action' => 'edit',
-                    'id' =>  $o['id'],
-                    'href' => 'schedule/edit/' . $o['id']
-                ],
+                    'action' => 'push',
+                    'id' => $o['id'],
+                    'href' => 'release/' . $o['id']
+                ]
             ];
             $row[] = $temp;
         }

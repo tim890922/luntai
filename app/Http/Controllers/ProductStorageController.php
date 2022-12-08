@@ -284,10 +284,11 @@ class ProductStorageController extends Controller
                 ],
                 [
                     'lable' => '料號',
-                    'tag' => '',
+                    'tag' => 'input',
                     'text' => $productstorage->product_id,
                     'type' => 'text',
                     'name' => 'product_id',
+                    'readonly'=>'readonly',
                     'value' => $productstorage->product_id
                 ],
                 [
@@ -341,6 +342,7 @@ class ProductStorageController extends Controller
      */
     public function update(Request $req) //儲存編輯資料
     {
+        // dd($req->request);
         $p = Productstorage::find($req->id);
         $p->product_id = $req->product_id;
         $p->storage_id = $req->storage_id;

@@ -11,7 +11,8 @@
     </div>
     <div class="w-full mx-auto " id="chart-div">
         <div class="w-full h-32 p-2 mb-3 bg-yellow-200 rounded">
-            <a href="/admin/defectiveReport" class=" cursor-pointer border rounded bg-gray-300 hover:bg-gray-500 float-right px-3 ">回上一頁</a>
+            <a href="/admin/defectiveReport"
+                class="float-right px-3 bg-gray-300 border rounded cursor-pointer hover:bg-gray-500">回上一頁</a>
             <form action="" class=" form">
                 @csrf
                 <table>
@@ -20,19 +21,22 @@
                             選擇月份
                         </td>
                         <td>
-                            <input type="month" name="start"> ~ <input type="month" name="end">
+                            <input type="date" name="start"> ~ <input type="date" name="end">
                         </td>
 
                     </tr>
                 </table>
                 <div class="mt-4">
-                    <a class="px-3 py-1 mt-5 bg-gray-300 border rounded submit hover:bg-gray-500 cursor-pointer">查詢</a>
+                    <a class="px-3 py-1 mt-5 bg-gray-300 border rounded cursor-pointer submit hover:bg-gray-500">查詢</a>
                 </div>
 
             </form>
         </div>
-        <canvas id="myChart" class="w-full h-64 p-5 border border-black rounded ">
-        </canvas>
+        <div class="p-5 ">
+            <canvas id="myChart" class="w-full h-64 p-4 border border-black rounded">
+            </canvas>
+        </div>
+
     </div>
 @endsection
 

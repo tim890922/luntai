@@ -183,6 +183,7 @@ class MaterialController extends Controller
                 'supplier_id' => 'required',
             ]
         );
+        $content['inventory']=0;
         $material->create($content);
 
         return redirect('admin/material')->with('notice', '新增成功');

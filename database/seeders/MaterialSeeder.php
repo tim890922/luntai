@@ -127,7 +127,7 @@ class MaterialSeeder extends Seeder
         $m11 = new Material; 
         $m11->id = '11';
         $m11->supplier_id = '2';
-        $m11->name = 'COLLAR, 1';
+        $m11->name = '色母1';
         $m11->type = '物料';
         $m11->inventory = '130';
         $m11->safety = '75';
@@ -138,7 +138,7 @@ class MaterialSeeder extends Seeder
         $m12 = new Material; 
         $m12->id = '12';
         $m12->supplier_id = '2';
-        $m12->name = 'COLLAR, 2';
+        $m12->name = '色母2';
         $m12->type = '物料';
         $m12->inventory = '130';
         $m12->safety = '75';
@@ -160,7 +160,7 @@ class MaterialSeeder extends Seeder
         $m14 = new Material; 
         $m14->id = '14';
         $m14->supplier_id = '3';
-        $m14->name = 'ASSIST,GRIP';
+        $m14->name = '輔助器';
         $m14->type = '物料';
         $m14->inventory = '200';
         $m14->safety = '140';

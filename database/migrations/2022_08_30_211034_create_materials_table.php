@@ -20,7 +20,7 @@ class CreateMaterialsTable extends Migration
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->string('name')->comment('名稱');
             $table->enum('type',['原料','物料'])->comment('類型');
-            $table->integer('inventory')->comment('庫存量');
+            $table->integer('inventory')->comment('庫存量')->nullable();
             $table->integer('safety')->comment('安全庫存量');
             $table->string('unit')->comment('單位');
             $table->string('material')->comment('材質');

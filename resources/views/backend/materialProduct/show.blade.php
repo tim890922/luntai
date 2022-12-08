@@ -151,7 +151,10 @@
             class="flex items-center justify-center w-full h-full text-4xl font-bold bg-green-300 border-b-8 border-l-4 border-green-600 rounded-lg">
             {{ $header }}的物料清單</h1>
     </div>
-
+    <div class="mt-3">
+        <a href="/admin/materialProduct" class="px-3 text-xl bg-gray-300 border rounded hover:bg-gray-500">上一頁</a>
+    </div>
+    
 
     <div class="w-auto h-auto px-3 py-3 mt-3 bg-gray-300 border border-gray-400 ">
         <ul class="m-auto ">
@@ -174,7 +177,7 @@
                                 </button>
 
                                 <img src="{{ asset('img/delete.svg') }}" style="height: 22px"
-                                    class="inline float-left pt-1 mx-3 delete" data-id="{{ $c['id'] }}">
+                                    class="inline float-left pt-1 mx-3 delete" data-id="{{ $c['pk'] }}">
                                 {{ $c['material'] }}
                             </div>
                             <div class="cursor-pointer ">
@@ -193,7 +196,7 @@
                                                 </a>
                                                 <img src="{{ asset('img/delete.svg') }}" style="height: 22px"
                                                     class="inline float-left pt-1 mx-3 delete"
-                                                    data-id="{{ $next['id'] }}">
+                                                    data-id="{{ $next['pk'] }}">
                                                 {{ $next['material'] }}
                                         </div>
                                         <div class="cursor-pointer ml">
@@ -214,7 +217,7 @@
                                                         </button>
                                                         <img src="{{ asset('img/delete.svg') }}" style="height: 22px"
                                                             class="inline float-left pt-1 mx-3 delete"
-                                                            data-id="{{ $next['material'] }}">{{ $next['material'] }}
+                                                            data-id="{{ $next['pk'] }}">{{ $next['material'] }}
                                                     </div>
                                                     <div class="cursor-pointer ">
                                                         {{ $next['quantity'] . $next['unit'] }}
@@ -236,7 +239,7 @@
                                                                     <img src="{{ asset('img/delete.svg') }}"
                                                                         style="height: 22px"
                                                                         class="inline float-left pt-1 mx-3 delete"
-                                                                        data-id="{{ $next['material'] }}">
+                                                                        data-id="{{ $next['pk'] }}">
                                                                     {{ $next['material'] }}
                                                                 </div>
                                                                 <div class="cursor-pointer ">
@@ -246,7 +249,7 @@
                                                             @if ($c['next'] != [])
                                                                 <ul class="pl-10 text-xl font-thin " style="display:block">
                                                                     @foreach ($next['next'] as $next)
-                                                                        <div>
+                                                                        <div 
                                                                             class="grid w-4/5 grid-cols-2 gap-1 my-4 hover:text-blue-600 accordion">
                                                                             <div class="cursor-pointer ">
                                                                                 <button class="float-left"
@@ -259,7 +262,7 @@
                                                                                 <img src="{{ asset('img/delete.svg') }}"
                                                                                     style="height: 22px"
                                                                                     class="inline float-left pt-1 mx-3 delete"
-                                                                                    data-id="{{ $next['material'] }}">
+                                                                                    data-id="{{ $next['pk'] }}">
                                                                                 {{ $next['material'] }}
                                                                             </div>
                                                                             <div class="cursor-pointer ">
@@ -303,13 +306,33 @@
 
         $(".insert").on("click", function() {
             let id = $(this).data("id");
-            console.log(id);
+         
+            console.log('insert id=',id)
             $.get(`/admin/materialProduct/create/${id}`, function(res) {
                 console.log("拿到資料了")
                 $("#modalSpace").append(res)
                 $('.modal').show()
 
             })
+        })
+
+        $(".delete").on("click", function() {
+            // let material_id = $(this).data("id");
+            let id = $(this).data("id");
+            let ans = confirm("確認刪除嗎?");
+            let _this=$(this);
+            if(ans){
+                $.ajax({
+                type: "delete",
+                url: `/admin/materialProduct/${id}`,
+                success: function(e) {
+                     _this.parents(".accordion").remove();
+                     // location.reload()
+                     Swal.fire(e)
+                 },
+            })
+            }
+            
         })
 
         $(document).on("click", ".close", function() {

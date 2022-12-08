@@ -11,7 +11,7 @@
     @isset($subtitle)
         <div class="p-3 mx-auto mt-3 rounded ">
             @foreach ($subtitle['button'] as $body)
-                <a class="{{ $body['class'] }}"
+                <a class="@isset($body['class']) {{ $body['class'] }} @else p-3 mx-3 bg-blue-300 border rounded-full cursor-pointer hover:bg-blue-500 @endisset"
                     href="{{ $body['href'] }}">{{ $body['text'] }}</a>
             @endforeach
         </div>
@@ -108,19 +108,28 @@
         $(".check").on("click", function() {
             let _this = $(this)
             let id = $(this).data('id')
+            let ans=true
+            if (_this.text() == "確認") {
+                ans = confirm("確定要取消確認")
+            }
+            if (ans) {
+                $.ajax({
+                    type: 'patch',
+                    url: `/admin/report/show/check/${_this.data('id')}`,
+                    success: function(content) {
+                        console.log(content)
+                        if (_this.text() == "確認") {
+                            _this.text("未確認")
+                            alert(content);
+                        } else {
+                            _this.text("確認")
+                            alert(content);
+                        }
 
-            $.ajax({
-                type: 'patch',
-                url: `report/show/check/${_this.data('id')}`,
-                success: function(content) {
-                    if (_this.text() == "確認") {
-                        _this.text("未確認")
-                    } else {
-                        _this.text("確認")
                     }
-                    console.log(content)
-                }
-            })
+                })
+            }
+
         })
 
 
@@ -136,8 +145,10 @@
                     console.log(content)
                     if (_this.text() == "出貨") {
                         _this.text("未出貨")
+                        alert(content);
                     } else {
                         _this.text("出貨")
+                        alert(content);
                     }
 
                 }

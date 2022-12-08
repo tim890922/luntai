@@ -51,7 +51,7 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td>預計總生產工時(小時)：</td>
+                            <td>預計總射出工時(小時)：</td>
                             <td class="work_time">
 
                             </td>
@@ -64,7 +64,7 @@
 
             </div>
         @endfor
-        <div class="w-auto  bg-gray-300 ">
+        <div class="w-auto bg-gray-300 ">
             <p class="my-2 text-xl font-bold cursor-pointer accordion">
                 {{ $header }}</p>
             <ul class="pl-10 text-xl font-thin " style="display:block">
@@ -75,7 +75,7 @@
                             <div class="cursor-pointer ">
                                 {{ $c['material'] }}
                             </div>
-                            <div class="cursor-pointer flex">
+                            <div class="flex cursor-pointer">
                                 <div class="flex quantity">{{ $c['quantity'] }}</div>{{ $c['unit'] }}
                             </div>
                         </div>
@@ -87,8 +87,8 @@
 
                                             {{ $next['material'] }}
                                         </div>
-                                        <div class="cursor-pointer flex">
-                                            <div class="flex quantity">{{ $next['quantity'] }}</div>{{ $next['unit'] }}
+                                        <div class="flex cursor-pointer">
+                                            <div class="flex quantity">{{ $next['quantity']*$body[7]['value'] }}</div>{{ $next['unit'] }}
                                         </div>
                                     </div>
                                     @if ($c['next'] != [])
@@ -99,8 +99,8 @@
                                                     <div class="cursor-pointer ">
                                                         {{ $next['material'] }}
                                                     </div>
-                                                    <div class="cursor-pointer flex">
-                                                        <div class="flex  quantity">{{ $next['quantity'] }}</div>
+                                                    <div class="flex cursor-pointer">
+                                                        <div class="flex quantity">{{ $next['quantity']*$body[7]['value'] }}</div>
                                                         {{ $next['unit'] }}
                                                     </div>
                                                 </div>
@@ -113,8 +113,8 @@
 
                                                                     {{ $next['material'] }}
                                                                 </div>
-                                                                <div class="cursor-pointer flex">
-                                                                    <div class="flex quantity">{{ $next['quantity'] }}
+                                                                <div class="flex cursor-pointer">
+                                                                    <div class="flex quantity">{{ $next['quantity']*$body[7]['value'] }}
                                                                     </div>
                                                                     {{ $next['unit'] }}
                                                                 </div>
@@ -128,9 +128,9 @@
 
                                                                                 {{ $next['material'] }}
                                                                             </div>
-                                                                            <div class="cursor-pointer flex">
+                                                                            <div class="flex cursor-pointer">
                                                                                 <div class="flex quantity">
-                                                                                    {{ $next['quantity'] }}</div>
+                                                                                    {{ $next['quantity']*$body[7]['value'] }}</div>
                                                                                 {{ $next['unit'] }}
                                                                             </div>
                                                                         </div>
@@ -217,7 +217,8 @@
         $(".schedule").on("click", function() {
             let _this = $(this);
             let formData = _this.parent('.form').serializeArray();
-            console.log(formData);
+        
+           
             if (!(_this.text() == '已發放')) {
                 $.ajax({
                     type: `post`,
@@ -226,6 +227,7 @@
                     success: function(res) {
                             Swal.fire(res)
                             _this.text('已發放')
+                            window.location.href ="/admin/schedule/list";
                         }
 
                         ,

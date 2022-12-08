@@ -108,12 +108,13 @@ class MaterialProductController extends Controller
                 'material' => ($materials[$i]->material->name) . '  材質:' . ($materials[$i]->material->material) . ' 規格:' . ($materials[$i]->material->specification),
                 'quantity' => $materials[$i]->quantity,
                 'unit' => $materials[$i]->unit,
-                'id' => $materials[$i]->material_id
+                'id' => $materials[$i]->material_id,
+                'pk'=>$materials[$i]->id
+
 
             ];
             $contents[] = $temp;
             if (null != $next) {
-
 
                 $contents[$i]['next'] = self::materialList($next);
             }
@@ -184,8 +185,14 @@ class MaterialProductController extends Controller
         $materialProduct->material_id = $req->procedure;
         $materialProduct->quantity = $req->quantity;
         $materialProduct->unit = $req->unit;
+        // $materialProduct->inventory = 0;
         $materialProduct->save();
 
         return back()->with('notice', '新增成功');
+    }
+
+    public function destroy($id){
+        MaterialProduct::destroy($id);
+        return '刪除成功';
     }
 }

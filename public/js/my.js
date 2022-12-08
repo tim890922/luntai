@@ -4,8 +4,34 @@
 //     menu.classList.toggle("hide");
 // }
 
+
+
+var opt={
+    "oLanguage":{"sUrl":"/dataTables.json"},
+    "bJQueryUI":true,
+    "sPaginationType":"full_numbers",
+    "order": [ 0, 'desc' ]
+   /*
+   更改字顏色
+    ,"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+     switch(aData[0]){
+         case '2017-02-05':
+             $(nRow).css('color', 'red')
+             break;
+         case 'BBBB':
+             $(nRow).css('color', 'green')
+             break;
+         case 'CCCC':
+             $(nRow).css('color', 'blue')
+             break;
+     }
+ }
+ */
+};
+
+
 $(document).ready(function () {
-    $("#table_1").DataTable();
+    $("#table_1").DataTable(opt);
 });
 
 var acc = document.getElementsByClassName("accordion");

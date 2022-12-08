@@ -42,7 +42,7 @@ class ClientController extends Controller
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $m->client_name,
+                    'alertname' => '客戶 '. $m->client_name,
                     'action' => 'delete',
                     'id' => $m->id
                 ],

@@ -67,6 +67,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::get('/materialStorage/List',[MaterialChangeController::class,'list']);
     Route::get('/productStoratge/List',[ProductStorageController::class,'list']);
     Route::get('/defectiveChart',[DefectiveReportController::class,'chart']);
+    Route::get('/schedule/generateProductLabel/{id}',function($id){
+        $id=['id'=>$id];
+        return view('component.productLabel',$id);
+    });
 
 
     //SHOW 顯示單一詳情資料
@@ -161,6 +165,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::delete('/client/{id}', [ClientController::class, 'destroy']);
     Route::delete('/clientUser/{id}', [ClientUserController::class, 'destroy']);
     Route::delete('/supplier/{id}', [SupplierController::class, 'destroy']);
+    Route::delete('/report/{id}', [ReportController::class, 'destroy']);
     Route::delete('/machineProduct/{id}', [MachineProductController::class, 'destroy']);
     Route::delete('/defectiveReport/{id}', [DefectiveReportController::class, 'destroy']);
     Route::delete('/order/{id}', [OrderController::class, 'destroy']);
@@ -169,6 +174,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::delete('/materialChange/{id}', [MaterialChangeController::class, 'destroy']);
     Route::delete('/process/{id}', [ProcessController::class, 'destroy'])->name('processDelete');
     Route::delete('/machineProduct/delete/{id}', [MachineProductController::class, 'destroy']);
+    Route::delete('/materialProduct/{id}', [MaterialProductController::class, 'destroy']);
 
     //import 匯入excel
     Route::post('/orderImport', [OrderController::class, 'import']);
@@ -186,7 +192,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
 
 
 Route::get('/test',function(){
-    return view('test');
+    return view('component.productLabel');
 });
 //訂單新增
 Route::get("/order/create/{id}", [OrderController::class, 'create']);

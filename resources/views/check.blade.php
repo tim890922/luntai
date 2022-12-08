@@ -26,28 +26,92 @@
 
         </div>
     </header>
-    <div class=" m-3">
+    <div class="m-3 ">
         <p>料號單：</p>
-        <input type="text" id="1st_id" class=" border border-gray-500 rounded px-3 mt-3">
+        <input type="text" id="1st_id" class="px-3 mt-3 border border-gray-500 rounded ">
         <br>
         <p>出貨單：</p>
-        <input type="text" id="2ed_id" class=" border border-gray-500 rounded px-3 mt-3">
+        <input type="text" id="2ed_id" class="px-3 mt-3 border border-gray-500 rounded ">
         <button id="check">確認</button>
     </div>
 
 </body>
 <script>
-    $("#check").on("click", function() {
-        let id_1 = $("#1st_id").val()
-        let id_2 = $("#2ed_id").val()
-        console.log(id_1)
-        $("#1st_id").val("")
-        $("#2ed_id").val("")
-
-
+    $(document).ready(function() {
+        $("#1st_id").focus();
     })
 
-    
+    $("#1st_id").keypress(function(e) {
+
+        if (e.which == 13) {
+            console.log('hi');
+            $("#2ed_id").focus();
+        }
+    })
+
+    function play() {
+        var audio = new Audio(
+            'https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
+        audio.play();
+    }
+    $("#2ed_id").keypress(function(e) {
+
+        if (e.which == 13) {
+            let id_1 = $("#1st_id").val();
+            let id_2 = $("#2ed_id").val();
+            console.log(id_1, id_2);
+
+            if (id_1 != id_2) {
+                play();
+
+                $("#1st_id").val("");
+                $("#2ed_id").val("");
+                $("#1st_id").focus();
+            } else {
+                $("#1st_id").val("");
+                $("#2ed_id").val("");
+                $("#1st_id").focus();
+            }
+
+
+        }
+    })
+
+    function beep(duration, frequency, volume) {
+        return new Promise((resolve, reject) => {
+            // Set default duration if not provided
+            duration = duration || 200;
+            frequency = frequency || 440;
+            volume = volume || 100;
+
+            try {
+                let oscillatorNode = myAudioContext.createOscillator();
+                let gainNode = myAudioContext.createGain();
+                oscillatorNode.connect(gainNode);
+
+                // Set the oscillator frequency in hertz
+                oscillatorNode.frequency.value = frequency;
+
+                // Set the type of oscillator
+                oscillatorNode.type = "square";
+                gainNode.connect(myAudioContext.destination);
+
+                // Set the gain to the volume
+                gainNode.gain.value = volume * 0.01;
+
+                // Start audio with the desired duration
+                oscillatorNode.start(myAudioContext.currentTime);
+                oscillatorNode.stop(myAudioContext.currentTime + duration * 0.001);
+
+                // Resolve the promise when the sound is finished
+                oscillatorNode.onended = () => {
+                    resolve();
+                };
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
 </script>
 
 </html>

@@ -15,7 +15,7 @@
     @endif
     <div class="h-auto px-3 py-3 mt-3 bg-gray-400 border border-gray-400 rounded-auto ">
         <div class="float-left float">
-            <a href="/admin/defectiveReport/" class="px-5 m-auto text-xl bg-blue-300 rounded hover:bg-blue-500" ">
+            <a href="/admin/defectiveReport" class="px-5 m-auto text-xl bg-blue-300 rounded hover:bg-blue-500" ">
                 回上一頁
             </a>
         </div>
@@ -34,7 +34,7 @@
                     </table>
                 @endisset
                 <table
-                    class=" w-4/5 mx-auto mt-4 text-center whitespace-no-wrap border border-collapse table-auto border-slate-400">
+                    class="w-4/5 mx-auto mt-4 text-center whitespace-no-wrap border border-collapse table-auto  border-slate-400">
                     <thead>
                         <tr>
                             @foreach ($table['th'] as $item)
@@ -59,7 +59,7 @@
                     </tbody>
 
                 </table>
-                <div class=" flex items-center justify-center mt-5">
+                <div class="flex items-center justify-center mt-5 ">
 
                 </div>
             </div>
