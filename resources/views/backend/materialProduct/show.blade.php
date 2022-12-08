@@ -177,7 +177,7 @@
                                 </button>
 
                                 <img src="{{ asset('img/delete.svg') }}" style="height: 22px"
-                                    class="inline float-left pt-1 mx-3 delete" data-id="{{ $c['pk'] }}">
+                                    class="inline float-left pt-1 mx-3 delete" data-id="{{ $c['pk'] }}" data-alert="{{ $c['material'] }}">
                                 {{ $c['material'] }}
                             </div>
                             <div class="cursor-pointer ">
@@ -196,7 +196,7 @@
                                                 </a>
                                                 <img src="{{ asset('img/delete.svg') }}" style="height: 22px"
                                                     class="inline float-left pt-1 mx-3 delete"
-                                                    data-id="{{ $next['pk'] }}">
+                                                    data-id="{{ $next['pk'] }}" data-alert="{{ $c['material'] }}">
                                                 {{ $next['material'] }}
                                         </div>
                                         <div class="cursor-pointer ml">
@@ -217,7 +217,7 @@
                                                         </button>
                                                         <img src="{{ asset('img/delete.svg') }}" style="height: 22px"
                                                             class="inline float-left pt-1 mx-3 delete"
-                                                            data-id="{{ $next['pk'] }}">{{ $next['material'] }}
+                                                            data-id="{{ $next['pk'] }}" data-alert="{{ $c['material'] }}">{{ $next['material'] }}
                                                     </div>
                                                     <div class="cursor-pointer ">
                                                         {{ $next['quantity'] . $next['unit'] }}
@@ -239,7 +239,7 @@
                                                                     <img src="{{ asset('img/delete.svg') }}"
                                                                         style="height: 22px"
                                                                         class="inline float-left pt-1 mx-3 delete"
-                                                                        data-id="{{ $next['pk'] }}">
+                                                                        data-id="{{ $next['pk'] }}" data-alert="{{ $c['material'] }}">
                                                                     {{ $next['material'] }}
                                                                 </div>
                                                                 <div class="cursor-pointer ">
@@ -262,7 +262,7 @@
                                                                                 <img src="{{ asset('img/delete.svg') }}"
                                                                                     style="height: 22px"
                                                                                     class="inline float-left pt-1 mx-3 delete"
-                                                                                    data-id="{{ $next['pk'] }}">
+                                                                                    data-id="{{ $next['pk'] }}" data-alert="{{ $c['material'] }}">
                                                                                 {{ $next['material'] }}
                                                                             </div>
                                                                             <div class="cursor-pointer ">
@@ -319,7 +319,8 @@
         $(".delete").on("click", function() {
             // let material_id = $(this).data("id");
             let id = $(this).data("id");
-            let ans = confirm("確認刪除嗎?");
+            let alert=$(this).data("alert")
+            let ans = confirm(`確認刪除`+alert);
             let _this=$(this);
             if(ans){
                 $.ajax({

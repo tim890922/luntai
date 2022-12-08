@@ -193,6 +193,7 @@ class MachineProductController extends Controller
             ]
         );
         // $machineproduct->create($content);
+        $content['non_performing_rate']/=100;
         $mp->create($content);
 
         return back()->with('notice', '新增成功');
@@ -235,7 +236,7 @@ class MachineProductController extends Controller
                 ],
 
                 [
-                    'lable' => '週期時間',
+                    'lable' => 'C/T(s)',
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '1',
@@ -343,7 +344,7 @@ class MachineProductController extends Controller
                 ],
 
                 [
-                    'lable' => '週期時間',
+                    'lable' => 'C/T(s)',
                     'tag' => 'input',
                     'type' => 'number',
                     'step' => '1',
@@ -367,10 +368,10 @@ class MachineProductController extends Controller
 
                 ],
                 [
-                    'lable' => '不良率',
+                    'lable' => '不良率(%)',
                     'tag' => 'input',
                     'type' => 'number',
-                    'step' => '0.01',
+                    'step' => '0.1',
                     'name' => 'non_performing_rate'
                 ]
             ]

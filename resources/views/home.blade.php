@@ -124,10 +124,10 @@
                 回報清單
             </div>
         </a>
-        <a href="/admin/defectiveReport">
+        <a href="/admin/defectiveChart">
             <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
                 style="">
-                不良品管理
+                查看不良品圖表
             </div>
         </a>
     </div>

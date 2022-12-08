@@ -15,4 +15,8 @@ class Workstation extends Model
     public function machine_products(){
         return $this->hasMany(MachineProduct::class);
     }
+
+    public function schedules(){
+        return $this->hasMany(Schedule::class);
+    }
 }

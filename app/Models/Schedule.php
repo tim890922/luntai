@@ -27,6 +27,10 @@ class Schedule extends Model
     public function order(){
         return $this->belongsTo(Order::class);
     }
+
+    public function workstation(){
+        return $this->belongsTo(Workstation::class);
+    }
     
 }
 

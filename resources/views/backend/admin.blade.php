@@ -19,7 +19,12 @@
 
     @isset($history)
         <a href="{{ $history }}" value="回到上一頁"
-            class="p-3 mt-5 ml-5 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</a>
+            class="p-3 mt-5 mr-3 text-center bg-gray-300 rounded cursor-pointer hover:bg-gray-500">回上一頁</a>
+    @endisset
+
+    @isset($finish)
+        生產完成按鈕：
+        <button id="finish" class= "border border- rounded bg-orange-300" data-id="{{ $finish['id'] }}">{{ $finish['text'] }}</button>
     @endisset
 
     {{-- 訊息區 --}}
@@ -108,8 +113,8 @@
         $(".check").on("click", function() {
             let _this = $(this)
             let id = $(this).data('id')
-            let ans=true
-            if (_this.text() == "確認") {
+            let ans = true
+            if (_this.text() == "已確認") {
                 ans = confirm("確定要取消確認")
             }
             if (ans) {
@@ -118,11 +123,11 @@
                     url: `/admin/report/show/check/${_this.data('id')}`,
                     success: function(content) {
                         console.log(content)
-                        if (_this.text() == "確認") {
+                        if (_this.text() == "已確認") {
                             _this.text("未確認")
                             alert(content);
                         } else {
-                            _this.text("確認")
+                            _this.text("已確認")
                             alert(content);
                         }
 
@@ -179,6 +184,20 @@
                     console.log(content)
                 }
 
+            })
+        })
+
+        $("#finish").on("click", function() {
+            let id = $(this).data("id");
+            let _this = $(this);
+            $.ajax({
+                type: `post`,
+                url: `/admin/report/finish/${id}`,
+                success: function(e) {
+                    console.log(e.alert);
+                    Swal.fire(e.alert);
+                    _this.text(e.text)
+                }
             })
         })
     </script>

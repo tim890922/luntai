@@ -56,7 +56,7 @@ class ProductStorageController extends Controller
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $p->product_id,
+                    'alertname' => '料號 '.$p->product_id,
                     'action' => 'delete',
                     'id' => $p->id
                 ],
@@ -373,7 +373,7 @@ class ProductStorageController extends Controller
         $products = Product::all();
 
         $col = [
-            '料號', '庫存數量', '可用庫存數量', '異動詳情'
+            '料號', '實際庫存數量', '異動詳情'
         ];
         $row = [];
         $content = [];
@@ -421,10 +421,6 @@ class ProductStorageController extends Controller
                 [
                     'tag' => '',
                     'text' => $item['total'],
-                ],
-                [
-                    'tag' => '',
-                    'text' => $item['useable'],
                 ],
                 [
                     'tag' => 'href',

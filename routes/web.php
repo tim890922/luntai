@@ -67,6 +67,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::get('/materialStorage/List',[MaterialChangeController::class,'list']);
     Route::get('/productStoratge/List',[ProductStorageController::class,'list']);
     Route::get('/defectiveChart',[DefectiveReportController::class,'chart']);
+    Route::get('/report/list/{id}',[ReportController::class,'reportList']);
     Route::get('/schedule/generateProductLabel/{id}',function($id){
         $id=['id'=>$id];
         return view('component.productLabel',$id);
@@ -185,6 +186,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::patch('/order/output/{id}', [OrderController::class, 'output']);
     Route::post('/order/load/{id}', [OrderController::class, 'load']);
     Route::post('/defectiveReport/check/{id}',[DefectiveReportController::class,'check']);
+    Route::post('/report/finish/{id}',[ReportController::class,'finish']);
 
     //get資料
    

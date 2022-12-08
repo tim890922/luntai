@@ -193,28 +193,28 @@ class ScheduleController extends Controller
             [
                 'lable' => '生產批號',
                 'readonly' => '',
-                'tag' => 'input',
+                'tag' => '',
                 'type' => 'text',
                 'name' => 'schedule_id',
                 'value' => $schedule->id,
-                'readonly' => ''
+                'text' => $schedule->id,
             ],
             [
                 'lable' => '訂單號',
-                'readonly' => '',
-                'tag' => 'input',
+                'tag' => '',
                 'type' => 'text',
                 'name' => 'order_id',
                 'value' => $schedule->order->id,
+                'text' => $schedule->order->id,
                 'readonly' => ''
             ],
             [
                 'lable' => '料號',
-                'tag' => 'input',
+                'tag' => '',
                 'type' => 'text',
                 'name' => 'product_id',
-                'value' => $schedule->product_id,
-                'readonly' => ''
+                'value'=> $schedule->product_id,
+                'text'=> $schedule->product_id,
             ],
             [
                 'lable' => '日期',
@@ -259,7 +259,32 @@ class ScheduleController extends Controller
                 'type' => 'date',
                 'name' => 'workstation_id',
                 'lists' => $machineList,
-            ]
+            ],
+            [
+                'lable' => '',
+                'readonly' => '',
+                'tag' => 'input',
+                'type' => 'hidden',
+                'name' => 'schedule_id',
+                'value' => $schedule->id,
+            ],
+            [
+                'lable' => '',
+                'tag' => 'input',
+                'type' => 'hidden',
+                'name' => 'order_id',
+                'value' => $schedule->order->id,
+                'text' => $schedule->order->id,
+                'readonly' => ''
+            ],
+            [
+                'lable' => '',
+                'tag' => 'input',
+                'type' => 'hidden',
+                'name' => 'product_id',
+                'value'=> $schedule->product_id,
+                'text'=> $schedule->product_id,
+            ],
         ];
         $body[] = $temp;
 
@@ -429,7 +454,7 @@ class ScheduleController extends Controller
                     'id' => '',
                     'text' => '生成料號單',
                     'href' => 'generateProductLabel/' . $o['product_id'],
-                    'target'=>'_blank'
+                    'target' => '_blank'
                 ],
                 [
                     'tag' => 'href',

@@ -73,7 +73,7 @@
                         </li>
                     </ul>
                 <li>
-                    <a href="/admin/defectiveReport" class="block hover:text-blue-600">不良品管理</a>
+                    <a href="/admin/defectiveChart" class="block hover:text-blue-600">查看不良品圖表</a>
                 </li>
             </ul>
 

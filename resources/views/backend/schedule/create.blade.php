@@ -39,10 +39,10 @@
                                         @break
 
                                         @case('')
-                                            <p
-                                                @isset($item['value'])
+                                            <p @isset($item['value'])
                                     value="{{ $item['value'] }}"
-                                @endisset>
+                                @endisset
+                                                @isset($item['name']) name="{{ $item['name'] }}" @endisset>
                                                 {{ $item['text'] }}
                                             </p>
                                         @break
@@ -88,7 +88,8 @@
                                             {{ $next['material'] }}
                                         </div>
                                         <div class="flex cursor-pointer">
-                                            <div class="flex quantity">{{ $next['quantity']*$body[7]['value'] }}</div>{{ $next['unit'] }}
+                                            <div class="flex quantity">{{ $next['quantity']  }}</div>
+                                            {{ $next['unit'] }}
                                         </div>
                                     </div>
                                     @if ($c['next'] != [])
@@ -100,7 +101,8 @@
                                                         {{ $next['material'] }}
                                                     </div>
                                                     <div class="flex cursor-pointer">
-                                                        <div class="flex quantity">{{ $next['quantity']*$body[7]['value'] }}</div>
+                                                        <div class="flex quantity">
+                                                            {{ $next['quantity']  }}</div>
                                                         {{ $next['unit'] }}
                                                     </div>
                                                 </div>
@@ -114,7 +116,8 @@
                                                                     {{ $next['material'] }}
                                                                 </div>
                                                                 <div class="flex cursor-pointer">
-                                                                    <div class="flex quantity">{{ $next['quantity']*$body[7]['value'] }}
+                                                                    <div class="flex quantity">
+                                                                        {{ $next['quantity']  }}
                                                                     </div>
                                                                     {{ $next['unit'] }}
                                                                 </div>
@@ -130,7 +133,8 @@
                                                                             </div>
                                                                             <div class="flex cursor-pointer">
                                                                                 <div class="flex quantity">
-                                                                                    {{ $next['quantity']*$body[7]['value'] }}</div>
+                                                                                    {{ $next['quantity']  }}
+                                                                                </div>
                                                                                 {{ $next['unit'] }}
                                                                             </div>
                                                                         </div>
@@ -202,7 +206,7 @@
             let product_id = $("#" + table_id + " input[name=product_id]").val();
             console.log(table_id, workstation_id, product_id)
             ComputeWorkTime(table_id, workstation_id, product_id);
-          
+
         });
 
         $(document).on("change", "select[name=workstation_id]", function() {
@@ -217,8 +221,8 @@
         $(".schedule").on("click", function() {
             let _this = $(this);
             let formData = _this.parent('.form').serializeArray();
-        
-           
+
+
             if (!(_this.text() == '已發放')) {
                 $.ajax({
                     type: `post`,
@@ -227,7 +231,7 @@
                     success: function(res) {
                             Swal.fire(res)
                             _this.text('已發放')
-                            window.location.href ="/admin/schedule/list";
+                            window.location.href = "/admin/schedule/list";
                         }
 
                         ,

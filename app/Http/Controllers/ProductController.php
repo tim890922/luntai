@@ -54,7 +54,7 @@ class ProductController extends Controller
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $p->id,
+                    'alertname' => '料號 '.$p->id,
                     'action' => 'delete',
                     'id' => $p->id
                 ],

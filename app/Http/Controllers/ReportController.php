@@ -34,8 +34,8 @@ class ReportController extends Controller
     }
     public function scheduleList()
     {   //員工進度回報
-        $schedules = Schedule::where('isAssign', 1)->get();
-        $col = ['生產批號', '料號', '日期',  '開始時間', '結束時間', '內容', '預計總產量', '進度回報'];
+        $schedules = Schedule::where('isAssign', 1)->where('isFinish', 0)->get();
+        $col = ['生產批號', '料號', '日期',  '開始時間', '結束時間', '內容', '預計總產量', '進度回報清單', '進度回報'];
 
         $row = [];
 
@@ -69,6 +69,16 @@ class ReportController extends Controller
                     [
                         'tag' => '',
                         'text' => $s->total_quantity
+                    ],
+                    [
+                        'tag' => 'href',
+                        'type' => 'button',
+                        'class' => 'px-1 bg-yellow-300 rounded hover:bg-yellow-500',
+                        'text' => '進度回報清單',
+                        'alertname' => $s->id,
+                        'action' => '',
+                        'id' => $s->id,
+                        'href' => '/admin/report/list/' . $s->id
                     ],
                     [
                         'tag' => 'href',
@@ -123,7 +133,7 @@ class ReportController extends Controller
         $body = [
             [
                 'lable' => '生產批號',
-                'tag' => 'input',
+                'tag' => '',
                 'type' => '',
                 'name' => 'schedule_id',
                 'value' => $id,
@@ -132,7 +142,7 @@ class ReportController extends Controller
             ],
             [
                 'lable' => '料號',
-                'tag' => 'input',
+                'tag' => '',
                 'type' => '',
                 'name' => 'product_id',
                 'text' => $schedule->product_id,
@@ -140,19 +150,28 @@ class ReportController extends Controller
                 'readonly' => ''
             ],
             [
+                'lable' => '機台名稱',
+                'tag' => '',
+                'type' => '',
+                'name' => 'workstation_name',
+                'text' => $schedule->workstation->workstation_name,
+                'value' => $schedule->workstation_id,
+                'readonly' => ''
+            ],
+            [
                 'lable' => '日期',
-                'tag' => 'input',
+                'tag' => '',
                 'type' => '',
                 'name' => 'today',
                 'text' => date('Y/m/d'),
                 'value' => date('Y/m/d'),
-                'readonly' => ''
             ],
             [
                 'lable' => '員工編號',
-                'tag' => 'input',
+                'tag' => '',
                 'type' => 'text',
                 'value' => (session()->get('user'))->id,
+                'text' => (session()->get('user'))->id,
                 'name' => 'employee_id',
                 'readonly' => ''
             ],
@@ -195,7 +214,59 @@ class ReportController extends Controller
                 'type' => 'number',
                 'step' => '1',
                 'name' => 'good_product_quantity',
-            ]
+            ],
+            [
+                'lable' => '',
+                'tag' => 'input',
+                'type' => 'hidden',
+                'name' => 'schedule_id',
+                'value' => $id,
+                'text' => $id,
+                'readonly' => ''
+            ],
+            [
+                'lable' => '',
+                'tag' => 'input',
+                'type' => 'hidden',
+                'name' => 'product_id',
+                'text' => $schedule->product_id,
+                'value' => $schedule->product_id,
+                'readonly' => ''
+            ],
+            [
+                'lable' => '',
+                'tag' => 'input',
+                'type' => 'hidden',
+                'name' => 'workstation_name',
+                'text' => $schedule->workstation->workstation_name,
+                'value' => $schedule->workstation_id,
+                'readonly' => ''
+            ],
+            [
+                'lable' => '',
+                'tag' => 'input',
+                'type' => 'hidden',
+                'name' => 'today',
+                'text' => date('Y/m/d'),
+                'value' => date('Y/m/d'),
+                'readonly' => ''
+            ],
+            [
+                'lable' => '',
+                'tag' => 'input',
+                'type' => 'hidden',
+                'value' => (session()->get('user'))->id,
+                'name' => 'employee_id',
+                'readonly' => ''
+            ],
+            [
+                'lable' => '',
+                'tag' => 'input',
+                'type' => 'hidden',
+                'name' => 'today',
+                'text' => date('Y/m/d'),
+                'value' => date('Y/m/d'),
+            ],
 
         ];
 
@@ -270,8 +341,8 @@ class ReportController extends Controller
     public function list()
     {   //生產進度回報
         $reports = Report::all();
-        $schedule = Schedule::where('isFinish', 0)->where('isAssign',1)->get();
-        $col = ['生產批號', '料號', '日期', '時段','是否完成', '回報清單'];
+        $schedule = Schedule::where('isAssign', 1)->get();
+        $col = ['生產批號', '訂單號', '客戶', '料號', '日期', '時段', '是否完成', '回報清單'];
 
         $row = [];
 
@@ -280,6 +351,14 @@ class ReportController extends Controller
                 [
                     'tag' => '',
                     'text' => $p->id,
+                ],
+                [
+                    'tag' => '',
+                    'text' => $p->order_id,
+                ],
+                [
+                    'tag' => '',
+                    'text' => $p->order->clientuser->client->client_name,
                 ],
                 [
                     'tag' => '',
@@ -296,8 +375,8 @@ class ReportController extends Controller
                 ],
                 [
                     'tag' => '',
-                    'text' => ($p->isFinish==0)?'未完成':'已完成',
-                    'class'=>($p->isFinish==0)?'bg-red-300':'bg-green-300'
+                    'text' => ($p->isFinish == 0) ? '未完成' : '已完成',
+                    'class' => ($p->isFinish == 0) ? 'bg-red-300' : 'bg-green-300'
                 ],
                 [
                     'tag' => 'href',
@@ -335,7 +414,7 @@ class ReportController extends Controller
     public function show($id)
     {
         $reports = Report::where('schedule_id', $id)->get();
-
+        $schedule = Schedule::find($id);
         $col = [
             '進度回報編號', '料號', '員工', '班別', '生產時段', '良品數', '不良品總數', '刪除', '編輯', '查核'
         ];
@@ -369,15 +448,20 @@ class ReportController extends Controller
                     'text' => $p->good_product_quantity,
                 ],
                 [
-                    'tag' => '',
+                    'tag' => 'href',
+                    'type' => '',
                     'text' => $p->defective_product_quantity,
+                    'action' => '',
+                    'href' => '/admin/defectiveReport/show/' . $p->id,
+                    'id' => '',
+                    'class' => 'hover:text-blue-500',
                 ],
                 [
                     'tag' => 'button',
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $p->id,
+                    'alertname' => '進度回報編號 ' . $p->id,
                     'action' => 'delete',
                     'id' => $p->id
                 ],
@@ -388,24 +472,27 @@ class ReportController extends Controller
                     'text' => '編輯',
                     'action' => 'edit',
                     'id' => $p->id,
-                    'href' => '/admin/report/edit/' . $p->id
+                    'href' => '/admin/defectiveReport/show/' . $p->id
                 ],
                 [
                     'tag' => 'button',
                     'type' => 'button',
                     'action' => 'check',
-                    'class' => 'px-1 bg-blue-500 rounded hover:bg-blue-700',
-                    'text' => ($p->record == 1) ? '確認' : '未確認',
+                    'class' => 'px-1 bg-green-500 rounded hover:bg-green-700',
+                    'text' => ($p->record == 1) ? '已確認' : '未確認',
                     'id' => $p->id
                 ]
             ];
             $row[] = $temp;
         }
-
+        $text = '未完成';
+        if ($schedule->isFinish == 1)
+            $text = '已完成';
 
         $view = [
             'col' => $col, 'header' => '生產批號' . $id . '', 'row' => $row, 'method' => 'GET',
-            'module' => 'report', 'history' => '/admin/reportList'
+            'module' => 'report', 'history' => '/admin/reportList',
+            'finish' => ['id' => $id, 'text' => $text]
         ];
         return view('backend.admin', $view);
     }
@@ -523,5 +610,81 @@ class ReportController extends Controller
 
         $report->save();
         return $text;
+    }
+
+    public function finish($id)
+    {
+        $schedule = Schedule::find($id);
+        $reports = Report::where('schedule_id', $id)->get();
+        // dd($reports);
+        if (isset($reports)) {
+            foreach ($reports as $report) {
+                if ($report->record == 0) {
+                    return ['alert' => "進度回報未查核完成"];
+                }
+            }
+        } else {
+            return ['alert' => '沒有進度回報'];
+        }
+
+
+        if ($schedule->isFinish == 1) {
+            $schedule->isFinish = 0;
+            $schedule->save();
+            return ['alert' => "取消完成", 'text' => '未完成'];
+        }
+        $schedule->isFinish = 1;
+        $schedule->save();
+        $message = '完成';
+        return ['alert' => "完成", 'text' => '已完成'];
+    }
+
+    public function reportList($id)
+    {
+        $reports = Report::where('schedule_id', $id)->get();
+        $col = [
+            '進度回報編號', '料號', '員工', '班別', '生產時段', '良品數', '不良品總數'
+        ];
+        $row = [];
+        foreach ($reports as $p) {
+            $temp = [
+                [
+                    'tag' => '',
+                    'text' => $p->id,
+                ],
+                [
+                    'tag' => '',
+                    'text' => $p->product_id,
+                ],
+
+                [
+                    'tag' => '',
+                    'text' => $p->employee->name,
+                ],
+                [
+                    'tag' => '',
+                    'text' => $p->shift,
+                ],
+                [
+                    'tag' => '',
+                    'text' => $p->time_start . '-' . $p->time_end,
+                ],
+                [
+                    'tag' => '',
+                    'text' => $p->good_product_quantity,
+                ],
+                [
+                    'tag' => '',
+                    'text' => $p->defective_product_quantity,
+                ]
+            ];
+            $row[] = $temp;
+        }
+        $view = [
+            'col' => $col, 'header' => '生產批號' . $id . '', 'row' => $row, 'method' => 'GET',
+            'module' => '', 'history' => '/admin/report',
+
+        ];
+        return view('backend.admin', $view);
     }
 }

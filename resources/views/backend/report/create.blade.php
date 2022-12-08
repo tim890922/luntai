@@ -15,7 +15,7 @@
             <table class="mx-auto text-xl">
                 @isset($body)
                     @foreach ($body as $index => $row)
-                        <tr>
+                        <tr @isset($row['type']) @if ($row['type'] == 'hidden') class="hidden" @endif @endisset>
                             @isset($row['lable'])
                                 <td class="text-right ">{{ $row['lable'] }}</td>
                             @endisset

@@ -17,7 +17,7 @@ class OrderController extends Controller
         $id = $client_id;
         $filter = $req->filter;
 
-        $col = ['訂單編號', '料號', '出貨位', '用方', '用方名稱', '交貨日', '數量', '包裝數', '庫存數量', '圈存', '狀態', '刪除', '編輯'];
+        $col = ['訂單編號', '料號', '出貨位', '用方', '用方名稱', '交貨日', '數量', '包裝數', '庫存數量', '狀態', '刪除', '編輯'];
 
         $row = [];
         $class = 'p-3 mx-3 bg-blue-300 border rounded-full cursor-pointer hover:bg-blue-500';
@@ -144,14 +144,6 @@ class OrderController extends Controller
                     [
                         'tag' => 'button',
                         'type' => 'button',
-                        'action' => 'load',
-                        'text' => ($m->isLoad == 0) ? '未圈存' : '已圈存',
-                        'class' => 'px-1 bg-blue-300 rounded hover:bg-blue-500',
-                        'id' => $m->id
-                    ],
-                    [
-                        'tag' => 'button',
-                        'type' => 'button',
                         'action' => 'output',
                         'class' => 'px-1 bg-green-300 rounded hover:bg-green-500',
                         'text' => ($m->record == 1) ? '已出貨' : '未出貨',
@@ -162,7 +154,7 @@ class OrderController extends Controller
                         'type' => 'button',
                         'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                         'text' => '刪除',
-                        'alertname' => $m->id,
+                        'alertname' => '訂單編號 '.$m->id,
                         'action' => 'delete',
                         'id' => $m->id
                     ],

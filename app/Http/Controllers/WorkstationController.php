@@ -30,7 +30,7 @@ class WorkstationController extends Controller
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => $w->workstation_name,
+                    'alertname' => '工作站 '.$w->workstation_name,
                     'action' => 'delete',
                     'id' => $w->id
                 ],

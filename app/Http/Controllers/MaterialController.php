@@ -50,7 +50,7 @@ class MaterialController extends Controller
                         'type' => 'button',
                         'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                         'text' => '刪除',
-                        'alertname' => $m->name,
+                        'alertname' => '原物料 '.$m->name,
                         'action' => 'delete',
                         'id' => $m->id
                     ],
