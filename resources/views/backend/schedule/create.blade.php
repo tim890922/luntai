@@ -88,7 +88,7 @@
                                             {{ $next['material'] }}
                                         </div>
                                         <div class="flex cursor-pointer">
-                                            <div class="flex quantity">{{ $next['quantity']  }}</div>
+                                            <div class="flex quantity">{{ $next['quantity'] }}</div>
                                             {{ $next['unit'] }}
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                                     </div>
                                                     <div class="flex cursor-pointer">
                                                         <div class="flex quantity">
-                                                            {{ $next['quantity']  }}</div>
+                                                            {{ $next['quantity'] }}</div>
                                                         {{ $next['unit'] }}
                                                     </div>
                                                 </div>
@@ -117,7 +117,7 @@
                                                                 </div>
                                                                 <div class="flex cursor-pointer">
                                                                     <div class="flex quantity">
-                                                                        {{ $next['quantity']  }}
+                                                                        {{ $next['quantity'] }}
                                                                     </div>
                                                                     {{ $next['unit'] }}
                                                                 </div>
@@ -133,7 +133,7 @@
                                                                             </div>
                                                                             <div class="flex cursor-pointer">
                                                                                 <div class="flex quantity">
-                                                                                    {{ $next['quantity']  }}
+                                                                                    {{ $next['quantity'] }}
                                                                                 </div>
                                                                                 {{ $next['unit'] }}
                                                                             </div>
@@ -169,7 +169,7 @@
         });
 
         let machineTime = null;
-
+        let material_quantity = [];
         $(document).ready(function() {
             let timeBox = $(".work_time");
             let machineTimeStr = '{!! json_encode($machineTime) !!}';
@@ -177,6 +177,18 @@
             console.log(machineTime)
             let productData = $(".work_time").data("id");
             console.log(productData);
+
+
+            console.log(material_quantity);
+            $(".quantity").each(function(e) {
+                console.log($(".quantity:eq(" + e + ")").text());
+                // $(".quantity:eq(" + e + ")").text()
+                material_quantity.push($(".quantity:eq(" + e + ")").text());
+                $(".quantity:eq(" + e + ")").text($(".quantity:eq(" + e + ")").text() * $(
+                    "input[name=total_quantity]").val())
+
+
+            });
             // $.ajax({
             //     type: `post`,
             //     url: `/admin/getMachineTime`,
@@ -207,7 +219,16 @@
             console.log(table_id, workstation_id, product_id)
             ComputeWorkTime(table_id, workstation_id, product_id);
 
+
+            $(".quantity").each(function(e) {
+                $(".quantity:eq(" + e + ")").text(material_quantity[e] * $("#" + table_id +
+                    " input[name=total_quantity]").val());
+            });
         });
+
+        function computeMaterialQuantity() {
+
+        }
 
         $(document).on("change", "select[name=workstation_id]", function() {
             let table_id = $(this).parents("table").prop("id");

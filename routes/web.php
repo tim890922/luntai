@@ -100,6 +100,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::post('/report', [ReportController::class, 'store']);
     Route::post('/schedule', [ScheduleController::class, 'store']);
     Route::post('/materialProduct', [MaterialProductController::class, 'store']);
+    Route::post('/defectiveReport', [DefectiveReportController::class, 'store']);
 
 
     //edit 編輯畫面
@@ -155,6 +156,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::get('/schedule/create', [ScheduleController::class, 'mainSchedule']);
     Route::get('/report/create/{id}', [ReportController::class, 'create']);
     Route::get('/schedule/release/{id}', [ScheduleController::class, 'create']);
+    Route::get('/defectiveReport/create/{id}', [DefectiveReportController::class, 'create']);
 
 
 
@@ -176,6 +178,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::delete('/process/{id}', [ProcessController::class, 'destroy'])->name('processDelete');
     Route::delete('/machineProduct/delete/{id}', [MachineProductController::class, 'destroy']);
     Route::delete('/materialProduct/{id}', [MaterialProductController::class, 'destroy']);
+    Route::delete('/defectiveReport/delete/{id}', [DefectiveReportController::class, 'destroy']);
 
     //import 匯入excel
     Route::post('/orderImport', [OrderController::class, 'import']);

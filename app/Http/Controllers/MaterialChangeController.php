@@ -48,7 +48,7 @@ class MaterialChangeController extends Controller
                     'type' => 'button',
                     'class' => 'px-1 bg-red-500 rounded hover:bg-red-700',
                     'text' => '刪除',
-                    'alertname' => '原物料 '.$m->material->name,
+                    'alertname' => '原物料 ' . $m->material->name,
                     'action' => 'delete',
                     'id' => $m->id
                 ],
@@ -84,7 +84,17 @@ class MaterialChangeController extends Controller
      */
     public function create($i)
     {
+
         $materialchanges = MaterialChange::all();
+        $materials = Material::all();
+        $lists = [];
+        foreach ($materials as $material) {
+            $temp = [
+                'text' => $material->name,
+                'value' => $material->id
+            ];
+            $lists[]=$temp;
+        }
         $status = [
             [
                 'value' => '出庫',
@@ -103,9 +113,10 @@ class MaterialChangeController extends Controller
             'body' => [
                 [
                     'lable' => '原物料編號',
-                    'tag' => 'input',
+                    'tag' => 'select',
                     'type' => 'text',
-                    'name' => 'material_id'
+                    'name' => 'material_id',
+                    'lists'=>$lists
                 ],
                 [
                     'lable' => '數量',
@@ -114,13 +125,7 @@ class MaterialChangeController extends Controller
                     'step' => '1',
                     'name' => 'quantity'
                 ],
-                [
-                    'lable' => '單位',
-                    'tag' => '',
-                    'type' => 'text',
-                    'name' => 'unit',
-                    'text' => $materialchanges->material->unit
-                ],
+
                 [
                     'lable' => '',
                     'tag' => 'input',
@@ -145,14 +150,15 @@ class MaterialChangeController extends Controller
     {
 
         $m = new MaterialChange;
+        $material = Material::find($req->material_id);
         $content = $req->validate(
             [
                 'material_id' => 'required',
                 'quantity' => 'required',
-                'unit' => 'required',
                 'change_status' => 'required'
             ]
         );
+        $content['unit'] = $material->unit;
 
         $m->create($content);
         $notice = ($req->change_status == '出庫') ? '出庫成功' : '入庫成功';

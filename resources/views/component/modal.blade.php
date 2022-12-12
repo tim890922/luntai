@@ -17,7 +17,12 @@
                                 @isset($row['lable'])
                                     <td class="text-right ">{{ $row['lable'] }}</td>
                                 @endisset
-                                <td class="px-3 py-2">
+                                <td
+                                    class="px-3 py-2 @isset($row['type'])
+                                @if ($row['type'] == 'hidden')
+                                    hidden
+                                @endif
+                                @endisset">
                                     @switch($row['tag'])
                                         @case('input')
                                             @include('component.input', $row)

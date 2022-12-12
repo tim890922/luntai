@@ -14,8 +14,8 @@
             系統功能</h1>
     </div>
     <div class="w-1/4 px-3 mt-3 text-xl bg-blue-200 rounded">
-        <p> 
-            你好，{{$user->name}}
+        <p>
+            你好，{{ session()->get('user')->name }}
         </p>
     </div>
 
@@ -39,40 +39,42 @@
             產品管理
         </div>
     </div>
+
     <div class="flex items-center w-auto h-auto px-3 justify-left">
         <a href="/admin/product">
             <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
                 style="">
                 料號資料
+            </div>
+        </a>
+
+
+        <a href="/admin/materialProduct">
+            <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
+                style="">
+                BOM表
+            </div>
+        </a>
+        <a href="/admin/process">
+            <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
+                style="">
+                製程資料
+            </div>
+        </a>
+        <a href="/admin/material">
+            <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
+                style="">
+                原物料資料
+            </div>
+        </a>
+        <a href="/admin/supplier">
+            <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
+                style="">
+                供應商資料
+            </div>
         </a>
     </div>
 
-    <a href="/admin/materialProduct">
-        <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
-            style="">
-            BOM表
-        </div>
-    </a>
-    <a href="/admin/process">
-        <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
-            style="">
-            製程資料
-        </div>
-    </a>
-    <a href="/admin/material">
-        <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
-            style="">
-            原物料資料
-        </div>
-    </a>
-    <a href="/admin/supplier">
-        <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
-        style="">
-            供應商資料
-        </div>
-    </a>
-    </div>
-    
     <div class="py-3 mx-auto">
         <div class="flex items-center w-full h-full px-3 text-3xl font-bold bg-gray-400 rounded-lg justify-left"
             style="">
@@ -162,12 +164,12 @@
                 成品庫存清單
             </div>
         </a>
-         <a href="/admin/check">
+        <a href="/admin/check">
             <div class="flex items-center justify-center w-48 h-16 mx-5 text-xl font-bold text-black bg-blue-400 border-b-8 border-l-4 border-blue-700 rounded cursor-pointer hover:bg-blue-300 hover:border-blue-500 "
                 style="">
                 料號檢核
             </div>
-        </a> 
+        </a>
     </div>
     <div class="flex items-center w-auto h-auto px-3 py-3 justify-left">
         <a href="/admin/materialChange/0">
@@ -211,5 +213,4 @@
     </div>
 @endsection
 @section('script')
-   
 @endsection

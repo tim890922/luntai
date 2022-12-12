@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProductStorage;
 use App\Models\Product;
+use App\Models\Storage;
 
 class ProductStorageController extends Controller
 {
@@ -93,6 +94,28 @@ class ProductStorageController extends Controller
     public function create($i)
     {
         $productstorages = ProductStorage::all();
+        // dd('hi');
+        $products=Product::all();
+        $product_lists=[];
+        foreach($products as $product){
+            $temp=[
+                'text'=>$product->id,
+                'value'=>$product->id,
+            ];
+            $product_lists[]=$temp;
+        }
+
+        $storages=Storage::all();
+        $storage_lists=[];
+        foreach($storages as $storage){
+            $temp=[
+                'text'=>$storage->id,
+                'value'=>$storage->id,
+            ];
+            $storage_lists[]=$temp;
+        }
+
+
         $status = [
             [
                 'value' => '出庫',
@@ -111,15 +134,17 @@ class ProductStorageController extends Controller
             'body' => [
                 [
                     'lable' => '料號',
-                    'tag' => 'input',
+                    'tag' => 'select',
                     'type' => 'text',
-                    'name' => 'product_id'
+                    'name' => 'product_id',
+                    'lists'=>$product_lists
                 ],
                 [
                     'lable' => '儲位編號',
-                    'tag' => 'input',
+                    'tag' => 'select',
                     'type' => 'text',
-                    'name' => 'storage_id'
+                    'name' => 'storage_id',
+                    'lists' => $storage_lists
                 ],
                 [
                     'lable' => '數量',
@@ -140,6 +165,7 @@ class ProductStorageController extends Controller
                     'tag' => 'input',
                     'type' => 'text',
                     'name' => 'responsible',
+                    'value' => session()->get('user')->name,
                 ],
                 [
                     'lable' => '',

@@ -38,8 +38,8 @@
 
                 <div id="barcode">
                     <div class="flex items-center justify-center h-auto p-1">
-                        <img alt="Barcoded value 1234567890"
-                            src="http://bwipjs-api.metafloor.com/?bcid=pdf417&text={{ $id }}"
+                        <img alt="Barcoded value {{ $id }}"
+                            src="http://bwipjs-api.metafloor.com/?bcid=code128&text={{ $id }}"
                             style=" height:60px">
                     </div>
 

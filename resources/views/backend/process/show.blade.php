@@ -182,7 +182,7 @@
                 @foreach ($contents[$i] as $item)
                     <div class="mb-2 border border-gray-300 ">
                         <p class="font-bold">工作站名稱：{{ $item['name'] }}</p>
-                        <p class="font-bold">週期時間：{{ $item['ct'] }}</p>
+                        <p class="font-bold">C/T(s)：{{ $item['ct'] }}</p>
                         <p class="font-bold">日班需求人數：{{ $item['morning_employee'] }}</p>
                         <p class="font-bold">夜班需求人數：{{ $item['night_employee'] }}</p>
                         <p class="font-bold">不良率：{{ $item['non_performing_rate'] * 100 . '%' }}</p>

@@ -213,8 +213,16 @@ class ScheduleController extends Controller
                 'tag' => '',
                 'type' => 'text',
                 'name' => 'product_id',
-                'value'=> $schedule->product_id,
-                'text'=> $schedule->product_id,
+                'value' => $schedule->product_id,
+                'text' => $schedule->product_id,
+            ],
+            [
+                'lable' => '訂單數量',
+                'tag' => '',
+                'type' => 'text',
+                'name' => 'schedule_id',
+                'value' => $schedule->order->quantity,
+                'text' => $schedule->order->quantity,
             ],
             [
                 'lable' => '日期',
@@ -282,8 +290,8 @@ class ScheduleController extends Controller
                 'tag' => 'input',
                 'type' => 'hidden',
                 'name' => 'product_id',
-                'value'=> $schedule->product_id,
-                'text'=> $schedule->product_id,
+                'value' => $schedule->product_id,
+                'text' => $schedule->product_id,
             ],
         ];
         $body[] = $temp;

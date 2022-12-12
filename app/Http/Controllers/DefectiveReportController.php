@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Defective;
 use App\Models\DefectiveReport;
 use App\Models\Report;
+use App\Models\Product;
 
 class DefectiveReportController extends Controller
 {
@@ -206,7 +207,15 @@ class DefectiveReportController extends Controller
                     'text' => ($r->record == 1) ? '已確認' : '未確認',
                     'action' => 'check',
                     'id' => $r->id
-                ]
+                ],
+                'delete' => [
+                    'tag' => 'button',
+                    'type' => 'button',
+                    'class' => 'px-1 bg-red-300 rounded hover:bg-red-500',
+                    'text' => '刪除',
+                    'action' => 'delete',
+                    'id' => $r->id
+                ],
             ];
             $tbody[] = $temp;
         }
@@ -226,6 +235,9 @@ class DefectiveReportController extends Controller
                     'lable' => '編輯'
                 ],
                 [
+                    'lable' => '刪除'
+                ],
+                [
                     'lable' => '查核'
                 ]
             ],
@@ -237,6 +249,7 @@ class DefectiveReportController extends Controller
             'title' => '不良品詳情',
             'table' => $table,
             // 'tbody'=>$tbody,
+            'history' => '/admin/report/show/' . $report->schedule_id,
             'body' =>  [
 
                 [
@@ -278,6 +291,7 @@ class DefectiveReportController extends Controller
                 [
                     'lable' => '不良品總量',
                     'text' => $report->defective_product_quantity,
+                    'id' => 'defective_product_quantity'
                 ]
             ],
         ];
@@ -375,14 +389,25 @@ class DefectiveReportController extends Controller
      */
     public function destroy($id)
     {
+
+        $d = DefectiveReport::find($id);
+        $report = Report::find($d->report_id);
         DefectiveReport::destroy($id);
+        $ds = DefectiveReport::where('report_id', $report->id)->get();
+        $quantity = 0;
+        foreach ($ds as $ds) {
+            $quantity += $ds->quantity;
+        }
+        $report->defective_product_quantity    = $quantity;
+        $report->save();
+        return ['alert' => '刪除成功'];
     }
 
     public function chart()
     {
+        $products = Product::all();
 
-
-        return view('backend.defective.chart');
+        return view('backend.defective.chart', ['products' => $products]);
     }
 
     public function getDefective(Request $req)
@@ -390,38 +415,73 @@ class DefectiveReportController extends Controller
         // dd($form);
         $from = date($req->start);
         $to = date($req->end);
+
         $defectiveReport = DefectiveReport::whereBetween('created_at', [$from, $to])->get();
+        $defectiveProduct = [];
+
         $defectiveReasons = Defective::all();
         $lables = [];
         $data = [];
 
-
+        // dd($defectiveProduct);
         foreach ($defectiveReasons as $d) {
             $temp = $d->reason;
             $lables[] = $temp;
         }
 
-
-        for ($i = 0; $i < count($lables); $i++) {
-            $sum = 0;
-            foreach ($defectiveReport as $dr) {
-                if ($dr->defective->reason == $lables[$i]) {
-                    $sum += $dr->quantity;
+        if ($req->product_id == '0') {
+            for ($i = 0; $i < count($lables); $i++) {
+                $sum = 0;
+                foreach ($defectiveReport as $dr) {
+                    if ($dr->defective->reason == $lables[$i]) {
+                        $sum += $dr->quantity;
+                    }
                 }
+                $temp = $sum;
+                $data[$lables[$i]] = $temp;
             }
-            $temp = $sum;
-            $data[$lables[$i]] = $temp;
+        } else {
+            // dd('hi');
+            for ($i = 0; $i < count($lables); $i++) {
+                $sum = 0;
+                foreach ($defectiveReport as $dr) {
+                    if ($dr->report->product_id == $req->product_id) {
+                        if ($dr->defective->reason == $lables[$i]) {
+                            $sum += $dr->quantity;
+                        }
+                    }
+                }
+                $temp = $sum;
+                $data[$lables[$i]] = $temp;
+            }
         }
+        $quantity = [];
 
-
-        // $chart = [
-        //     'labels' => array_keys($data),
-        //     'data' => array_values($data)
-
-        // ];
+        foreach ($data as $key => $row) {
+            $quantity[$key] = $row;
+        }
+        array_multisort($quantity, SORT_DESC, $data);
+        // dd($data);
+        $percentage = [];
+        $total = 0;
+        foreach ($data as $key => $row) {
+            $total += $row;
+        }
+        $i = 0;
+        foreach ($data as $key => $row) {
+            if ($i == 0) {
+                $percentage[] = $row / $total ;
+            }else{
+                $percentage[] = $row / $total + $percentage[$i - 1];
+            }
+            ;
+            $i++;
+        }
+        // dd($percentage);
         return [
             'labels' => array_keys($data),
-            'data' => array_values($data)
+            'data' => array_values($data),
+            'percentage' => $percentage
         ];
     }
 
@@ -439,5 +499,100 @@ class DefectiveReportController extends Controller
         $defectiveReport->save();
 
         return $message;
+    }
+
+    public function create($report_id)
+    {
+        $defectives = Defective::all();
+        $defectiveReports = DefectiveReport::where('report_id', $report_id)->get();
+        $lists = [];
+        $count = 0;
+        foreach ($defectives as $defective) {
+            $isset = false;
+            foreach ($defectiveReports as $dr) {
+                if ($defective->reason == $dr->defective->reason) {
+                    $isset = true;
+                }
+            }
+            if (!$isset) {
+                $temp =
+                    [
+                        'value' => $defective->id,
+                        'text' => $defective->reason
+                    ];
+                $lists[] = $temp;
+            }
+        }
+        // dd($lists);
+        $view = [
+            'action' => '/admin/defectiveReport',
+            'header' => '新增不良原因',
+            'id' => 'insert-defectiveReport',
+            'btn' => 'insert-dr',
+            'footer' => '',
+            'body' => [
+                [
+                    'lable' => '不良品原因',
+                    'tag' => 'select',
+                    'type' => '',
+                    'name' => 'reason',
+                    'lists' => $lists
+                ],
+                [
+                    'lable' => '數量',
+                    'tag' => 'input',
+                    'type' => 'number',
+                    'step' => '1',
+                    'name' => 'quantity',
+                ],
+                [
+                    'lable' => '備註',
+                    'tag' => 'input',
+                    'type' => 'text',
+                    'name' => 'detail'
+                ],
+                [
+                    'lable' => '',
+                    'tag' => 'input',
+                    'type' => 'hidden',
+                    'name' => 'report_id',
+                    'value' => $report_id
+                ]
+            ]
+        ];
+        return view('component.modal', $view);
+    }
+
+    public function store(Request $req)
+    {
+        $defectiveReport = new DefectiveReport;
+        // dd($req->request);
+        // $defectiveReport->report_id = $req->report_id;
+        // $defectiveReport->defective_id = $req->reason;
+        // $defectiveReport->detail = $req->details;
+        // $defectiveReport->quantity = $req->quantity;
+
+        $content = $req->validate(
+            [
+                'reason' => 'required',
+                'quantity' => 'required'
+            ]
+        );
+        // dd($content);
+        $content['detail'] = $req->detail;
+        $content['report_id'] = $req->report_id;
+        $content['defective_id'] = $content['reason'];
+        $defectiveReport->create($content);
+        // $defectiveReport->save();
+
+        $report = Report::find($req->report_id);
+        $total = 0;
+        $drs = DefectiveReport::where('report_id', $req->report_id)->get();
+        foreach ($drs as $dr) {
+            $total += $dr->quantity;
+        }
+        $report->defective_product_quantity = $total;
+        $report->save();
+        return back()->with('notice', '新增成功');
     }
 }

@@ -25,6 +25,18 @@
                         </td>
 
                     </tr>
+                    <tr>
+                        <td>料號</td>
+                        <td>
+                            <select name="product_id" id="">
+                                <option value="0">請選擇料號</option>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}">{{ $product->id }}</option>
+                                @endforeach
+
+                            </select>
+                        </td>
+                    </tr>
                 </table>
                 <div class="mt-4">
                     <a class="px-3 py-1 mt-5 bg-gray-300 border rounded cursor-pointer submit hover:bg-gray-500">查詢</a>
@@ -45,7 +57,7 @@
         $(".submit").on("click", function() {
             let _this = $(this);
             let formData = _this.parents('.form').serializeArray();
-            console.log(formData[0].value);
+            console.log();
             if (formData[1].value > formData[2].value) {
                 console.log('重新輸入月份')
                 Swal.fire('重新輸入月份(起始月份~結束月份)')
@@ -67,9 +79,19 @@
                             data: {
                                 labels: res.labels,
                                 datasets: [{
-                                    label: '數量',
-                                    data: res.data
-                                }]
+                                        type: 'bar',
+                                        label: '數量',
+                                        data: res.data,
+                                        yAxisID: 'y1'
+                                    },
+                                    {
+                                        type: 'line',
+                                        label: '累積數量百分比',
+                                        data: res.percentage,
+                                        fill: false,
+                                        yAxisID: 'y2'
+                                    }
+                                ]
                             },
                             options: {
                                 responsive: true,
@@ -81,39 +103,49 @@
                                         display: true,
                                         text: ''
                                     }
-                                }
-                            }
-                        });
+                                },
+                                scales: {
+                                    y1: {
 
+                                        position: "left",
+                                        stacked: true,
+                                        ticks: {
+                                            major: {
+                                                enabled: true,
+                                            },
+                                            callback: function(value) {
+                                                if (value % 1 === 0) {
+                                                    return value;
+                                                }
+                                            }
+                                        }
+                                    },
+                                    y2: {
+                                        position: "right",
+                                        stacked: true,
+                                        ticks: {
+                                            major: {
+                                                enabled: true,
+                                            },
+                                            callback: function(value) {
+                                                if (value % 0.1 === 0) {
+                                                    return value;
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                            }
+                        })
                     }
                 })
             }
-        })
+        });
+        
 
 
+        
 
-        // var ctx = document.getElementById('myChart');
-        // var myChart = new Chart(ctx, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ['一月', '二月', '三月'],
-        //         datasets: [{
-        //             label: '銷售業績(百萬)',
-        //             data: [60, 49, 72]
-        //         }]
-        //     },
-        //     options: {
-        //         responsive: true,
-        //         plugins: {
-        //             legend: {
-        //                 position: 'top',
-        //             },
-        //             title: {
-        //                 display: true,
-        //                 text: 'Chart.js Bar Chart'
-        //             }
-        //         }
-        //     }
-        // });
+
     </script>
 @endsection
