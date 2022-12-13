@@ -11,7 +11,7 @@
     </div>
     <div class="w-full mx-auto " id="chart-div">
         <div class="w-full h-32 p-2 mb-3 bg-yellow-200 rounded">
-           
+
             <form action="" class=" form">
                 @csrf
                 <table>
@@ -72,7 +72,7 @@
                             '<canvas id="myChart" class="h-64 p-5 border border-black"></canvas>');
                         var ctx = document.getElementById('myChart');
                         console.log(res)
-
+                        fontSize=18;
                         var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
@@ -97,6 +97,12 @@
                                 plugins: {
                                     legend: {
                                         position: 'top',
+                                        labels: {
+                                            // This more specific font property overrides the global property
+                                            font: {
+                                                size: fontSize
+                                            }
+                                        }
                                     },
                                     title: {
                                         display: true,
@@ -109,6 +115,9 @@
                                         position: "left",
                                         stacked: true,
                                         ticks: {
+                                            font: {
+                                                size: fontSize
+                                            },
                                             major: {
                                                 enabled: true,
                                             },
@@ -126,7 +135,9 @@
                                         max: 1,
                                         beginAtZero: true,
                                         ticks: {
-
+                                            font: {
+                                                size: fontSize
+                                            },
                                             major: {
                                                 enabled: true,
                                             },
@@ -135,6 +146,13 @@
                                                     return value;
                                                 }
                                             }
+                                        }
+                                    },
+                                    x: {
+                                        ticks: {
+                                            font: {
+                                                size: fontSize
+                                            },
                                         }
                                     }
                                 },
