@@ -189,11 +189,7 @@
 
 
             });
-            // $.ajax({
-            //     type: `post`,
-            //     url: `/admin/getMachineTime`,
-            //     date: ,
-            // })
+            
 
         });
 

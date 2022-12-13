@@ -468,7 +468,11 @@ class DefectiveReportController extends Controller
             $total += $row;
         }
         $i = 0;
+
         foreach ($data as $key => $row) {
+            if($total==0){
+                break;
+            }
             if ($i == 0) {
                 $percentage[] = $row / $total ;
             }else{

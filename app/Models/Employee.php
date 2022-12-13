@@ -12,6 +12,7 @@ class Employee extends Model
     protected $keyType='string';
     protected $fillable=['id','name','position','account','pass_word'];
 
+    const ROLE_MANAGER='主管';
     public function reports(){
         return $this->hasMany(Report::class);
     }

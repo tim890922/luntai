@@ -11,8 +11,7 @@
     </div>
     <div class="w-full mx-auto " id="chart-div">
         <div class="w-full h-32 p-2 mb-3 bg-yellow-200 rounded">
-            <a href="/admin/defectiveReport"
-                class="float-right px-3 bg-gray-300 border rounded cursor-pointer hover:bg-gray-500">回上一頁</a>
+           
             <form action="" class=" form">
                 @csrf
                 <table>
@@ -123,12 +122,16 @@
                                     y2: {
                                         position: "right",
                                         stacked: true,
+                                        min: 0,
+                                        max: 1,
+                                        beginAtZero: true,
                                         ticks: {
+
                                             major: {
                                                 enabled: true,
                                             },
                                             callback: function(value) {
-                                                if (value % 0.1 === 0) {
+                                                if (value % 0.5 === 0) {
                                                     return value;
                                                 }
                                             }
@@ -141,11 +144,5 @@
                 })
             }
         });
-        
-
-
-        
-
-
     </script>
 @endsection
