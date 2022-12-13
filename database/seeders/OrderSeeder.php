@@ -19,7 +19,7 @@ class OrderSeeder extends Seeder
         $o1->clientuser_id = '9101';
         $o1->position = '1000';
         $o1->P_F = '';
-        $o1->delivery = '2022-12-02';
+        $o1->delivery = '2022-12-16';
         $o1->order_number = '';
         $o1->quantity= '40';
         $o1->package= '40';
@@ -29,7 +29,7 @@ class OrderSeeder extends Seeder
         $o2->clientuser_id = '9101';
         $o2->position = '1001';
         $o2->P_F = 'P101';
-        $o2->delivery = '2022-12-05';
+        $o2->delivery = '2022-12-15';
         $o2->order_number = '';
         $o2->quantity = '40';
         $o2->package= '20';
@@ -59,7 +59,7 @@ class OrderSeeder extends Seeder
         $o5->clientuser_id = '9101';
         $o5->position = '3000';
         $o5->P_F = 'P102';
-        $o5->delivery = '2022-12-13';
+        $o5->delivery = '2022-12-16';
         $o5->order_number = '';
         $o5->quantity = '80';
         $o5->package= '40';
@@ -69,7 +69,7 @@ class OrderSeeder extends Seeder
         $o6->clientuser_id = '9101';
         $o6->position = '8000';
         $o6->P_F = '';
-        $o6->delivery = '2022-12-12';
+        $o6->delivery = '2022-12-17';
         $o6->order_number = '';
         $o6->quantity = '80';
         $o6->package= '40';
@@ -109,7 +109,7 @@ class OrderSeeder extends Seeder
         $o10->clientuser_id = '9102';
         $o10->position = '2000';
         $o10->P_F = '';
-        $o10->delivery = '2022-12-01';
+        $o10->delivery = '2022-12-21';
         $o10->order_number = '';
         $o10->quantity = '160';
         $o10->package= '40';
@@ -149,7 +149,7 @@ class OrderSeeder extends Seeder
         $o14->clientuser_id = '9102';
         $o14->position = '1001';
         $o14->P_F = '';
-        $o14->delivery = '2022-12-10';
+        $o14->delivery = '2022-12-16';
         $o14->order_number = '';
         $o14->quantity = '110';
         $o14->package= '40';
@@ -189,7 +189,7 @@ class OrderSeeder extends Seeder
         $o18->clientuser_id = '9103';
         $o18->position = '8000';
         $o18->P_F = 'P104';
-        $o18->delivery = '2022-12-04';
+        $o18->delivery = '2022-12-24';
         $o18->order_number = '';
         $o18->quantity = '130';
         $o18->package= '20';

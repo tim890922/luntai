@@ -18,7 +18,7 @@ class ScheduleController extends Controller
 
         $orders = Order::where([['schedule_status', '未排程'], ['record', 0], ['isLoad', 0]])->orderBy('delivery', 'desc')->get();
         // $orders=$orders->links()->orderBy('delevery','desc')->get();
-        $col = ['訂單編號', '料號', '交貨日', '預估生產時間(h)', '訂單剩餘天數', '數量', '庫存數', '排程狀態', ''];
+        $col = ['訂單編號', '料號', '交貨日', '預估生產時間(h)', '訂單剩餘天數', '訂購數量', '庫存數', '排程狀態', ''];
         $row = [];
         $count = 1;
         foreach ($orders as $order) {

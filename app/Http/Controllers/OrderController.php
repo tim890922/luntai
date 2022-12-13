@@ -17,7 +17,7 @@ class OrderController extends Controller
         $id = $client_id;
         $filter = $req->filter;
 
-        $col = ['訂單編號', '料號', '出貨位', '用方', '用方名稱', '交貨日', '數量', '包裝數', '庫存數量', '狀態', '刪除', '編輯'];
+        $col = ['訂單編號', '料號', '出貨位', '用方', '用方名稱', '交貨日', '訂購數量', '包裝數', '庫存數量', '狀態', '刪除', '編輯'];
 
         $row = [];
         $class = 'p-3 mx-3 bg-blue-300 border rounded-full cursor-pointer hover:bg-blue-500';
