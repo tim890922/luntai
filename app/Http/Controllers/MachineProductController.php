@@ -260,10 +260,10 @@ class MachineProductController extends Controller
                     'value' => $machineProduct->night_employee
                 ],
                 [
-                    'lable' => '不良率',
+                    'lable' => '不良率(%)',
                     'tag' => 'input',
                     'type' => 'number',
-                    'step' => '0.01',
+                    'step' => '0.1',
                     'name' => 'non_performing_rate',
                     'value' => $machineProduct->non_performing_rate
                 ],
@@ -295,7 +295,7 @@ class MachineProductController extends Controller
 
         $mp->morning_employee = $req->morning_employee;
         $mp->night_employee = $req->night_employee;
-        $mp->non_performing_rate = $req->non_performing_rate;
+        $mp->non_performing_rate = $req->non_performing_rate/100;
         $mp->save();
 
         return back()->with('notice', '編輯成功');
