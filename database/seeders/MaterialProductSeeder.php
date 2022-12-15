@@ -71,7 +71,7 @@ class MaterialProductSeeder extends Seeder
         $m10 = new MaterialProduct;
         $m10->product_id = '14';
         $m10->material_id = '3';
-        $m10->quantity = '446.5';
+        $m10->quantity = '36';
         $m10->unit = 'g';
 
         $m11 = new MaterialProduct;

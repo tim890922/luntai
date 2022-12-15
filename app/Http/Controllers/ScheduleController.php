@@ -71,7 +71,7 @@ class ScheduleController extends Controller
                     ],
                     [
                         'tag' => '',
-                        'text' => (strtotime(date('Y-m-d')) <= strtotime($order->delivery)) ? -1 * (round((strtotime("now") - strtotime($order->delivery)) / (60 * 60 * 24), 0)) : '已逾期' . round((strtotime("now") - strtotime($order->delivery)) / (60 * 60 * 24), 0) . '天',
+                        'text' => (strtotime(date('Y-m-d')) <= strtotime($order->delivery)) ? -1 * (round((strtotime("now") - strtotime($order->delivery)) / (60 * 60 * 24), 0)) +1: '已逾期' .( round((strtotime("now") - strtotime($order->delivery)) / (60 * 60 * 24), 0)-1) . '天',
                         'class' => (strtotime(date('Y-m-d')) <= strtotime($order->delivery)) ? '' : 'bg-red-300'
                     ],
                     [
@@ -426,7 +426,7 @@ class ScheduleController extends Controller
         // dd($orders,$t);
 
 
-        $col = ['順序', '訂單號', '料號', '數量', '預計工時', '交期', '料號單', '發放製令'];
+        $col = ['順序', '訂單號', '料號', '數量', '預計工時', '交期', '料號單','刪除', '發放製令'];
         $row = [];
         foreach ($orders as $key => $o) {
             $temp = [
@@ -467,6 +467,15 @@ class ScheduleController extends Controller
                 [
                     'tag' => 'href',
                     'type' => '',
+                    'class' => 'bg-red-300 px-2',
+                    'text' => '刪除',
+                    'action' => '',
+                    'id' => $o['id'],
+                    'href' => '/admin/schedule/delete/' . $o['id']
+                ],
+                [
+                    'tag' => 'href',
+                    'type' => '',
                     'class' => ($o['isAssign'] == 0) ? 'px-1 bg-yellow-300 rounded hover:bg-yellow-500' : '',
                     'text' => ($o['isAssign'] == 0) ? '發放' : '已發放',
                     'alertname' => $o['id'],
@@ -489,5 +498,9 @@ class ScheduleController extends Controller
     public function release($id)
     {
         $schedule = Schedule::find($id);
+    }
+    public  function destroy($id){
+        Schedule::destroy($id);
+        return back()->with('notice','刪除成功');
     }
 }

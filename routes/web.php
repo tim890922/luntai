@@ -157,6 +157,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'userAuth'], function () {
     Route::get('/report/create/{id}', [ReportController::class, 'create']);
     Route::get('/schedule/release/{id}', [ScheduleController::class, 'create']);
     Route::get('/defectiveReport/create/{id}', [DefectiveReportController::class, 'create']);
+    Route::get('/schedule/delete/{id}', [ScheduleController::class, 'destroy']);
 
 
 

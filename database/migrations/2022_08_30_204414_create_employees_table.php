@@ -19,7 +19,7 @@ class CreateEmployeesTable extends Migration
             $table->enum('nationality', ['A', 'B'])->comment('國籍');
             $table->string('name')->comment('姓名');
             $table->string('position')->comment('職位');
-            $table->string('account')->comment('識別證號');
+            $table->string('account')->unique()->comment('識別證號');
             $table->string('pass_word')->comment('密碼');
             $table->softDeletes();
             $table->timestamps();
